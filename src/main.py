@@ -1,7 +1,7 @@
 import argparse
 
-from tui.create import create_pgm
-from tui.run import run_pgm
+from src.cli.create import create_pgm
+from src.cli.run import run_pgm
 
 
 def create_item(name):
