@@ -1,0 +1,69 @@
+<html lang="en">
+<head>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+    <title>Checkio</title>
+</head>
+<body>
+<div id="table"></div>
+<script>
+    const cont = document.querySelector('#table');
+
+    function handleDelete(name) {
+        fetch('/delete', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ name })
+        }).then(() => {
+            // location.reload()
+        })
+    }
+
+    fetch('/testcases')
+        .then(response => response.json())
+        .then(data => {
+
+            cont.innerHTML = `
+<table>
+    <thead>
+        <tr>
+            <th>Testcase Name</th>
+            <th>Testcase Description</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        ${data.map(testcase => `
+            <tr>
+                <td>${testcase.name}</td>
+                <td>${testcase.description}</td>
+                <td>
+                    <button onclick="handleDelete('${testcase.name}')">Delete</button>
+                </td>
+            </tr>
+        `).join('')}
+    </tbody>
+</table>`
+        });
+</script>
+</body>
+</html>

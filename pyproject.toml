@@ -5,6 +5,7 @@ description = "Checkio - A tool that not only tests your code but also suggests 
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "flask-cors>=5.0.0",
     "flask>=3.1.0",
     "textual>=1.0.0",
 ]
