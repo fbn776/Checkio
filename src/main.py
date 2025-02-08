@@ -1,40 +1,32 @@
-import argparse
+import click
+from cli.utils.custom_help import CustomHelp
 
-from src.cli.create import create_pgm
-from src.cli.run import run_pgm
+@click.group(
+    cls=CustomHelp,
+    help =
+        f"{click.style("Checkio", bold=True, fg="bright_blue")} - A tool that not only tests your code but also suggests improvements and error fixes, making lab evaluations smarter and faster."
+)
+def cli():
+    pass
 
+@cli.command(help=click.style("This is a bright green help message", fg="green", bold=True))
+@click.argument('name', required=False)
+def create(name):
+    print(name)
 
-def create_item(name):
-    """Handles the 'create' command."""
-    print(f"Item '{name}' has been created.")
-
-def main():
-    parser = argparse.ArgumentParser(description="A demo of the checkio")
-
-    subparsers = parser.add_subparsers(dest="command", help="Available commands")
-
-    create_parser = subparsers.add_parser("create", help="Create a new testcase")
-    create_parser.add_argument("name", type=str, help="Name of the testcase to create")
-
-    run_parser = subparsers.add_parser("run", help="Run an executable with input.")
-    run_parser.add_argument(
-        "executable", type=str, help="Path to the executable to run."
-    )
-    run_parser.add_argument(
-        "input", type=str, help="Input data to be piped into the executable."
-    )
+@cli.command()
+@click.argument('file_name')
+@click.option("-c", "--testcase", help="ID of the testcase")
+def run(file_name, testcase):
+    """The `run` command tool"""
+    print('running', file_name, 'in', testcase)
 
 
-
-    args = parser.parse_args()
-
-    # Handle the commands
-    if args.command == "create":
-        create_pgm()
-    elif args.command == "run":
-        run_pgm(args.executable, args.input)
-    else:
-        parser.print_help()
+@cli.command()
+def serve():
+    """Used to serve the web server"""
+    print('Serving web server locally')
 
 if __name__ == "__main__":
-    main()
+    cli()
+
