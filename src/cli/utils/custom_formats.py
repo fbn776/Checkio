@@ -4,7 +4,8 @@ import click
 from gettext import gettext as _
 
 
-class CustomHelp(click.Group):
+class CustomFormats(click.Group):
+    # Custom Context class to override the help formatting
     def format_help(self, ctx, formatter):
         # Help text
         if self.help is not None:
@@ -15,14 +16,19 @@ class CustomHelp(click.Group):
         if self.deprecated:
             text = _("(Deprecated) {text}").format(text=text)
 
-        formatter.write_text(f"\n{text}\n")
+        if self.name != "cli":
+            formatter.write(click.style("Description:", fg="cyan", bold=True))
+            formatter.write("\n")
+
+        formatter.write_text(f"\n{"  " if self.name != "cli" else ""}{click.style(text, fg="green")}\n")
 
         # Usage
         formatter.write("\n")
         formatter.write(click.style("Usage:", fg="cyan", bold=True))
         formatter.write("\n")
         pieces = self.collect_usage_pieces(ctx)
-        formatter.write(f"  {click.style(ctx.command_path, fg="bright_blue")} {click.style(" ".join(pieces), fg="blue", italic=True)}\n")
+        formatter.write(
+            f"  {click.style(ctx.command_path, fg="bright_blue")} {click.style(" ".join(pieces), fg="blue", italic=True)}\n")
 
         # Options Section
         opts = []
