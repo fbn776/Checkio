@@ -1,17 +1,94 @@
-.right-align {
-    align: right top;
-    margin: 0 2;
+Stopwatch {
+    background: $boost;
+    height: 5;
+    margin: 1;
+    min-width: 50;
+    padding: 1;
 }
 
-.bold {
+RightButton {
+    height: 3;
+    min-width: 50;
+    margin: 0 3;
+}
+
+TestcaseUnit {
+	border: round $accent;
+	padding: 1;
+	margin: 1 2;
+}
+
+TimeDisplay {
+    text-align: center;
+    color: $foreground-muted;
+    height: 3;
+}
+
+Button {
+    width: 16;
+}
+
+#start {
+    dock: left;
+}
+
+#stop {
+    dock: left;
+    display: none;
+}
+
+#reset {
+    dock: right;
+}
+
+.started {
+    background: $success-muted;
+    color: $text;
+}
+
+.started TimeDisplay {
+    color: $foreground;
+}
+
+.started #start {
+    display: none
+}
+
+.started #stop {
+    display: block
+}
+
+.started #reset {
+    visibility: hidden
+}
+
+TestcaseTitle {
+	margin: 0 1;
+	height: 1;
 	text-style: bold;
 }
 
-.main-label {
-	text-style: bold;
-    margin-left: 1;
+.testcase_label {
+	dock: left;
+	align: center middle;
 }
 
-.btn-cont {
-	height: 3;
+.testcase_checkbox {
+	dock: right;
+	border: none;
+	background: rgba(0,0,0,0);
+}
+
+#bottom-buttons {
+	align: right middle;
+	padding: 0 2;
+	margin-bottom: 2;
+}
+
+#bottom-buttons Button {
+	margin-left: 2;
+}
+
+.dock-right {
+	dock: right;
 }

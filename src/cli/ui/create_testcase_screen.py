@@ -72,7 +72,7 @@ class Stopwatch(HorizontalGroup):
 
 class RightButton(HorizontalGroup):
     def compose(self) -> ComposeResult:
-        yield Button("Preview", id="reset")
+        yield Button("Preview", classes="dock-right", variant="primary")
 
 class TestcaseTitle(HorizontalGroup):
     def __init__(self, title: str) -> None:
@@ -93,17 +93,15 @@ class TestcaseUnit(VerticalGroup):
         yield LabelledTextArea("Input")
         yield LabelledTextArea("Output")
 
-class StopwatchApp(App):
-    """A Textual app to manage stopwatches."""
-    CSS_PATH = "stopwatch.tcss"
+class CreateTestcaseScreen(App):
+    CSS_PATH = "global.tcss"
 
     BINDINGS = [
-        ("d", "toggle_dark", "Toggle dark mode"),
-        ("a", "add_stopwatch", "Add"),
-        ("r", "remove_stopwatch", "Remove"),
+        ("a", "add_testcase", "Add Testcase"),
+        ("r", "remove_testcase", "Remove Testcase"),
     ]
 
-    testcase_count = 1
+    testcase_count = 0
 
     def compose(self) -> ComposeResult:
         """Called to add widgets to the app."""
@@ -114,31 +112,29 @@ class StopwatchApp(App):
                                            input_value="Haha"),
             LabelledTextArea("Description", desc="Markdown is supported"),
             RightButton(),
-            TestcaseUnit(),
 
-            id="timers"
+            VerticalGroup(TestcaseUnit(), id="timers"),
+            HorizontalGroup(
+                Button("Cancel", variant="error"),
+                Button("Submit", variant="success"),
+                id="bottom-buttons"
+            )
         )
 
-    def action_add_stopwatch(self) -> None:
+    def action_add_testcase(self) -> None:
         """An action to add a timer."""
         self.testcase_count += 1
         new_testcase = TestcaseUnit(self.testcase_count)
         self.query_one("#timers").mount(new_testcase)
         new_testcase.scroll_visible()
 
-    def action_remove_stopwatch(self) -> None:
-        """Called to remove a timer."""
+    def action_remove_testcase(self) -> None:
         timers = self.query("TestcaseUnit")
         if timers:
+            self.testcase_count -= 1
             timers.last().remove()
-
-    def action_toggle_dark(self) -> None:
-        """An action to toggle dark mode."""
-        self.theme = (
-            "textual-dark" if self.theme == "textual-light" else "textual-light"
-        )
 
 
 if __name__ == "__main__":
-    app = StopwatchApp()
+    app = CreateTestcaseScreen()
     app.run()
