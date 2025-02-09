@@ -1,6 +1,4 @@
 from typing import Literal
-
-from textual import events
 from textual.widget import Widget
 from textual.widgets import TextArea, Label, Input
 

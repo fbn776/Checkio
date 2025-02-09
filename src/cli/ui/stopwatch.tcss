@@ -1,0 +1,80 @@
+Stopwatch {
+    background: $boost;
+    height: 5;
+    margin: 1;
+    min-width: 50;
+    padding: 1;
+}
+
+RightButton {
+    height: 3;
+    min-width: 50;
+    margin: 0 3;
+}
+
+TestcaseUnit {
+	border: round $accent;
+	padding: 1;
+	margin: 1;
+}
+
+TimeDisplay {
+    text-align: center;
+    color: $foreground-muted;
+    height: 3;
+}
+
+Button {
+    width: 16;
+}
+
+#start {
+    dock: left;
+}
+
+#stop {
+    dock: left;
+    display: none;
+}
+
+#reset {
+    dock: right;
+}
+
+.started {
+    background: $success-muted;
+    color: $text;
+}
+
+.started TimeDisplay {
+    color: $foreground;
+}
+
+.started #start {
+    display: none
+}
+
+.started #stop {
+    display: block
+}
+
+.started #reset {
+    visibility: hidden
+}
+
+TestcaseTitle {
+	margin: 0 1;
+	height: 1;
+	text-style: bold;
+}
+
+.testcase_label {
+	dock: left;
+	align: center middle;
+}
+
+.testcase_checkbox {
+	dock: right;
+	border: none;
+	background: rgba(0,0,0,0);
+}

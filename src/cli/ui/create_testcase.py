@@ -7,7 +7,7 @@ from textual.containers import VerticalScroll, Container
 from textual.layouts.grid import GridLayout
 from textual.reactive import reactive
 from textual.widgets import Header, Button, Static, Label
-from cli.ui.components.TestcaseUnit import TestcaseUnit
+from cli.ui.components.testcase_unit import TestcaseUnit
 from cli.ui.components.labelled_input import LabelledInput
 from cli.ui.components.labelled_textarea import LabelledTextArea
 
@@ -55,13 +55,14 @@ class CreateTestcaseUI(App):
             with Container(classes="right-align btn-cont"):
                 yield Button("Preview", variant="primary")
 
-            yield Label("Testcases", classes="label-testcase")
+            yield Lael("Testcases", classes="label-testcase")
             if len(self.testcases) == 0:
                 with Container(classes="center-align"):
                     yield Label("No testcases added yet", classes="no-testcases")
             else:
                 for testcase in self.testcases:
                     yield testcase
+
             with Container(classes="right-align btn-cont"):
                 yield Button("+", variant="primary", id="add-testcase", tooltip="Add a new testcase")
 
