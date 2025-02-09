@@ -24,15 +24,15 @@ This project is developed as part of our **KTU S6 Mini Project**.
 ---
 
 ## 🔗 GitHub Repository
-[🔗 CheckIO GitHub Repo](https://github.com/your-repo-link)
+[🔗 CheckIO GitHub Repo](https://github.com/fbn776/Checkio)
 
 ---
 
 ## 🤝 Collaborators
-- **Your Name** (@yourgithub)
-- **Teammate 1** (@github)
-- **Teammate 2** (@github)
-- **Teammate 3** (@github)
+- **Abhiram Ashok** ([@abcd](https://github.com/abcd))
+- **Aysha Naurin** ([@abcd](https://github.com/abcd))
+- **Febin Nelson P** ([@fbn776](https://github.com/fbn776))
+- **Sreelakshmi K** ([@abcd](https://github.com/abcd))
 
 ---
 
