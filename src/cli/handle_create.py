@@ -6,4 +6,6 @@ console = Console()
 
 
 def handle_create(passed_name):
-    CreateTestcaseScreen(passed_name).run()
+    result = CreateTestcaseScreen(passed_name).run()
+
+    print("Result:", result)
