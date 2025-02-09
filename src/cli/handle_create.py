@@ -1,6 +1,4 @@
 from rich.console import Console
-from rich.prompt import Prompt
-from rich import print as fprint
 
 from cli.ui.create_testcase import CreateTestcaseUI
 

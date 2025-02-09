@@ -1,0 +1,17 @@
+.right-align {
+    align: right top;
+    margin: 0 2;
+}
+
+.bold {
+	text-style: bold;
+}
+
+.main-label {
+	text-style: bold;
+    margin-left: 1;
+}
+
+.btn-cont {
+	height: 3;
+}
