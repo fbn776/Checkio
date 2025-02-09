@@ -10,8 +10,6 @@ This project is developed as part of our **KTU S6 Mini Project**.
 - **CLI Interface** – Easily create testcase and run programs against a specified testcase.
 - **Web Interface** – Run test cases via a user-friendly React-based UI.
 - **Error Suggestions** – Provides insights and fixes for failed test cases.
-- **SQLite Database** – Stores test cases and results efficiently.
-- **Cross-Platform Support** – Works on Linux, Windows, and macOS.
 
 ---
 
@@ -41,6 +39,3 @@ This project is developed as part of our **KTU S6 Mini Project**.
 - Future plans include **support for multiple programming languages**.
 - Bugs or issues? Report them in the **GitHub Issues section**.
 
----
-
-📌 **CheckIO – Making Code Testing Easier!**  

@@ -1,9 +1,10 @@
 from rich.console import Console
 from rich.markdown import Markdown
 
+console = Console()
+
 def handle_about():
     with open("src/../docs/about.md", "r") as file:
         about = Markdown(file.read())
 
-    console = Console()
-    console.print(about)
+    console.print(about, justify="left")
