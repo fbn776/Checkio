@@ -2,6 +2,9 @@ import json
 import subprocess
 
 
+def handle_run():
+    print("Running the given program.")
+
 def exec_pgm(executable, input_data):
     try:
         process = subprocess.run(
