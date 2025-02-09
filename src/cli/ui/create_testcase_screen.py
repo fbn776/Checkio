@@ -103,13 +103,21 @@ class CreateTestcaseScreen(App):
 
     testcase_count = 0
 
+    def __init__(self, passed_name: str):
+        super().__init__()
+        self.passed_name = passed_name or ""
+
+    def on_mount(self):
+        self.title = "Create Testcases"
+
+
     def compose(self) -> ComposeResult:
         """Called to add widgets to the app."""
         yield Header()
         yield Footer()
         yield VerticalScroll(
             LabelledInput("Testcase name", placeholder="Enter the name of the testcase",
-                                           input_value="Haha"),
+                                           input_value=self.passed_name),
             LabelledTextArea("Description", desc="Markdown is supported"),
             RightButton(),
 
