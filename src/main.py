@@ -1,40 +1,44 @@
-import argparse
+import click
 
-from src.cli.create import create_pgm
-from src.cli.run import run_pgm
-
-
-def create_item(name):
-    """Handles the 'create' command."""
-    print(f"Item '{name}' has been created.")
-
-def main():
-    parser = argparse.ArgumentParser(description="A demo of the checkio")
-
-    subparsers = parser.add_subparsers(dest="command", help="Available commands")
-
-    create_parser = subparsers.add_parser("create", help="Create a new testcase")
-    create_parser.add_argument("name", type=str, help="Name of the testcase to create")
-
-    run_parser = subparsers.add_parser("run", help="Run an executable with input.")
-    run_parser.add_argument(
-        "executable", type=str, help="Path to the executable to run."
-    )
-    run_parser.add_argument(
-        "input", type=str, help="Input data to be piped into the executable."
-    )
+from cli.handle_cli import handle_cli
+from cli.handle_create import handle_create
+from cli.handle_run import handle_run
+from cli.handle_serve import handle_serve
+from cli.utils.custom_formats import CustomFormats
+from cli.handle_about import handle_about
 
 
+@click.group(
+    cls=CustomFormats,
+    help=f"{click.style('Checkio', bold=True, fg='bright_blue')} - A tool that not only tests your code but also suggests improvements and error fixes, making lab evaluations smarter and faster.",
+    invoke_without_command=True
+)
+@click.option("-v", "--version", is_flag=True, help="Show the version of the tool")
+@click.pass_context
+def cli(ctx, version):
+    handle_cli(ctx, version)
 
-    args = parser.parse_args()
+@cli.command(help="Used to create a new testcase.")
+@click.argument('name', required=False)
+def create(name):
+    handle_create(name)
 
-    # Handle the commands
-    if args.command == "create":
-        create_pgm()
-    elif args.command == "run":
-        run_pgm(args.executable, args.input)
-    else:
-        parser.print_help()
+
+@cli.command(help="Used to run the given program.")
+@click.argument('file_name')
+@click.option("-c", "--testcase", help="ID of the testcase")
+def run(file_name, testcase):
+    handle_run()
+
+
+@cli.command(help="Serves the web interface")
+def serve():
+    handle_serve()
+
+
+@cli.command(help="Shows information about the tool")
+def about():
+    handle_about()
 
 if __name__ == "__main__":
-    main()
+    cli()
