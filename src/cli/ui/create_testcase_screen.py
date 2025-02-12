@@ -4,6 +4,7 @@ from textual.widgets import Button, Digits, Footer, Header, Label, Checkbox
 from cli.ui.components.labelled_input import LabelledInput
 from cli.ui.components.labelled_textarea import LabelledTextArea
 
+
 class RightButton(HorizontalGroup):
     def compose(self) -> ComposeResult:
         yield Button("Preview", classes="dock-right", variant="primary")
@@ -88,15 +89,27 @@ class CreateTestcaseScreen(App):
             print("Testcase Name:", testcase_name)
             print("Testcase Description:", testcase_description)
 
+            data = {
+                "name": testcase_name.text_input.value,
+                "description": testcase_description.text_area.text,
+                "testcases": []
+            }
+
             for unit in testcases:
-                testcase_title = unit.query_one("TestcaseTitle")
-                testcase_input = unit.query_one(".input").text_area.text
-                testcase_output = unit.query_one(".output").text_area.text
+                tc_unit = unit.query_one("TestcaseTitle")
+                tc_hidden = tc_unit.query_one("Checkbox").value
+                tc_input = unit.query_one(".input").text_area.text
+                tc_output = unit.query_one(".output").text_area.text
 
-                print("Testcase Title:", testcase_title)
-                print("Testcase Input:", testcase_input)
-                print("Testcase Output:", testcase_output)
+                data["testcases"].append({
+                    "title": tc_unit.title,
+                    "hidden": tc_hidden,
+                    "input": tc_input,
+                    "output": tc_output
+                })
 
+            print("Data:", data)
+            self.exit(result=data, return_code=0)
             # self.exit(result=f"Created Successfully", return_code=0)
 
 

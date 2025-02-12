@@ -1,9 +1,37 @@
 import json
 import subprocess
+from rich.console import Console
 
+from core.db.testcases import get_testcase_by_name
 
-def handle_run():
+console = Console()
+
+def handle_run(file_name, testcase):
     print("Running the given program.")
+    try:
+        data = get_testcase_by_name(testcase)
+        if data is None:
+            console.print(f"[red]Error:[/red] The testcase '{testcase}' was not found.")
+            return
+
+        print(data[3])
+
+        input_data = json.loads(data[3])
+        print(input_data)
+        with open(file_name, "r") as file:
+            src = file.read()
+            print(src, input_data)
+            # process = subprocess.run(
+            #     src,
+            #     input=input_data[],
+            #     text=True,
+            #     capture_output=True,
+            #     check=True
+            # )
+
+    except FileNotFoundError:
+        console.print(f"[red]Error:[/red] The file '{file_name}' was not found.")
+
 
 def exec_pgm(executable, input_data):
     try:
@@ -28,12 +56,3 @@ def exec_pgm(executable, input_data):
         print(f"Stderr: {e.stderr}")
 
 
-def run_pgm(name, path_to_executable):
-    """Handles the 'run' command."""
-    print(f"Item '{name}' has been run.")
-    with open(f"store/{name}.json", "r") as json_file:
-        data = json.load(json_file)
-        input_data = data["input"]
-        output_data =exec_pgm(path_to_executable, input_data)
-        print(f"Output:\n{output_data.strip()}")
-        print("Match" if output_data.strip() == data["output"].strip() else "Mismatch")

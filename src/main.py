@@ -25,9 +25,10 @@ def create(name):
 
 @cli.command(help="Used to run the given program.")
 @click.argument('file_name')
+@click.argument('testcase')
 @click.option("-c", "--testcase", help="ID of the testcase")
 def run(file_name, testcase):
-    handle_run()
+    handle_run(file_name, testcase)
 
 
 @cli.command(help="Serves the web interface")
