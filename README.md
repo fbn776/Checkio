@@ -18,11 +18,11 @@ TODO
     ```
 3. Install the dependencies
     ```bash
-    uv install
+    uv pip install -e .
     ```
 4. Run the project
     ```bash
-    python3 src/main.py
+    uv run python3 src/main.py
     ```
 
 For a more detailed installation guide, refer to [docs/setup.md](docs/setup.md)

@@ -23,11 +23,11 @@
     ```
 3. Install the dependencies
     ```bash
-    uv install
+    uv pip install -e .
     ```
 4. Run the project
     ```bash
-    python3 src/main.py
+    uv run python3 src/main.py
     ```
    > The above might only work for Unix based systems. For Windows, you can use `python src/main.py` or `py src/main.py`.
 5. For usage like a cli tool use
@@ -35,3 +35,4 @@
     uv pip install -e .
     ```
    This will install the package in editable mode, so you can run the tool from anywhere in the terminal.
+   > This currently only works for Unix based systems.

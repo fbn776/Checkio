@@ -1,5 +1,4 @@
 import click
-
 from cli.handle_cli import handle_cli
 from cli.handle_create import handle_create
 from cli.handle_run import handle_run

@@ -1,7 +1,5 @@
-from time import monotonic
 from textual.app import App, ComposeResult
 from textual.containers import HorizontalGroup, VerticalScroll, VerticalGroup
-from textual.reactive import reactive
 from textual.widgets import Button, Digits, Footer, Header, Label, Checkbox
 from cli.ui.components.labelled_input import LabelledInput
 from cli.ui.components.labelled_textarea import LabelledTextArea
@@ -26,8 +24,8 @@ class TestcaseUnit(VerticalGroup):
 
     def compose(self) -> ComposeResult:
         yield TestcaseTitle(f"Testcase {self.testcase_count}")
-        yield LabelledTextArea("Input")
-        yield LabelledTextArea("Output")
+        yield LabelledTextArea("Input", classes="input")
+        yield LabelledTextArea("Output", classes="output")
 
 class CreateTestcaseScreen(App):
     CSS_PATH = "global.tcss"
@@ -39,7 +37,7 @@ class CreateTestcaseScreen(App):
 
     testcase_count = 0
 
-    def __init__(self, passed_name: str):
+    def __init__(self, passed_name: str = None) -> None:
         super().__init__()
         self.passed_name = passed_name or ""
 
@@ -53,8 +51,8 @@ class CreateTestcaseScreen(App):
         yield Footer()
         yield VerticalScroll(
             LabelledInput("Testcase name", placeholder="Enter the name of the testcase",
-                                           input_value=self.passed_name),
-            LabelledTextArea("Description", desc="Markdown is supported"),
+                                           input_value=self.passed_name, id="testcase-name"),
+            LabelledTextArea("Description", desc="Markdown is supported", id="testcase-description"),
             RightButton(),
 
             VerticalGroup(TestcaseUnit(), id="timers"),
@@ -83,7 +81,24 @@ class CreateTestcaseScreen(App):
             self.exit(result="Aborted", return_code=1)
 
         if event.button.id == "submit-button":
-            self.exit(result="Created Successfully", return_code=0)
+            testcase_name = self.query_one("#testcase-name")
+            testcase_description = self.query_one("#testcase-description")
+            testcases = self.query("TestcaseUnit")
+
+            print("Testcase Name:", testcase_name)
+            print("Testcase Description:", testcase_description)
+
+            for unit in testcases:
+                testcase_title = unit.query_one("TestcaseTitle")
+                testcase_input = unit.query_one(".input").text_area.text
+                testcase_output = unit.query_one(".output").text_area.text
+
+                print("Testcase Title:", testcase_title)
+                print("Testcase Input:", testcase_input)
+                print("Testcase Output:", testcase_output)
+
+            # self.exit(result=f"Created Successfully", return_code=0)
+
 
         if event.button.id == "start":
             self.add_class("started")
