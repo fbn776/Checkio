@@ -25,12 +25,16 @@
     ```bash
     uv pip install -e .
     ```
-4. Run the project
+4. Setup DB
+    ```bash
+    uv run src/core/db/schema.py
+    ```
+5. Run the project
     ```bash
     uv run python3 src/main.py
     ```
    > The above might only work for Unix based systems. For Windows, you can use `python src/main.py` or `py src/main.py`.
-5. For usage like a cli tool use
+6. For usage like a cli tool use
     ```bash
     uv pip install -e .
     ```
