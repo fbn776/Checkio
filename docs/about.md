@@ -30,7 +30,7 @@ This project is developed as part of our **KTU S6 Mini Project**.
 - **Abhiram Ashok** ([@abcd](https://github.com/abcd))
 - **Aysha Naurin** ([@Aysha022](https://github.com/Aysha022)
 - **Febin Nelson P** ([@fbn776](https://github.com/fbn776))
-- **Sreelakshmi K** ([@abcd](https://github.com/abcd))
+- **Sreelakshmi K** ([@SreelakshmiKSudheer](https://github.com/SreelakshmiKSudheer))
 
 ---
 
