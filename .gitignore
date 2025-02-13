@@ -172,3 +172,5 @@ cython_debug/
 
 .python-version
 uv.lock
+
+*.db
