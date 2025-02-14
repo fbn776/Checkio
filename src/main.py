@@ -1,5 +1,4 @@
 import click
-
 from cli.handle_cli import handle_cli
 from cli.handle_create import handle_create
 from cli.handle_run import handle_run
@@ -26,9 +25,10 @@ def create(name):
 
 @cli.command(help="Used to run the given program.")
 @click.argument('file_name')
+@click.argument('testcase')
 @click.option("-c", "--testcase", help="ID of the testcase")
 def run(file_name, testcase):
-    handle_run()
+    handle_run(file_name, testcase)
 
 
 @cli.command(help="Serves the web interface")
