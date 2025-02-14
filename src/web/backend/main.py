@@ -1,10 +1,10 @@
 import logging
 import os
-import click
-from flask import Flask, render_template, send_from_directory, abort, request
-from flask_cors import CORS
+import time
 
-from utils.get_local_ip import get_local_ip
+import click
+from flask import Flask, render_template, send_from_directory, abort, request, jsonify
+from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app)
@@ -28,7 +28,10 @@ def serve_assets(filename):
 
 @app.get('/is-alive')
 def is_alive():
-    return 'yes'
+    return jsonify({
+        "status": "alive",
+        "serverTime": time.time(),
+    })
 
 testcases_data = [
     {
