@@ -15,7 +15,7 @@ export default function ProfileIcon() {
                 <div className="h-[45px] w-[45px] rounded-full bg-white hover:cursor-pointer"></div>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-45 mr-5 mt-2">
-                <DropdownMenuLabel className="text-[#171717]">Profile</DropdownMenuLabel>
+                <DropdownMenuLabel className="text-[#081627]">Profile</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
                     <DropdownMenuItem>
