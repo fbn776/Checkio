@@ -1,1 +1,18 @@
 @import "tailwindcss";
+
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+.poppins-bold {
+    font-weight: 700; /* Bold */
+}
+
+.poppins-medium {
+    font-weight: 500; /* Medium */
+}
+
+.poppins-semibold {
+    font-weight: 600; /* SemiBold */
+}
+
