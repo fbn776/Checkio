@@ -1,5 +1,5 @@
 # Checkio
-CheckIO is a **test case execution tool** designed for **students and faculty**. It allows users to create test cases, run programs against a specified testcase. The tool provides insights and suggestions for failed test cases, helping users to debug their code efficiently.
+Checkio is a **test case execution tool** designed for **students and faculty**. It allows users to create test cases, run programs against a specified testcase. The tool provides insights and suggestions for failed test cases, helping users to debug their code efficiently.
 
 This project is developed as part of our **KTU S6 Mini Project**.
 
