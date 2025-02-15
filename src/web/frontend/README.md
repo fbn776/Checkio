@@ -2,6 +2,12 @@ q# Checkio Web Frontend
 
 This is the repository for the Checkio web frontend. It is a single page application built with React.
 
+## Tech Stack
+- `ReactJs`
+- `Tailwindcss`
+- `React-router` - For handling routing
+- `Tabler-icons` - Icons are from tabler
+
 ## Notes
 
 > [!WARNING]
