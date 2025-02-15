@@ -8,9 +8,9 @@ export default function Layout() {
                 <h1 className="text-2xl">Checkio</h1>
             </header>
             <section className="h-full flex-1 flex flex-col items-start px-10 gap-4 pt-10">
-                <button>Home</button>
-                <button>Testcases</button>
-                <button>Profile</button>
+                <button className="hover:text-[#009be5] hover:cursor-pointer">Home</button>
+                <button className="hover:text-[#009be5] hover:cursor-pointer">Testcases</button>
+                <button className="hover:text-[#009be5] hover:cursor-pointer">Profile</button>
             </section>
             <footer>
                 <button className="w-full flex items-center justify-center py-6 gap-4 hover:text-red-400">
