@@ -1,4 +1,4 @@
-q# Checkio Web Frontend
+# Checkio Web Frontend
 
 This is the repository for the Checkio web frontend. It is a single page application built with React.
 

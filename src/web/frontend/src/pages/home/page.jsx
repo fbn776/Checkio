@@ -1,4 +1,5 @@
 import Checkio from '../../assets/Checkio.svg'
+import BellIcon from '../../assets/BellIcon.svg'
 
 export default function HomePage() {
     return <>
@@ -15,7 +16,8 @@ export default function HomePage() {
                 <div className="flex flex-col bg-[#009be5] min-h-[120px] w-full items-center justify-between">
                     <div className="w-full p-6 flex flex-row items-center justify-between">
                         <div className="h-[50px] w-[50px] rounded-full bg-white"></div>
-                        <div>
+                        <div className="flex flex-row items-center gap-8">
+                            <img src={BellIcon} alt="Checkio Logo" width="30" height="30"/>
                             <div className="h-[50px] w-[50px] rounded-full bg-white"></div>
                         </div>
                     </div>
