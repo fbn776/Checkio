@@ -12,11 +12,11 @@ export default function HomePage() {
                 </div>
             </div>
             <div className="flex flex-grow flex-col items-center justify-start min-h-[100vh]">
-                <div className="flex flex-col bg-[#009be5] min-h-[150px] w-full items-center justify-between">
+                <div className="flex flex-col bg-[#009be5] min-h-[120px] w-full items-center justify-between">
                     <div className="w-full p-6 flex flex-row items-center justify-between">
-                        <div className="h-[60px] w-[60px] rounded-full bg-white"></div>
+                        <div className="h-[50px] w-[50px] rounded-full bg-white"></div>
                         <div>
-                            <div className="h-[60px] w-[60px] rounded-full bg-white"></div>
+                            <div className="h-[50px] w-[50px] rounded-full bg-white"></div>
                         </div>
                     </div>
                     <div className="w-full flex items-center justify-start px-8 text-white poppins-semibold">
