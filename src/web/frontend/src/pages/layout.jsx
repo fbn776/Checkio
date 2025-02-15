@@ -3,7 +3,7 @@ import {LogOut} from 'lucide-react';
 
 export default function Layout() {
     return <main className="w-full h-full flex">
-        <div className="h-full bg-primary shadow text-white w-[350px] flex flex-col justify-between">
+        <div className="h-full bg-[#081627] shadow text-white w-[350px] flex flex-col justify-between">
             <header className="h-[80px] flex items-center justify-center border-b-2 mx-10 border-white/10">
                 <h1 className="text-2xl">Checkio</h1>
             </header>
