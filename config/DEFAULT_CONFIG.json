@@ -1,4 +1,5 @@
 {
-  "temp_dir": "/temp",
-  "port": 5555
+  "temp_dir": "./temp",
+  "port": 5555,
+  "c_compiler_path": "cc"
 }

@@ -1,4 +1,6 @@
-from core.db.db import sql_cursor
+from core.db.db import get_db
+
+sql_cursor = get_db()[1]
 
 
 def create_testcase(name: str, description: str, data: str):

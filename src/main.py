@@ -5,7 +5,10 @@ from cli.handle_run import handle_run
 from cli.handle_serve import handle_serve
 from cli.utils.custom_formats import CustomFormats
 from cli.handle_about import handle_about
+from core.global_store import load_data_from_json
 
+# Load the default configuration file
+load_data_from_json("./config/DEFAULT_CONFIG.json")
 
 @click.group(
     cls=CustomFormats,
@@ -25,8 +28,7 @@ def create(name):
 
 @cli.command(help="Used to run the given program.")
 @click.argument('file_name')
-@click.argument('testcase')
-@click.option("-c", "--testcase", help="ID of the testcase")
+@click.option("-t", "--testcase", help="The testcase file to run the program with.")
 def run(file_name, testcase):
     handle_run(file_name, testcase)
 

@@ -1,8 +1,8 @@
 import sqlite3
 
 # Connect to the database
-sql_conn = sqlite3.connect("store.db")
-sql_cursor = sql_conn.cursor()
+_sql_conn = sqlite3.connect("store.db")
+_sql_cursor = _sql_conn.cursor()
 
 
 def get_db() -> tuple[sqlite3.Connection, sqlite3.Cursor]:
@@ -14,4 +14,4 @@ def get_db() -> tuple[sqlite3.Connection, sqlite3.Cursor]:
         - https://chatgpt.com/share/67a852a8-7e44-8000-b4bb-ec911596f17d
     :return: Tuple[sqlite3.Connection, sqlite3.Cursor]
     """
-    return sql_conn, sql_cursor
+    return _sql_conn, _sql_cursor

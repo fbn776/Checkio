@@ -1,17 +1,11 @@
 import json
-import os
-
 from rich.console import Console
-
-from utils.errors import ConfigFileNotFoundError, InvalidConfigFile, DontContinue
 
 global_store = {}
 console = Console()
 
 
 def load_data_from_json(file_path):
-    print(os.getcwd())
-
     global global_store
     try:
         with open(file_path, 'r') as f:

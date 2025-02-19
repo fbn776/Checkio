@@ -1,3 +1,5 @@
+import json
+
 from rich.console import Console
 from cli.ui.create_testcase_screen import CreateTestcaseScreen
 from rich.markdown import Markdown
@@ -47,4 +49,4 @@ def handle_create(passed_name):
     display_testcase(result["name"], result["description"], len(result["testcases"]),
                      len([tc for tc in result["testcases"] if tc["hidden"]]))
 
-    create_testcase(result["name"], result["description"], str(result))
+    create_testcase(result["name"], result["description"], json.dumps(result))
