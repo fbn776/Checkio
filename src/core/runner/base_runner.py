@@ -8,12 +8,19 @@ from utils.utils import boxed_text
 
 
 class BaseRunner:
-    def __init__(self):
+    def __init__(self, print_output=True):
+        """
+        The base class for all the runners
+        :param print_output: If True, the output of the program will be printed to the stdin
+        """
         # The name of the executable file (This will the name of the executable file)
         self.exec_name = f"{self.gen_uuid()}"
         self.temp_path = get_value("temp_dir")
         # The path to the executable file
         self.exec_path = os.path.join(self.temp_path, self.exec_name)
+
+        self.print_output = print_output
+
 
     def cleanup(self):
         try:
@@ -21,7 +28,8 @@ class BaseRunner:
         except FileNotFoundError:
             pass
 
-    def handle_file_not_exists(self, f_name, console):
+    @staticmethod
+    def handle_file_not_exists(f_name, console):
         if Path(f_name).is_file():
             return None
 

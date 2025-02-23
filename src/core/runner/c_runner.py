@@ -1,12 +1,11 @@
 import json
 import subprocess
-import time
 
 from rich.panel import Panel
 from rich.syntax import Syntax
 from rich.text import Text
 
-from core.db.testcases import get_testcase_by_name
+from core.db.testcases import get_testcase_by_name, sql_cursor
 from core.global_store import get_value
 from core.runner.base_runner import BaseRunner
 from rich.console import Console, Group
@@ -18,27 +17,32 @@ console = Console()
 
 
 class CRunner(BaseRunner):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, print_output=True):
+        super().__init__(print_output=print_output)
         self.c_comp = get_value("c_compiler_path")
 
     def _setup(self, f_name):
         try:
+            # Compiling the c file into an executable file (named with an uuid)
             c_out = subprocess.run([self.c_comp, f_name, "-o", self.exec_path], capture_output=True, text=True)
 
             # If the compilation was unsuccessful, the error message will be displayed in a box;
             if c_out.returncode != 0:
-                boxed_text(console, "Compilation Error",
-                           Syntax(
-                               c_out.stderr,
-                               "bash",
-                               theme="ansi_dark"
-                           ),
-                           "bold red", "bold red")
+                boxed_text(
+                    console, "Compilation Error",
+                    Syntax(
+                        c_out.stderr,
+                        "bash",
+                        theme="ansi_dark"
+                    ),
+                    "bold red", "bold red"
+                )
 
                 # Raise this error to stop the execution of the program
                 raise CompilationError()
 
+        except CompilationError:
+            raise DontContinue()
         except OSError as e:
             boxed_text(console, "OS Error", Text(str(e)), "bold red", "bold red")
             raise DontContinue()
@@ -58,11 +62,12 @@ class CRunner(BaseRunner):
         # If the testcase is not found, the program will not run
         if db_rows is None:
             console.print(f"[bold red]Error:[/] [red]The testcase '[yellow italic]{testcase}[/]' was not found[/]")
-            # boxed_text(console, "Error", "The testcase was not found", "bold red", "bold red")
+            # TODO - Implement show similar testcases
+            rec = sql_cursor.execute('SELECT name FROM testcases')
+            print(rec.fetchall())
             raise DontContinue()
 
         testcase_data = json.loads(db_rows[3])
-        print(testcase_data.get("input"))
 
         i = 1
         for unit in testcase_data["testcases"]:
@@ -101,8 +106,10 @@ class CRunner(BaseRunner):
 
                 status.update("Done")
                 status.start()
-                # time.sleep(2)
+            except DontContinue:
+                exit(1)
             except Exception as e:
                 console.print(f"[bold red]Operation failed: {str(e)}")
-                # TODO - Remove this in production
-                console.print_exception(show_locals=True)
+                exit(1)
+            finally:
+                self.cleanup()
