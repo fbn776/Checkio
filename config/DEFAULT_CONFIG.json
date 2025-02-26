@@ -1,5 +1,8 @@
 {
-  "temp_dir": "./temp",
+  "temp_dir": "/home/fbn776/my-files/coding-and-other-related-stuffs/python/Checkio/temp",
   "port": 5555,
-  "c_compiler_path": "cc"
+  "c_compiler_path": "cc",
+  "javac_path": "javac",
+  "jvm_path": "java",
+  "python_path": "python3"
 }

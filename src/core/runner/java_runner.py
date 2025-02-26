@@ -3,21 +3,22 @@ import subprocess
 
 from rich.syntax import Syntax
 from rich.text import Text
+
 from core.global_store import get_value
 from core.runner.base_runner import BaseRunner
 from utils.errors import DontContinue, CompilationError
 from utils.utils import boxed_text
 
 
-class CRunner(BaseRunner):
+class JavaRunner(BaseRunner):
     def __init__(self, file_name, print_output=True):
         super().__init__(file_name=file_name, print_output=print_output)
-        self.c_comp = get_value("c_compiler_path")
+        self.javac = get_value("javac_path")
+        self.jvm = get_value("jvm_path")
 
     def setup(self):
         try:
-            # Compiling the c file into an executable file (named with an uuid)
-            c_out = subprocess.run([self.c_comp, self.file_name, "-o", self.exec_path], capture_output=True, text=True)
+            c_out = subprocess.run([self.javac, self.file_name, "-d", self.temp_path], capture_output=True, text=True)
 
             # If the compilation was unsuccessful, the error message will be displayed in a box;
             if c_out.returncode != 0:
@@ -48,13 +49,13 @@ class CRunner(BaseRunner):
             boxed_text(self.console, "Error", "The current file name is None", "bold red", "bold red")
             raise DontContinue()
 
-        subprocess.run([self.exec_path])
+        """
+        Run the java file. First add class path to the temp directory and then run the file (only needs the base name of the file, stripped of .java)
+        """
+        subprocess.run([self.jvm, '-cp', self.temp_path, os.path.basename(self.file_name).replace(".java", "")])
 
     def testcase_run_func(self, unit):
-        return subprocess.run([self.exec_path], input=unit["input"], text=True, capture_output=True)
+        return subprocess.run([self.jvm, '-cp', self.temp_path, os.path.basename(self.file_name).replace(".java", "")], input=unit["input"], text=True, capture_output=True)
 
     def cleanup(self):
-        try:
-            os.remove(self.exec_path)
-        except FileNotFoundError:
-            pass
+        pass

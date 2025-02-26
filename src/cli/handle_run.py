@@ -1,12 +1,13 @@
 from rich.console import Console
-from core.runner.base_runner import BaseRunner
 from core.runner.c_runner import CRunner
+from core.runner.java_runner import JavaRunner
+from core.runner.python_runner import PythonRunner
 from utils.find_lang import find_lang
 
 runners = {
     "c": CRunner,
-    "py": BaseRunner,
-    "java": BaseRunner
+    "py": PythonRunner,
+    "java": JavaRunner
 }
 
 console = Console()
@@ -25,10 +26,10 @@ def handle_run(file_name, testcase):
         exit(1)
 
     # Instantiating the runner
-    runner = runner()
+    runner = runner(file_name=file_name)
 
     try:
-        runner.execute(file_name, testcase)
-    except KeyboardInterrupt:
+        runner.execute(testcase=testcase)
+    except Exception:
         runner.cleanup()
-        console.print("\n[bold red]Keyboard interrupt[/]")
+        console.print_exception(show_locals=True)
