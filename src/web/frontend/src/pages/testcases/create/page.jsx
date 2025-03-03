@@ -1,12 +1,21 @@
 import {useState} from "react";
 import {Command, Plus, File, ExternalLink, Trash2, X} from 'lucide-react';
-import {Input} from "@/components/ui/input.jsx";
 
 
 export default function CreatePage() {
     const [cli, setCli] = useState([]);
     const [isCliVisible, setIsCliVisible] = useState(false);
     const [isFilesUploadVisible, setIsFilesUploadVisible] = useState(false);
+    const [fileName, setFileName] = useState("No file chosen")
+
+    const handleFileChange = (e) => {
+        const files = e.target.files
+        if (files && files.length > 0) {
+            setFileName(files.length === 1 ? files[0].name : `${files.length} files selected`)
+        } else {
+            setFileName("No file chosen")
+        }
+    }
 
     return <main className="w-full p-5">
         <div className="border shadow p-4 bg-white rounded-md">
@@ -75,11 +84,16 @@ export default function CreatePage() {
                             setIsFilesUploadVisible(false);
                         }}/>
                     </div>
-                    <Input className="w-fit p-3 border border-gray-300 rounded-lg min-h-10 mt-2" type="file"
-                           placeholder="Files"
-                           multiple>
-
-                    </Input>
+                    <div className="relative mt-2">
+                        <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden">
+                            <label
+                                className="flex items-center bg-white px-4 py-2 text-gray-700 cursor-pointer hover:bg-gray-50">
+                                Choose files
+                                <input type="file" className="hidden" multiple onChange={handleFileChange}/>
+                            </label>
+                            <span className="px-3 py-2 text-gray-400 flex-1 truncate">{fileName}</span>
+                        </div>
+                    </div>
                 </div>
             }
 

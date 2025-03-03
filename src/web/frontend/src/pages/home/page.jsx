@@ -1,8 +1,7 @@
 
 
 export default function HomePage() {
-    return <div>
+    return <div className={'p-2'}>
         <h1>Home Page</h1>
-        <p>uhiduhjdhkjhdkj</p>
     </div>
 }
