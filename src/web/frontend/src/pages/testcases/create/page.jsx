@@ -91,7 +91,7 @@ export default function CreatePage() {
                                 Choose files
                                 <input type="file" className="hidden" multiple onChange={handleFileChange}/>
                             </label>
-                            <span className="px-3 py-2 text-gray-600 flex-1 truncate">{fileName}</span>
+                            <span className="px-3 py-2 text-gray-400 flex-1 truncate">{fileName}</span>
                         </div>
                     </div>
                 </div>
