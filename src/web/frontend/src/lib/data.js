@@ -8,7 +8,7 @@ export const ROUTES = [
         children: []
     }, {
         title: 'Testcases',
-        route: '/testcase',
+        route: '/testcase/create',
         icon: TestTubeDiagonal,
         children: [
             {
