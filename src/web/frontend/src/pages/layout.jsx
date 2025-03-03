@@ -72,13 +72,15 @@ export default function Layout() {
                                 className="text-white transition-colors px-5 text-sm relative text-center inline-block"
                             >
                                 {child.name}
-                                <div className="hidden absolute h-1 bg-white rounded-full left-2 right-2 -bottom-3"/>
+                                {pathname.split('/')[2] === child.route.split('/')[2] &&
+                                    <div className=" absolute h-1 bg-white rounded-full left-2 right-2 -bottom-3"/>
+                                }
                             </Link>
                         )}
                     </div>
                 }
             </header>
-            <div className="flex-1">
+            <div className="flex-1 bg-gray-200">
                 <Outlet/>
             </div>
         </div>
