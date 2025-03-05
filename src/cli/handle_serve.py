@@ -1,4 +1,6 @@
 import multiprocessing
+
+from core.global_store import get_value
 from utils.get_local_ip import get_local_ip
 from web.backend.main import run_server
 from rich.console import Console
@@ -7,7 +9,7 @@ console = Console()
 
 
 def handle_serve():
-    port = 5000
+    port = get_value("port")
     server_proc = multiprocessing.Process(target=lambda : run_server(port))
     server_proc.start()
 

@@ -7,7 +7,7 @@ from utils.find_lang import find_lang
 runners = {
     "c": CRunner,
     "py": PythonRunner,
-    "java": JavaRunner
+    "java": JavaRunner,
 }
 
 console = Console()
@@ -31,5 +31,6 @@ def handle_run(file_name, testcase):
     try:
         runner.execute(testcase=testcase)
     except Exception:
-        runner.cleanup()
         console.print_exception(show_locals=True)
+    finally:
+        runner.cleanup()

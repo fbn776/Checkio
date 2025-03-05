@@ -6,18 +6,27 @@ import click
 from flask import Flask, render_template, send_from_directory, abort, request, jsonify
 from flask_cors import CORS
 
+from core.global_store import get_value
+from web.backend.routes.auth import auth
+
 app = Flask(__name__)
 CORS(app)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///store.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 @app.route("/")
 def home():
     return render_template("index.html")
 
+
 ALLOWED_EXTENSIONS = {".js", ".css", ".svg", ".png", ".jpg"}
+
 
 def is_safe_file(filename):
     _, ext = os.path.splitext(filename)
     return ext in ALLOWED_EXTENSIONS
+
 
 @app.route('/assets/<path:filename>')
 def serve_assets(filename):
@@ -33,45 +42,10 @@ def is_alive():
         "serverTime": time.time(),
     })
 
-testcases_data = [
-    {
-        "name": "Hello",
-        "description": "This is a hello world test case",
-    },
-    {
-        "name": "Hahah",
-        "description": "This is a hello world test case",
-    },
-    {
-        "name": "Wot thenga",
-        "description": "cffyugioklmnbgvtfhy67 uy78uoik",
-    },
-    {
-        "name": "Hehehehe",
-        "description": "aedfghj dfghj",
-    }
-]
-
-@app.get('/testcases')
-def testcases():
-    return testcases_data
-
-@app.post('/delete')
-def delete():
-    data = request.json
-    temp = [item for item in testcases_data if item["name"] != data["name"]]
-
-    print("DELETED:", data)
-    print("TEMP:", temp)
-
-    testcases_data.clear()
-    testcases_data.extend(temp)
-
-    print(data)
-    return 'deleted'
+app.register_blueprint(auth, url_prefix='/auth')
 
 
-def run_server(port = 5000):
+def run_server(port=get_value("port")):
     # Suppress Flask logs
     log = logging.getLogger("werkzeug")
     log.setLevel(logging.ERROR)
