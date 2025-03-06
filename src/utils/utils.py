@@ -18,3 +18,4 @@ def boxed_text(console, title, text, style, border_style, expand=False):
 def is_superuser():
     """Check if the user is a root user or not"""
     return os.geteuid() == 0
+

@@ -45,16 +45,19 @@ def is_alive():
 app.register_blueprint(auth, url_prefix='/auth')
 
 
-def run_server(port=get_value("port")):
-    # Suppress Flask logs
-    log = logging.getLogger("werkzeug")
-    log.setLevel(logging.ERROR)
-    click.echo = lambda *args, **kwargs: None
+def run_server(port=get_value("port"), dev_mode = False):
+    if dev_mode:
+        app.run(host="0.0.0.0", port=port, debug=True, use_reloader=True)
+    else:
+        # Suppress Flask logs
+        log = logging.getLogger("werkzeug")
+        log.setLevel(logging.ERROR)
+        click.echo = lambda *args, **kwargs: None
 
-    app.run(host="0.0.0.0", port=port, debug=False, use_reloader=False)
+        app.run(host="0.0.0.0", port=port, debug=False, use_reloader=False)
 
 
 # Example CLI command
 if __name__ == "__main__":
-    run_server()
+    run_server(dev_mode=True)
     input("Press Enter to exit...\n")

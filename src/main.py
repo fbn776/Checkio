@@ -25,11 +25,10 @@ load_data_from_json("./config/DEFAULT_CONFIG.json")
 @click.option("-v", "--version", is_flag=True, help="Show the version of the tool")
 @click.pass_context
 def cli(ctx, version):
+    handle_cli(ctx, version)
+
     if ctx.invoked_subcommand != "config":
         pre_requisites()
-        return
-
-    handle_cli(ctx, version)
 
 
 @cli.command(help="Used to create a new testcase.")
@@ -46,8 +45,9 @@ def run(file_name, testcase):
 
 
 @cli.command(help="Serves the web interface")
-def serve():
-    handle_serve()
+@click.option('--dev', is_flag=True, help="Run the server in development mode")
+def serve(dev):
+    handle_serve(dev)
 
 
 @cli.command(help="Shows information about the tool")
@@ -57,9 +57,9 @@ def about():
 
 @cli.command(help="Submit a program to be evaluated by the faculty")
 @click.argument("values", nargs=-1, required=True)
-@click.option("-t", "--testcase", required=True, help="The ID of testcase to submit the program with.")
-def submit(values, tag):
-    handle_submit(values, tag)
+@click.option("-t", "--testcase", required=True, prompt=True, help="The ID of testcase to submit the program with.")
+def submit(values, testcase):
+    handle_submit(values, testcase)
 
 
 @cli.command(help="List all the testcases.")
@@ -77,6 +77,9 @@ def view(testcase_id):
 def config():
     handle_config()
 
+@cli.command(help="Run")
+def users():
+    print("Users")
 
 @cli.command()
 def test():

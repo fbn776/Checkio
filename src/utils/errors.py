@@ -22,3 +22,11 @@ class InvalidConfigFile(Exception):
     def __init__(self, message="Invalid config file"):
         self.message = message
         super().__init__(self.message)
+
+
+class AuthFailed(Exception):
+    """An Authentication failed error"""
+    def __init__(self, message="Authentication failed"):
+        self.message = message
+        super().__init__(self.message)
+
