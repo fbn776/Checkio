@@ -53,10 +53,10 @@ export default function CreatePage() {
                 </div>
             </div>
             {isCliVisible &&
-                <div className="mt-4 mb-8 bg-gray-50 p-5 rounded-lg border border-gray-200">
+                <div className="relative mt-4 mb-8 bg-gray-50 p-5 rounded-lg border border-gray-200">
                     <div className="flex items-center justify-between gap-5 pr-5">
                         <h2>Command Line Argument</h2>
-                        <Trash2 className="size-4 text-red-600 hover:cursor-pointer" onClick={() => {
+                        <Trash2 className="absolute right-4 top-4 size-4 text-red-600 hover:cursor-pointer" onClick={() => {
                             setIsCliVisible(false);
                             setCli([]);
                         }}/>
@@ -75,10 +75,10 @@ export default function CreatePage() {
                 </div>
             }
             {isFilesUploadVisible &&
-                <div className="mt-4 mb-8 bg-gray-50 p-5 rounded-lg border border-gray-200">
+                <div className="relative mt-4 mb-8 bg-gray-50 p-5 rounded-lg border border-gray-200">
                     <div className="flex items-center justify-between gap-5 pr-5">
                         <h2>Files Upload</h2>
-                        <Trash2 className="size-4 text-red-600 hover:cursor-pointer" onClick={() => {
+                        <Trash2 className="absolute right-4 top-4 size-4 text-red-600 hover:cursor-pointer" onClick={() => {
                             setIsFilesUploadVisible(false);
                         }}/>
                     </div>
