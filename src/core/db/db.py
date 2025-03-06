@@ -1,17 +1,21 @@
-import sqlite3
+from sqlalchemy import create_engine, event, Engine
+from sqlalchemy.orm import sessionmaker, declarative_base
 
-# Connect to the database
-_sql_conn = sqlite3.connect("store.db")
-_sql_cursor = _sql_conn.cursor()
+DATABASE_URL = "sqlite:///checkio.db"
 
+engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
+SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False)
+Base = declarative_base()
 
-def get_db() -> tuple[sqlite3.Connection, sqlite3.Cursor]:
-    """
-    Returns the database connection and cursor, the current implementation reuses the same connection and cursor.
-    This might cause an issue in a multithreaded environment
-    see:
-        - https://flask.palletsprojects.com/en/2.0.x/patterns/sqlite3/
-        - https://chatgpt.com/share/67a852a8-7e44-8000-b4bb-ec911596f17d
-    :return: Tuple[sqlite3.Connection, sqlite3.Cursor]
-    """
-    return _sql_conn, _sql_cursor
+@event.listens_for(Engine, "connect")
+def set_sqlite_pragma(dbapi_connection, connection_record):
+    cursor = dbapi_connection.cursor()
+    cursor.execute("PRAGMA foreign_keys=ON;")
+    cursor.close()
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
