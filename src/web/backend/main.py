@@ -8,12 +8,16 @@ from flask_cors import CORS
 
 from core.global_store import get_value
 from web.backend.routes.auth import auth
+from web.backend.routes.group import groupRoute
+from web.backend.routes.submit import submitRoute
+from web.backend.routes.testcase import testcaseRoute
 
 app = Flask(__name__)
 CORS(app)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///store.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 
 @app.route("/")
 def home():
@@ -42,10 +46,14 @@ def is_alive():
         "serverTime": time.time(),
     })
 
+
 app.register_blueprint(auth, url_prefix='/auth')
+app.register_blueprint(groupRoute, url_prefix='/group')
+app.register_blueprint(testcaseRoute, url_prefix='/testcases')
+app.register_blueprint(submitRoute, url_prefix='/submit')
 
 
-def run_server(port=get_value("port"), dev_mode = False):
+def run_server(port=get_value("port"), dev_mode=False):
     if dev_mode:
         app.run(host="0.0.0.0", port=port, debug=True, use_reloader=True)
     else:
