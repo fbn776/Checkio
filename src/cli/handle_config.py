@@ -40,16 +40,15 @@ def handle_config():
 
             status.update("Setting Up Database...")
             status.stop()
-
             # Set up the database
-            init_db()
+            recreated = init_db()
 
-            status.start()
-            status.update("Setting Up User...")
-            status.stop()
+            if recreated:
+                status.update("Setting Up User...")
+                status.stop()
 
-            # Set up the user
-            init_user()
+                # Set up the user
+                init_user()
 
             status.update("Done")
 
