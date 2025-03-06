@@ -27,7 +27,8 @@ export default function Layout() {
                         className="overflow-visible flex gap-2 items-center relative group  hover:translate-x-2 hover:text-primary transition-transform"
                         data-state={pathname.split('/')[1] === route.route.split('/')[1]}
                     >
-                        <div className="group-data-[state=false]:hidden group-hover:opacity-0 transition-opacity absolute w-[3px] bg-white rounded-r-full h-full -left-10"/>
+                        <div
+                            className="group-data-[state=false]:hidden group-hover:opacity-0 transition-opacity absolute w-[3px] bg-white rounded-r-full h-full -left-10"/>
                         <route.icon className="size-5"/>
                         {route.title}
                     </Link>
@@ -64,17 +65,18 @@ export default function Layout() {
 
                 </div>
                 {selectedRoute && selectedRoute.children.length > 0 &&
-                    <div className="flex items-center divide-x divide-white/30 px-2 h-[40px] bg-[#007ab3] overflow-x-auto overflow-y-hidden">
+                    <div
+                        className="flex items-center px-2 h-fit pt-0 bg-[#0088cc] overflow-x-auto overflow-y-hidden gap-1">
                         {selectedRoute.children.map((child, index) =>
                             <Link
                                 key={index}
                                 to={child.route}
-                                className="text-white transition-colors px-5 text-sm relative text-center inline-block"
+                                className={`relative text-white text-[16px] text-center px-1 rounded-t-[8px] rounded-b-[4px] flex flex-col justify-between pt-2 gap-1 group`}
                             >
-                                {child.name}
-                                {pathname.split('/')[2] === child.route.split('/')[2] &&
-                                    <div className=" absolute h-1 bg-white rounded-full left-2 right-2 -bottom-3"/>
-                                }
+                                <div className={`px-5 py-1 hover:bg-[#009be5] rounded-[8px] transition-all duration-300`}>{child.name}</div>
+                                <div
+                                    className={`h-0 w-full bg-white rounded-full  transition-all duration-200 ${pathname.split('/')[2] === child.route.split('/')[2] ? 'h-[2px]' : 'h-0'}`}
+                                />
                             </Link>
                         )}
                     </div>

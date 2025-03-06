@@ -9,6 +9,7 @@ import AboutPage from "@/pages/about/page.jsx";
 import EvaluatePage from "@/pages/evaluate/page.jsx";
 import SettingsPage from "@/pages/settings/page.jsx";
 import CreatePage from "@/pages/testcases/create/page.jsx";
+import ViewPage from "@/pages/testcases/view/page.jsx";
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>
@@ -18,7 +19,7 @@ createRoot(document.getElementById('root')).render(
                     <Route path="/" element={<HomePage/>}/>
                     <Route path="/testcase" element={<Page/>}>
                         <Route path="/testcase/create" element={<CreatePage/>}/>
-                        <Route path="/testcase/view" element={<AboutPage/>}/>
+                        <Route path="/testcase/view" element={<ViewPage/>}/>
                     </Route>
                     <Route path="/about" element={<AboutPage/>}/>
                     <Route path="/evaluate" element={<EvaluatePage/>}/>

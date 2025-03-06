@@ -95,7 +95,7 @@ export default function CreatePage() {
                 </div>
             }
 
-            <textarea className="w-full p-3 border border-gray-300 rounded-lg min-h-10" placeholder="Output"/>
+            <textarea className="w-full p-3 min-h-10 flex-1 border bg-white border-gray-300 rounded-md px-4 py-2 focus:border-[#009be5] focus:outline-none" placeholder="Output"/>
         </div>
     </main>
 }
