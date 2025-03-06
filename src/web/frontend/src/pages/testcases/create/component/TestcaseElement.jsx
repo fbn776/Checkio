@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {InputSelectorButton} from "@/pages/testcases/create/component/InputSelectorButton.jsx";
-import {File, FileInputIcon as Input, Plus, Terminal, Eye, EyeOff} from "lucide-react";
+import {File, FileInputIcon as Input, Plus, Terminal} from "lucide-react";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip.jsx";
 import {DeleteButton} from "@/pages/testcases/create/component/DeleteButton.jsx";
 import {Switch} from "@/components/ui/switch.jsx";
@@ -35,11 +35,23 @@ export function TestcaseElement({index}) {
         <div className="shadow p-4 bg-white rounded-md">
             <div className="flex items-center justify-between mb-4">
                 <h1 className="text-xl">Testcase #{index + 1}</h1>
-                <div className={`flex items-center justify-between text-sm gap-2 ${isTestcaseHidden ? "text-gray-400" :"text-black"} `}>
-                    <Switch
-                        checked={!isTestcaseHidden}
-                        onCheckedChange={(checked) => setIsTestcaseHidden(!checked)}
-                    />
+                {/*Testcase Visible/Hidden Toggle Button*/}
+                <div className={`flex items-center justify-between text-sm gap-2 ${isTestcaseHidden ? "text-gray-400" :"text-black"}`}>
+                    <TooltipProvider>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Switch className={`${isTestcaseHidden ? "bg-[#e5e5e5]" :"bg-[#009be5]"}`}
+                                        checked={!isTestcaseHidden}
+                                        onCheckedChange={(checked) => setIsTestcaseHidden(!checked)}
+                                />
+                            </TooltipTrigger>
+                            <TooltipContent
+                                className="bg-white border-gray-200 border-[1px] text-black text-[12px] px-2 py-2 rounded-[5px] shadow-lg mb-2"
+                                side={'top'}>
+                                <p>Make testcase {isTestcaseHidden ? 'Visible' : 'Hidden'}</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
                     <span>{isTestcaseHidden ? 'Hidden' : 'Visible'}</span>
                 </div>
             </div>
