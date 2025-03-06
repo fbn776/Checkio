@@ -82,7 +82,7 @@ export default function Layout() {
                     </div>
                 }
             </header>
-            <div className="flex-1 bg-gray-200">
+            <div className="flex-1 bg-gray-200 overflow-auto">
                 <Outlet/>
             </div>
         </div>
