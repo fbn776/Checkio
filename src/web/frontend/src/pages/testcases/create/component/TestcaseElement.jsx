@@ -1,8 +1,9 @@
 import {useState} from "react";
 import {InputSelectorButton} from "@/pages/testcases/create/component/InputSelectorButton.jsx";
-import {File, FileInputIcon as Input, Plus, Terminal} from "lucide-react";
+import {File, FileInputIcon as Input, Plus, Terminal, Eye, EyeOff} from "lucide-react";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip.jsx";
 import {DeleteButton} from "@/pages/testcases/create/component/DeleteButton.jsx";
+import {Switch} from "@/components/ui/switch.jsx";
 
 const InputSection = ({ title, onDelete, children }) => (
     <div className="relative mt-4 mb-8 bg-gray-50 p-5 rounded-lg border border-gray-200">
@@ -19,7 +20,8 @@ export function TestcaseElement({index}) {
     const [isCliVisible, setIsCliVisible] = useState(false);
     const [isFilesUploadVisible, setIsFilesUploadVisible] = useState(false);
     const [isInputVisible, setIsInputVisible] = useState(false);
-    const [fileName, setFileName] = useState("No file chosen")
+    const [fileName, setFileName] = useState("No file chosen");
+    const [isTestcaseHidden, setIsTestcaseHidden] = useState(false);
 
     const handleFileChange = (e) => {
         const files = e.target.files
@@ -30,8 +32,17 @@ export function TestcaseElement({index}) {
         }
     }
     return (
-        <div className="border shadow p-4 bg-white rounded-md">
-            <h1 className="text-xl mb-4">Testcase #{index+1}</h1>
+        <div className="shadow p-4 bg-white rounded-md">
+            <div className="flex items-center justify-between mb-4">
+                <h1 className="text-xl">Testcase #{index + 1}</h1>
+                <div className={`flex items-center justify-between text-sm gap-2 ${isTestcaseHidden ? "text-gray-400" :"text-black"} `}>
+                    <Switch
+                        checked={!isTestcaseHidden}
+                        onCheckedChange={(checked) => setIsTestcaseHidden(!checked)}
+                    />
+                    <span>{isTestcaseHidden ? 'Hidden' : 'Visible'}</span>
+                </div>
+            </div>
             <div className="w-full my-2 flex gap-3 flex-wrap">
                 <InputSelectorButton onClick={() => {
                     setIsCliVisible(true)
