@@ -63,7 +63,7 @@ export default function CreatePage() {
                     </div>
                     <div className="flex gap-2 flex-wrap items-center mt-3">
                         {cli.map(item =>
-                            <input className="flex-1 border bg-white border-gray-300 rounded-md px-4 py-2 shadow-sm focus:ring-1 focus:ring-[#009be5] focus:border-[#009be5] focus:outline-none" placeholder="Output"/>
+                            <input className="flex-1 border bg-white border-gray-300 rounded-md px-4 py-2 focus:border-[#009be5] focus:outline-none" placeholder="Output"/>
                         )}
                         <button className=""
                                 onClick={() => setCli(p => [...p, 1])}>
@@ -83,9 +83,9 @@ export default function CreatePage() {
                         }}/>
                     </div>
                     <div className="relative mt-2 bg-white">
-                        <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden">
+                        <div className="flex items-center border border-gray-300 hover:border-[#009be5] rounded-lg overflow-hidden">
                             <label
-                                className="flex items-center bg-white px-4 py-2 text-gray-700 cursor-pointer hover:bg-gray-50">
+                                className="flex items-center bg-white px-4 py-2 text-gray-700 cursor-pointer hover:bg-gray-50 peer">
                                 Choose files
                                 <input type="file" className="hidden" multiple onChange={handleFileChange}/>
                             </label>
