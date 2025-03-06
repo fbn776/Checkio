@@ -4,11 +4,21 @@ import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/compon
 import {InputSelectorButton} from "@/pages/testcases/create/component/InputSelectorButton.jsx";
 import {DeleteButton} from "@/pages/testcases/create/component/DeleteButton.jsx";
 
+const InputSection = ({ title, onDelete, children }) => (
+    <div className="relative mt-4 mb-8 bg-gray-50 p-5 rounded-lg border border-gray-200">
+        <div className="flex items-center justify-between gap-5 pr-5">
+            <h2>{title}</h2>
+            <DeleteButton onClick={onDelete} />
+        </div>
+        <div className="relative mt-3">{children}</div>
+    </div>
+);
 
 export default function CreatePage() {
     const [cli, setCli] = useState([]);
     const [isCliVisible, setIsCliVisible] = useState(false);
     const [isFilesUploadVisible, setIsFilesUploadVisible] = useState(false);
+    const [isInputVisible, setIsInputVisible] = useState(false);
     const [fileName, setFileName] = useState("No file chosen")
 
     const handleFileChange = (e) => {
@@ -31,66 +41,52 @@ export default function CreatePage() {
                     setIsFilesUploadVisible(true)
                 }} Icon={File} text={'Files'}/>
                 <InputSelectorButton onClick={() => {
-
+                    setIsInputVisible(true)
                 }} Icon={Input} text={'Input'}/>
             </div>
-            {isCliVisible &&
-                <div className="relative mt-4 mb-8 bg-gray-50 p-5 rounded-lg border border-gray-200">
-                    <div className="flex items-center justify-between gap-5 pr-5">
-                        <h2>Command Line Argument</h2>
-                        <DeleteButton onClick={() => {
-                            setIsCliVisible(false);
-                            setCli([]);
-                        }}/>
-                    </div>
-                    <div className="flex gap-2 flex-wrap items-center mt-3">
-                        {cli.map(item =>
-                            <input
-                                className="flex-1 border bg-white border-gray-300 rounded-md px-4 py-2 focus:border-[#009be5] focus:outline-none"
-                                placeholder="Input"/>
-                        )}
-                        <button className=""
-                                onClick={() => setCli(p => [...p, 1])}>
+            {isCliVisible && (
+                <InputSection title="Command Line Argument" onDelete={() => { setIsCliVisible(false); setCli([]); }}>
+                    <div className="flex gap-2 flex-wrap items-center">
+                        {cli.map((_, index) => (
+                            <input key={index}
+                                   className="flex-1 border bg-white border-gray-300 rounded-md px-4 py-2 focus:border-[#009be5] focus:outline-none"
+                                   placeholder="Input" />
+                        ))}
+                        <button onClick={() => setCli(p => [...p, 1])}>
                             <TooltipProvider>
                                 <Tooltip>
                                     <TooltipTrigger asChild>
-                                        <div
-                                            className='flex items-center bg-gradient-to-b from-[#009be5] to-[#0088cc] text-white px-2 py-2 rounded-md hover:from-[#0088cc] hover:to-[#0077b3] shadow-sm border border-[#0077b3] transition duration-150 ease-in-out hover:cursor-pointer'>
-                                            <Plus height={18} width={18} color={'white'}/>
+                                        <div className='flex items-center bg-gradient-to-b from-[#009be5] to-[#0088cc] text-white px-2 py-2 rounded-md hover:from-[#0088cc] hover:to-[#0077b3] shadow-sm border border-[#0077b3] transition duration-150 ease-in-out hover:cursor-pointer'>
+                                            <Plus height={18} width={18} color={'white'} />
                                         </div>
                                     </TooltipTrigger>
-                                    <TooltipContent
-                                        className="bg-white border-gray-200 border-[1px] text-black text-[12px] px-2 py-2 rounded-[5px] shadow-lg mt-1"
-                                        side={'bottom'}>
+                                    <TooltipContent className="bg-white border-gray-200 border-[1px] text-black text-[12px] px-2 py-2 rounded-[5px] shadow-lg mt-1" side={'bottom'}>
                                         <p>Add New</p>
                                     </TooltipContent>
                                 </Tooltip>
                             </TooltipProvider>
                         </button>
                     </div>
-                </div>
-            }
-            {isFilesUploadVisible &&
-                <div className="relative mt-4 mb-8 bg-gray-50 p-5 rounded-lg border border-gray-200">
-                    <div className="flex items-center justify-between gap-5 pr-5">
-                        <h2>Files Upload</h2>
-                        <DeleteButton onClick={() => {
-                            setIsFilesUploadVisible(false);
-                        }}/>
+                </InputSection>
+            )}
+
+            {isFilesUploadVisible && (
+                <InputSection title="Files Upload" onDelete={() => setIsFilesUploadVisible(false)}>
+                    <div className="flex items-center border border-gray-300 hover:border-[#009be5] rounded-lg overflow-hidden">
+                        <label className="flex items-center bg-white px-4 py-2 text-gray-700 cursor-pointer hover:bg-gray-50">
+                            Choose files
+                            <input type="file" className="hidden" multiple onChange={handleFileChange} />
+                        </label>
+                        <span className="px-3 py-2 text-gray-400 flex-1 truncate">{fileName}</span>
                     </div>
-                    <div className="relative mt-2 bg-white">
-                        <div
-                            className="flex items-center border border-gray-300 hover:border-[#009be5] rounded-lg overflow-hidden">
-                            <label
-                                className="flex items-center bg-white px-4 py-2 text-gray-700 cursor-pointer hover:bg-gray-50 peer">
-                                Choose files
-                                <input type="file" className="hidden" multiple onChange={handleFileChange}/>
-                            </label>
-                            <span className="px-3 py-2 text-gray-400 flex-1 truncate">{fileName}</span>
-                        </div>
-                    </div>
-                </div>
-            }
+                </InputSection>
+            )}
+
+            {isInputVisible && (
+                <InputSection title="Input" onDelete={() => setIsInputVisible(false)}>
+                    <textarea className="w-full p-3 min-h-10 flex-1 border bg-white border-gray-300 rounded-md px-4 py-2 focus:border-[#009be5] focus:outline-none" placeholder="Input" />
+                </InputSection>
+            )}
 
             <textarea
                 className="w-full p-3 min-h-10 flex-1 border bg-white border-gray-300 rounded-md px-4 py-2 focus:border-[#009be5] focus:outline-none"
