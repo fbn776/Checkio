@@ -1,6 +1,7 @@
 import {useState} from "react";
-import {Terminal, Plus, File, FileInputIcon as Input, Trash2, X} from 'lucide-react';
+import {File, FileInputIcon as Input, Plus, Terminal, Trash2} from 'lucide-react';
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip"
+import {InputSelectorButton} from "@/pages/testcases/create/component/InputSelectorButton.jsx";
 
 
 export default function CreatePage() {
@@ -22,36 +23,15 @@ export default function CreatePage() {
         <div className="border shadow p-4 bg-white rounded-md">
             <h1 className="text-xl mb-4">Testcase #1</h1>
             <div className="w-full my-2 flex gap-3 flex-wrap">
-                <div onClick={() => {
+                <InputSelectorButton onClick={() => {
                     setIsCliVisible(true)
-                }}
-                     className="flex items-center bg-gradient-to-b from-[#009be5] to-[#0088cc] text-white px-4 py-2 rounded-md hover:from-[#0088cc] hover:to-[#0077b3] shadow-sm border border-[#0077b3] transition duration-150 ease-in-out cursor-pointer gap-2">
-                    <Terminal size={18}/>
-                    CLI Args
-                    <div className='bg-[#40b0e9] p-1 rounded-full ml-2'>
-                        <Plus size={16}/>
-                    </div>
-                </div>
-                <div
-                    onClick={() => {
-                        setIsFilesUploadVisible(true)
-                    }}
-                    className="flex items-center bg-gradient-to-b from-[#009be5] to-[#0088cc] text-white px-4 py-2 rounded-md hover:from-[#0088cc] hover:to-[#0077b3] shadow-sm border border-[#0077b3] transition duration-150 ease-in-out cursor-pointer gap-2"
-                >
-                    <File size={18}/>
-                    Files
-                    <div className='bg-[#40b0e9] p-1 rounded-full ml-2'>
-                        <Plus size={16}/>
-                    </div>
-                </div>
-                <div
-                    className="flex items-center bg-gradient-to-b from-[#009be5] to-[#0088cc] text-white px-4 py-2 rounded-md hover:from-[#0088cc] hover:to-[#0077b3] shadow-sm border border-[#0077b3] transition duration-150 ease-in-out cursor-pointer gap-2">
-                    <Input size={18}/>
-                    Input
-                    <div className='bg-[#40b0e9] p-1 rounded-full ml-2'>
-                        <Plus size={16}/>
-                    </div>
-                </div>
+                }} Icon={Terminal} text={'CLI Args'}/>
+                <InputSelectorButton onClick={() => {
+                    setIsFilesUploadVisible(true)
+                }} Icon={File} text={'Files'}/>
+                <InputSelectorButton onClick={() => {
+
+                }} Icon={Input} text={'Input'}/>
             </div>
             {isCliVisible &&
                 <div className="relative mt-4 mb-8 bg-gray-50 p-5 rounded-lg border border-gray-200">
