@@ -1,5 +1,6 @@
 import {useState} from "react";
 import {Terminal, Plus, File, FileInputIcon as Input, Trash2, X} from 'lucide-react';
+import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip"
 
 
 export default function CreatePage() {
@@ -56,20 +57,46 @@ export default function CreatePage() {
                 <div className="relative mt-4 mb-8 bg-gray-50 p-5 rounded-lg border border-gray-200">
                     <div className="flex items-center justify-between gap-5 pr-5">
                         <h2>Command Line Argument</h2>
-                        <Trash2 className="absolute right-4 top-4 size-4 text-red-600 hover:cursor-pointer" onClick={() => {
-                            setIsCliVisible(false);
-                            setCli([]);
-                        }}/>
+                        <TooltipProvider>
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <Trash2 className="absolute right-4 top-4 size-4 text-red-600 hover:cursor-pointer"
+                                            onClick={() => {
+                                                setIsCliVisible(false);
+                                                setCli([]);
+                                            }}/>
+                                </TooltipTrigger>
+                                <TooltipContent
+                                    className="bg-white border-gray-200 border-[1px] text-black text-[12px] px-2 py-2 rounded-[5px] shadow-lg mb-1"
+                                    side={'top'}>
+                                    <p>Delete Section</p>
+                                </TooltipContent>
+                            </Tooltip>
+                        </TooltipProvider>
                     </div>
                     <div className="flex gap-2 flex-wrap items-center mt-3">
                         {cli.map(item =>
-                            <input className="flex-1 border bg-white border-gray-300 rounded-md px-4 py-2 focus:border-[#009be5] focus:outline-none" placeholder="Input"/>
+                            <input
+                                className="flex-1 border bg-white border-gray-300 rounded-md px-4 py-2 focus:border-[#009be5] focus:outline-none"
+                                placeholder="Input"/>
                         )}
                         <button className=""
                                 onClick={() => setCli(p => [...p, 1])}>
-                            <div className='flex items-center bg-gradient-to-b from-[#009be5] to-[#0088cc] text-white px-2 py-2 rounded-md hover:from-[#0088cc] hover:to-[#0077b3] shadow-sm border border-[#0077b3] transition duration-150 ease-in-out hover:cursor-pointer'>
-                                <Plus height={18} width={18} color={'white'}/>
-                            </div>
+                            <TooltipProvider>
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <div
+                                            className='flex items-center bg-gradient-to-b from-[#009be5] to-[#0088cc] text-white px-2 py-2 rounded-md hover:from-[#0088cc] hover:to-[#0077b3] shadow-sm border border-[#0077b3] transition duration-150 ease-in-out hover:cursor-pointer'>
+                                            <Plus height={18} width={18} color={'white'}/>
+                                        </div>
+                                    </TooltipTrigger>
+                                    <TooltipContent
+                                        className="bg-white border-gray-200 border-[1px] text-black text-[12px] px-2 py-2 rounded-[5px] shadow-lg mt-1"
+                                        side={'bottom'}>
+                                        <p>Add New</p>
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
                         </button>
                     </div>
                 </div>
@@ -78,12 +105,14 @@ export default function CreatePage() {
                 <div className="relative mt-4 mb-8 bg-gray-50 p-5 rounded-lg border border-gray-200">
                     <div className="flex items-center justify-between gap-5 pr-5">
                         <h2>Files Upload</h2>
-                        <Trash2 className="absolute right-4 top-4 size-4 text-red-600 hover:cursor-pointer" onClick={() => {
-                            setIsFilesUploadVisible(false);
-                        }}/>
+                        <Trash2 className="absolute right-4 top-4 size-4 text-red-600 hover:cursor-pointer"
+                                onClick={() => {
+                                    setIsFilesUploadVisible(false);
+                                }}/>
                     </div>
                     <div className="relative mt-2 bg-white">
-                        <div className="flex items-center border border-gray-300 hover:border-[#009be5] rounded-lg overflow-hidden">
+                        <div
+                            className="flex items-center border border-gray-300 hover:border-[#009be5] rounded-lg overflow-hidden">
                             <label
                                 className="flex items-center bg-white px-4 py-2 text-gray-700 cursor-pointer hover:bg-gray-50 peer">
                                 Choose files
@@ -95,7 +124,9 @@ export default function CreatePage() {
                 </div>
             }
 
-            <textarea className="w-full p-3 min-h-10 flex-1 border bg-white border-gray-300 rounded-md px-4 py-2 focus:border-[#009be5] focus:outline-none" placeholder="Output"/>
+            <textarea
+                className="w-full p-3 min-h-10 flex-1 border bg-white border-gray-300 rounded-md px-4 py-2 focus:border-[#009be5] focus:outline-none"
+                placeholder="Output"/>
         </div>
     </main>
 }
