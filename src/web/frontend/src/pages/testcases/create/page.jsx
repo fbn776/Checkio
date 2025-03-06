@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {Command, Plus, File, ExternalLink, Trash2, X} from 'lucide-react';
+import {Terminal, Plus, File, FileInputIcon as Input, Trash2, X} from 'lucide-react';
 
 
 export default function CreatePage() {
@@ -24,51 +24,50 @@ export default function CreatePage() {
                 <div onClick={() => {
                     setIsCliVisible(true)
                 }}
-                     className="bg-primary w-fit h-fit text-sm rounded-full p-1 pl-4 text-white flex flex-row gap-1 items-center hover:cursor-pointer">
-                    <Command className="size-4"/>
+                     className="flex items-center bg-gradient-to-b from-[#009be5] to-[#0088cc] text-white px-4 py-2 rounded-md hover:from-[#0088cc] hover:to-[#0077b3] shadow-sm border border-[#0077b3] transition duration-150 ease-in-out cursor-pointer gap-2">
+                    <Terminal size={18}/>
                     CLI Args
-                    <div className='bg-green-400 p-1 rounded-full ml-2'>
-                        <Plus className="size-4"/>
+                    <div className='bg-[#40b0e9] p-1 rounded-full ml-2'>
+                        <Plus size={16}/>
                     </div>
                 </div>
                 <div
                     onClick={() => {
                         setIsFilesUploadVisible(true)
                     }}
-                    className="bg-primary w-fit h-fit text-sm rounded-full p-1 pl-4 text-white flex flex-row gap-1 items-center hover:cursor-pointer"
+                    className="flex items-center bg-gradient-to-b from-[#009be5] to-[#0088cc] text-white px-4 py-2 rounded-md hover:from-[#0088cc] hover:to-[#0077b3] shadow-sm border border-[#0077b3] transition duration-150 ease-in-out cursor-pointer gap-2"
                 >
-                    <File className="size-4"/>
+                    <File size={18}/>
                     Files
-                    <div className='bg-green-400 p-1 rounded-full ml-2'>
-                        <Plus className="size-4"/>
+                    <div className='bg-[#40b0e9] p-1 rounded-full ml-2'>
+                        <Plus size={16}/>
                     </div>
                 </div>
                 <div
-                    className="bg-primary w-fit h-fit text-sm rounded-full p-1 pl-4 text-white flex flex-row gap-1 items-center hover:cursor-pointer">
-                    <ExternalLink className="size-4"/>
+                    className="flex items-center bg-gradient-to-b from-[#009be5] to-[#0088cc] text-white px-4 py-2 rounded-md hover:from-[#0088cc] hover:to-[#0077b3] shadow-sm border border-[#0077b3] transition duration-150 ease-in-out cursor-pointer gap-2">
+                    <Input size={18}/>
                     Input
-                    <div className='bg-green-400 p-1 rounded-full ml-2'>
-                        <Plus className="size-4"/>
+                    <div className='bg-[#40b0e9] p-1 rounded-full ml-2'>
+                        <Plus size={16}/>
                     </div>
                 </div>
             </div>
             {isCliVisible &&
-                <div className="mb-5 mt-4">
-                    <hr className="mb-2" />
+                <div className="relative mt-4 mb-8 bg-gray-50 p-5 rounded-lg border border-gray-200">
                     <div className="flex items-center justify-between gap-5 pr-5">
                         <h2>Command Line Argument</h2>
-                        <Trash2 className="size-4 text-red-600 hover:cursor-pointer" onClick={() => {
+                        <Trash2 className="absolute right-4 top-4 size-4 text-red-600 hover:cursor-pointer" onClick={() => {
                             setIsCliVisible(false);
                             setCli([]);
                         }}/>
                     </div>
                     <div className="flex gap-2 flex-wrap items-center mt-3">
                         {cli.map(item =>
-                            <input className="w-[200px] p-3 border border-gray-300 rounded-lg" placeholder="Output"/>
+                            <input className="flex-1 border bg-white border-gray-300 rounded-md px-4 py-2 focus:border-[#009be5] focus:outline-none" placeholder="Input"/>
                         )}
                         <button className=""
                                 onClick={() => setCli(p => [...p, 1])}>
-                            <div className='bg-primary p-2 rounded-lg ml-2 hover:cursor-pointer'>
+                            <div className='flex items-center bg-gradient-to-b from-[#009be5] to-[#0088cc] text-white px-2 py-2 rounded-md hover:from-[#0088cc] hover:to-[#0077b3] shadow-sm border border-[#0077b3] transition duration-150 ease-in-out hover:cursor-pointer'>
                                 <Plus height={18} width={18} color={'white'}/>
                             </div>
                         </button>
@@ -76,18 +75,17 @@ export default function CreatePage() {
                 </div>
             }
             {isFilesUploadVisible &&
-                <div className="mb-5">
-                    <hr className="mb-2"/>
+                <div className="relative mt-4 mb-8 bg-gray-50 p-5 rounded-lg border border-gray-200">
                     <div className="flex items-center justify-between gap-5 pr-5">
                         <h2>Files Upload</h2>
-                        <Trash2 className="size-4 text-red-600 hover:cursor-pointer" onClick={() => {
+                        <Trash2 className="absolute right-4 top-4 size-4 text-red-600 hover:cursor-pointer" onClick={() => {
                             setIsFilesUploadVisible(false);
                         }}/>
                     </div>
-                    <div className="relative mt-2">
-                        <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden">
+                    <div className="relative mt-2 bg-white">
+                        <div className="flex items-center border border-gray-300 hover:border-[#009be5] rounded-lg overflow-hidden">
                             <label
-                                className="flex items-center bg-white px-4 py-2 text-gray-700 cursor-pointer hover:bg-gray-50">
+                                className="flex items-center bg-white px-4 py-2 text-gray-700 cursor-pointer hover:bg-gray-50 peer">
                                 Choose files
                                 <input type="file" className="hidden" multiple onChange={handleFileChange}/>
                             </label>
@@ -97,7 +95,7 @@ export default function CreatePage() {
                 </div>
             }
 
-            <textarea className="w-full p-3 border border-gray-300 rounded-lg min-h-10" placeholder="Output"/>
+            <textarea className="w-full p-3 min-h-10 flex-1 border bg-white border-gray-300 rounded-md px-4 py-2 focus:border-[#009be5] focus:outline-none" placeholder="Output"/>
         </div>
     </main>
 }
