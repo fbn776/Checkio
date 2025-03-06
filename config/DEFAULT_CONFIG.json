@@ -4,5 +4,6 @@
   "c_compiler_path": "cc",
   "javac_path": "javac",
   "jvm_path": "java",
-  "python_path": "python3"
+  "python_path": "python3",
+  "session_file": ".checkio_session"
 }

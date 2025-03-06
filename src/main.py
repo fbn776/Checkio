@@ -1,5 +1,8 @@
 import click
+
+from cli.do_testing import do_testing
 from cli.handle_cli import handle_cli
+from cli.handle_config import handle_config
 from cli.handle_create import handle_create
 from cli.handle_listing import handle_listing
 from cli.handle_run import handle_run
@@ -8,6 +11,7 @@ from cli.handle_submit import handle_submit
 from cli.utils.custom_formats import CustomFormats
 from cli.handle_about import handle_about
 from core.global_store import load_data_from_json
+from core.pre_requisites import pre_requisites
 
 # Load the default configuration file
 load_data_from_json("./config/DEFAULT_CONFIG.json")
@@ -21,6 +25,10 @@ load_data_from_json("./config/DEFAULT_CONFIG.json")
 @click.option("-v", "--version", is_flag=True, help="Show the version of the tool")
 @click.pass_context
 def cli(ctx, version):
+    if ctx.invoked_subcommand != "config":
+        pre_requisites()
+        return
+
     handle_cli(ctx, version)
 
 
@@ -67,7 +75,12 @@ def view(testcase_id):
 
 @cli.command(help="Configure the tool.")
 def config():
-    print("Configuring the tool...")
+    handle_config()
+
+
+@cli.command()
+def test():
+    do_testing()
 
 
 if __name__ == "__main__":

@@ -10,5 +10,6 @@ dependencies = [
     "flask>=3.1.0",
     "rapidfuzz>=3.12.1",
     "rich>=13.9.4",
+    "sqlalchemy>=2.0.38",
     "textual[markdown]>=1.0.0",
 ]
