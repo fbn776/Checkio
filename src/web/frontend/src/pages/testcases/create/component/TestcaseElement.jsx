@@ -14,7 +14,7 @@ const InputSection = ({ title, onDelete, children }) => (
     </div>
 );
 
-export function TestcaseElement() {
+export function TestcaseElement({index}) {
     const [cli, setCli] = useState([]);
     const [isCliVisible, setIsCliVisible] = useState(false);
     const [isFilesUploadVisible, setIsFilesUploadVisible] = useState(false);
@@ -31,7 +31,7 @@ export function TestcaseElement() {
     }
     return (
         <div className="border shadow p-4 bg-white rounded-md">
-            <h1 className="text-xl mb-4">Testcase #1</h1>
+            <h1 className="text-xl mb-4">Testcase #{index+1}</h1>
             <div className="w-full my-2 flex gap-3 flex-wrap">
                 <InputSelectorButton onClick={() => {
                     setIsCliVisible(true)
