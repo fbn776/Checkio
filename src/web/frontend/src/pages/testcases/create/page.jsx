@@ -30,7 +30,24 @@ export default function CreatePage() {
         }
     }
 
-    return <main className="w-full p-5">
+    return <main className="w-full p-5 flex flex-col gap-3">
+        {/*Title*/}
+        <div className="border shadow p-4 bg-white rounded-md">
+            <h1 className="text-xl mb-4">Title</h1>
+            <input
+                className="w-full p-3 flex-1 border bg-white border-gray-300 rounded-md px-4 py-2 focus:border-[#009be5] focus:outline-none mb-[8px]"
+                placeholder="Enter Title"/>
+        </div>
+
+        {/*Description*/}
+        <div className="border shadow p-4 bg-white rounded-md">
+            <h1 className="text-xl mb-4">Description</h1>
+            <textarea
+                className="w-full p-3 min-h-10 flex-1 border bg-white border-gray-300 rounded-md px-4 py-2 focus:border-[#009be5] focus:outline-none"
+                placeholder="Enter Description"/>
+        </div>
+
+        {/*Testcase Section*/}
         <div className="border shadow p-4 bg-white rounded-md">
             <h1 className="text-xl mb-4">Testcase #1</h1>
             <div className="w-full my-2 flex gap-3 flex-wrap">
