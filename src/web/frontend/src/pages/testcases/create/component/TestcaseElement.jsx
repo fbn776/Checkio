@@ -4,12 +4,16 @@ import {File, FileInputIcon as Input, Plus, Terminal} from "lucide-react";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip.jsx";
 import {DeleteButton} from "@/pages/testcases/create/component/DeleteButton.jsx";
 import {Switch} from "@/components/ui/switch.jsx";
+import {MinusButton} from "@/pages/testcases/create/component/MinusButton.jsx";
 
-const InputSection = ({ title, onDelete, children }) => (
+const InputSection = ({ title, onDelete, children, isCLISec=false, onMinus=()=>{}}) => (
     <div className="relative mt-4 mb-8 bg-gray-50 p-5 rounded-lg border border-gray-200">
         <div className="flex items-center justify-between gap-5 pr-5">
             <h2>{title}</h2>
             <DeleteButton onClick={onDelete} />
+            {isCLISec &&
+            <MinusButton onClick={onMinus} />
+            }
         </div>
         <div className="relative mt-3">{children}</div>
     </div>
@@ -32,7 +36,7 @@ export function TestcaseElement({index}) {
         }
     }
     return (
-        <div className="shadow p-4 bg-white rounded-md">
+        <div className="shadow p-4 bg-white rounded-md w-full">
             <div className="flex items-center justify-between mb-4">
                 <h1 className="text-xl">Testcase #{index + 1}</h1>
                 {/*Testcase Visible/Hidden Toggle Button*/}
@@ -67,9 +71,13 @@ export function TestcaseElement({index}) {
                 }} Icon={Input} text={'Input'}/>
             </div>
             {isCliVisible && (
-                <InputSection title="Command Line Argument" onDelete={() => {
+                <InputSection title="Command Line Argument" isCLISec={true} onDelete={() => {
                     setIsCliVisible(false);
                     setCli([]);
+                }}
+                onMinus={()=>{
+                    setCli((prevCli) => prevCli.slice(0, -1));
+
                 }}>
                     <div className="flex gap-2 flex-wrap items-center">
                         {cli.map((_, index) => (
