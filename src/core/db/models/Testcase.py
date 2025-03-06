@@ -9,6 +9,8 @@ class Testcase(Base):
 
     group_id = Column(String, ForeignKey('groups.id'))
     id = Column(String)
+    title = Column(String)
+    description = Column(String)
     data = Column(JSON)
     created_at = Column(DateTime, server_default=func.now())
 
