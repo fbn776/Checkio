@@ -15,6 +15,19 @@ export default function CreatePage() {
                 placeholder="Enter Title"/>
         </div>
 
+        {/*Testcase Id*/}
+        <div className="border shadow p-4 bg-white rounded-md">
+            <h1 className="text-xl mb-4">Testcase Id</h1>
+            <div className="flex items-center gap-5">
+                <input
+                    className="w-full p-3 flex-1 border bg-white border-gray-300 rounded-md px-4 py-2 focus:border-[#009be5] focus:outline-none mb-[8px]"
+                    placeholder="Enter Group Id"/>
+                <input
+                    className="w-full p-3 flex-1 border bg-white border-gray-300 rounded-md px-4 py-2 focus:border-[#009be5] focus:outline-none mb-[8px]"
+                    placeholder="Enter Testcase Id"/>
+            </div>
+        </div>
+
         {/*Description*/}
         <div className="border shadow p-4 bg-white rounded-md">
             <h1 className="text-xl mb-4">Description</h1>
