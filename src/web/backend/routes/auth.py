@@ -1,12 +1,11 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, g
 import jwt
 import datetime
 from core.db.db import get_db
 from core.db.models.User import User
+from core.global_store import get_value
 from utils.hashing import check_password_hash
-
-# Secret key for JWT
-token_secret = "your_secret_key"
+from web.backend.middleware.token_required import token_required
 
 # Create auth Blueprint
 auth = Blueprint('auth', __name__)
@@ -29,8 +28,16 @@ def login():
             "username": user.username,
             "role": user.role,
             "exp": datetime.datetime.now(datetime.UTC) + datetime.timedelta(hours=1)
-        }, token_secret, algorithm="HS256")
+        }, get_value("token_secret"), algorithm="HS256")
 
         return jsonify({"message": "Login successful", "token": token}), 200
     else:
         return jsonify({"error": "Invalid username or password"}), 401
+
+
+@auth.get('/profile')
+@token_required
+def profile():
+    return jsonify(g.user), 200
+
+
