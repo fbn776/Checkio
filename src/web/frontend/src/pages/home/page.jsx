@@ -19,7 +19,7 @@ export default function HomePage() {
             {/* horizontal divs */}
             <div className="w-full flex flex-row gap-[40px]">
                 {/* Recently Generated report */}
-                <div className="w-full bg-[#fff] shadow-[0px_0px_20px_2px_#c4c4c4] h-auto p-[20px] flex flex-col gap-[20px] hover:bg-[#e8f6fc]">
+                <div className="w-full bg-[#fff] shadow-[0px_0px_20px_2px_#c4c4c4] h-auto p-[20px] flex flex-col gap-[20px] hover:bg-[#e8f6fc] rounded-[15px]">
                     <h1 className="text-[22px] font-medium text-[#009BE5] font-semibold">View Report</h1>
                     <div className="flex gap-[10px] ml-[20px]">
                         <div className="flex flex-col gap-[2px] w-full">
@@ -33,7 +33,7 @@ export default function HomePage() {
                     </div>
                 </div>
                 {/* Lab preview */}
-                <div className="w-full bg-[#fff] shadow-[0px_0px_20px_2px_#c4c4c4] h-auto p-[20px] flex flex-col gap-[20px] hover:bg-[#e8f6fc]">
+                <div className="w-full bg-[#fff] shadow-[0px_0px_20px_2px_#c4c4c4] h-auto p-[20px] flex flex-col gap-[20px] hover:bg-[#e8f6fc] rounded-[15px]">
                     <h1 className="text-[22px] font-medium text-[#009BE5] font-semibold">XXX Lab</h1>
                     <div className="flex gap-[10px] ml-[20px]">
                         <div className="flex flex-col gap-[2px] w-full">
@@ -52,11 +52,11 @@ export default function HomePage() {
                 <h1 className="text-[22px] font-medium text-[#009BE5] font-semibold ">Recents</h1>
                 {/* recent test cases */}
                 <div className="w-full h-auto flex flex-col gap-[2px] items-start shadow-[0px_0px_20px_2px_#c4c4c4] bg-[#c4c4c4]">
-                    <button className="w-full h-[40px] px-[40px] flex justify-between items-center bg-[#fff] hover:bg-[#e8f6fc]">#test case 1 <span className="w-[20px]">8</span></button>
-                    <button className="w-full h-[40px] px-[40px] flex justify-between items-center bg-[#fff] hover:bg-[#e8f6fc]">#test case 1 <span className="w-[20px]">8</span></button>
-                    <button className="w-full h-[40px] px-[40px] flex justify-between items-center bg-[#fff] hover:bg-[#e8f6fc]">#test case 1 <span className="w-[20px]">8</span></button>
-                    <button className="w-full h-[40px] px-[40px] flex justify-between items-center bg-[#fff] hover:bg-[#e8f6fc]">#test case 1 <span className="w-[20px]">8</span></button>
-                    <button className="w-full h-[40px] px-[40px] flex justify-between items-center bg-[#fff] hover:bg-[#e8f6fc]">#test case 1 <span className="w-[20px]">8</span></button>
+                    <button className="w-full h-[40px] px-[40px] flex justify-between items-center bg-[#fff] hover:bg-[#e8f6fc] rounded">#test case 1 <span className="w-[20px]">8</span></button>                
+                    <button className="w-full h-[40px] px-[40px] flex justify-between items-center bg-[#fff] hover:bg-[#e8f6fc] rounded">#test case 1 <span className="w-[20px]">8</span></button>                
+                    <button className="w-full h-[40px] px-[40px] flex justify-between items-center bg-[#fff] hover:bg-[#e8f6fc] rounded">#test case 1 <span className="w-[20px]">8</span></button>                
+                    <button className="w-full h-[40px] px-[40px] flex justify-between items-center bg-[#fff] hover:bg-[#e8f6fc] rounded">#test case 1 <span className="w-[20px]">8</span></button>                
+                    <button className="w-full h-[40px] px-[40px] flex justify-between items-center bg-[#fff] hover:bg-[#e8f6fc] rounded">#test case 1 <span className="w-[20px]">8</span></button>                
                 </div>
             </div>
         </div>
