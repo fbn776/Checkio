@@ -18,8 +18,9 @@ createRoot(document.getElementById('root')).render(
                 <Route element={<Layout/>}>
                     <Route path="/" element={<HomePage/>}/>
                     <Route path="/testcase" element={<Page/>}>
-                        <Route path="/testcase/create" element={<CreatePage/>}/>
-                        <Route path="/testcase/view" element={<ViewPage/>}/>
+                        <Route path="create" element={<CreatePage/>}/>
+                        <Route path="view" element={<ViewPage/>}/>
+                        <Route path="view/:testcaseId" element={<ViewPage/>}/>
                     </Route>
                     <Route path="/about" element={<AboutPage/>}/>
                     <Route path="/evaluate" element={<EvaluatePage/>}/>
