@@ -5,7 +5,9 @@ export default function HomePage() {
     return <div>
         {/* home */}
         <div className={'bg-[#009BE5] '}>
-            <h1 className='p-[10px] ml-[5px] w-[120px] border-b-3 text-center font-medium text-white h-[40px]'>HOME</h1>
+            <div>
+            <h1 className='p-[10px] ml-[5px] w-[120px] border-b-3 text-center font-medium text-white h-[40px] rounded-[8px] hover: bg-[#0088cc]'>HOME</h1>
+            </div>
         </div>
         {/* line */}
         <div>
@@ -47,7 +49,7 @@ export default function HomePage() {
             </div>
             {/* recents */}
             <div className="w-full flex flex-col gap-[10px]">
-                <h1 className="text-[22px] font-medium text-[#009BE5] font-semibold">Recents</h1>
+                <h1 className="text-[22px] font-medium text-[#009BE5] font-semibold ">Recents</h1>
                 {/* recent test cases */}
                 <div className="w-full h-auto flex flex-col gap-[2px] items-start shadow-[0px_0px_20px_2px_#c4c4c4] bg-[#c4c4c4]">
                     <button className="w-full h-[40px] px-[40px] flex justify-between items-center bg-[#fff] hover:bg-[#e8f6fc]">#test case 1 <span className="w-[20px]">8</span></button>
