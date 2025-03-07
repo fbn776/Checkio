@@ -8,8 +8,8 @@ export default function AboutPage() {
            <img src = {logo} className = "mx-auto mb-[50px] w-[150px] items-center"></img> 
            </div>
 
+           <div className = "px-[50px] py-[20px] bg-white shadow-xl rounded-[10px] mb-[30px]">
            {/* Section 1: About Checkio */}
-           <div className="mb-[40px]">
                 <h1 className="text-[#081627] text-[40px] font-bold mb-4">
                     Checkio
                 </h1>
@@ -19,8 +19,8 @@ export default function AboutPage() {
                 </p>
             </div>
 
+            <div className = "px-[50px] py-[20px] bg-white shadow-xl rounded-[10px] mb-[30px]">
             {/* Section 2: Checkio Commands */}
-            <div className="mb-[40px]">
                 <h2 className="text-[#081627] text-[30px] font-semibold mb-4">
                     Checkio Commands
                 </h2>
@@ -33,8 +33,8 @@ export default function AboutPage() {
                 </ul>
             </div>
 
+            <div className = "px-[50px] py-[20px] bg-white shadow-xl rounded-[10px] mb-[30px]">
             {/* Section 3: How to Use */}
-            <div className="mb-[40px]">
                 <h2 className="text-[#081627] text-[30px] font-semibold mb-4">
                     How to Use
                 </h2>
@@ -46,8 +46,9 @@ export default function AboutPage() {
                 </ol>
             </div>
 
+
+            <div className = "px-[50px] py-[20px] bg-white shadow-xl rounded-[10px] mb-[30px]">
             {/* Section 4: Why Checkio? */}
-            <div className="mb-[40px]">
                 <h2 className="text-[#081627] text-[30px] font-semibold mb-4">
                     Why Checkio?
                 </h2>
@@ -56,8 +57,8 @@ export default function AboutPage() {
                 </p>
             </div>
 
+            <div className = "px-[50px] py-[20px] bg-white shadow-xl rounded-[10px] mb-[30px]">
             {/* Section 5: Project Members */}
-            <div className="mb-[40px]">
                 <h2 className="text-[#081627] text-[30px] font-semibold mb-4">
                     Project Members
                 </h2>
@@ -68,6 +69,5 @@ export default function AboutPage() {
                     <li>Sreelakshmi P</li>
                 </ul>
             </div>
-        
     </div>
 }
