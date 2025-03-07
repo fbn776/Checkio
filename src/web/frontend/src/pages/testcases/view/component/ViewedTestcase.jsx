@@ -1,5 +1,26 @@
 import {ArrowLeft, EllipsisVertical} from 'lucide-react'
 import {useNavigate, useParams} from "react-router";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
+
+const ThreeDotsButton = () =>{
+    return(
+        <DropdownMenu>
+            <DropdownMenuTrigger>
+                <EllipsisVertical size={22} className="cursor-pointer border-none"/>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-[50px] mr-5">
+                <DropdownMenuItem>Edit</DropdownMenuItem>
+                <DropdownMenuItem>Delete</DropdownMenuItem>
+            </DropdownMenuContent>
+        </DropdownMenu>
+    )
+}
 
 export default function ViewedTestcase() {
 
@@ -42,7 +63,7 @@ export default function ViewedTestcase() {
                             ID: {testcaseId}
                         </div>
                     </div>
-                    <EllipsisVertical size={22} className="cursor-pointer"/>
+                    <ThreeDotsButton className="cursor-pointer border-none"/>
                 </div>
                 <div className="space-y-4 divide-y">
                     {/*Title*/}
