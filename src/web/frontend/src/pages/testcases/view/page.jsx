@@ -14,8 +14,8 @@ export default function ViewPage() {
         },
         {
             id: 'UVXYZ78910',
-            title: "Add 2 Numbers",
-            desc: "Given 2 numbers x,y , return its sum"
+            title: "Multiply 2 Numbers",
+            desc: "Given 2 numbers x,y , return its product"
         }
     ]
     const param = useParams();
