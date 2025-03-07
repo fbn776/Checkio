@@ -5,14 +5,14 @@ export default function HomePage() {
     return <div>
         {/* home */}
         <div className={'bg-[#009BE5] '}>
-            <div>
-            <h1 className='p-[10px] ml-[5px] w-[120px] border-b-3 text-center font-medium text-white h-[40px] rounded-[8px] hover: bg-[#0088cc]'>HOME</h1>
+            <div className=" ml-[15px] border-b-3">
+            <h1 className='p-[10px] mb-[5px] w-[120px]  text-center font-medium text-white h-[40px] rounded-[8px] hover:bg-[#0088cc]'>HOME</h1>
             </div>
         </div>
         {/* line */}
         <div>
-            <h1 className="m-[40px] mb-[5px] font-semibold text-black text-[50px]">Streamline Evaluation – </h1>
-            <h1 className="mt-0 ml-[40px] mb-[10px] font-medium text-black text-[45px] p-0">Define, Test, and Assess with Checkio!</h1>
+            <h1 className="m-[40px] mb-[5px] font-semibold text-black text-[30px]">Streamline Evaluation – </h1>
+            <h1 className="mt-0 ml-[40px] mb-[10px] font-medium text-black text-[30px] p-0">Define, Test, and Assess with Checkio!</h1>
         </div>
 
         <div className="h-screen flex flex-col p-[40px] gap-[40px]">
