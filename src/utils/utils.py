@@ -1,3 +1,4 @@
+import os
 from rich.panel import Panel
 from rich.text import Text
 
@@ -13,3 +14,8 @@ def boxed_text(console, title, text, style, border_style, expand=False):
         )
     )
     return
+
+def is_superuser():
+    """Check if the user is a root user or not"""
+    return os.geteuid() == 0
+

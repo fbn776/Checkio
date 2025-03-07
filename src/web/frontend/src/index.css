@@ -143,3 +143,9 @@ body {
 ::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
+
+.hide-testcase {
+    @apply border-4 border-gray-300;
+    background-image: repeating-linear-gradient(45deg, transparent, transparent 32px, rgba(255, 255, 255, 0.55) 32px, rgba(255, 255, 255, 0.55) 64px);
+    background-color: rgba(138, 138, 138, 0.1);
+}

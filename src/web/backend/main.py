@@ -6,18 +6,31 @@ import click
 from flask import Flask, render_template, send_from_directory, abort, request, jsonify
 from flask_cors import CORS
 
+from core.global_store import get_value
+from web.backend.routes.auth import auth
+from web.backend.routes.group import groupRoute
+from web.backend.routes.submit import submitRoute
+from web.backend.routes.testcase import testcaseRoute
+
 app = Flask(__name__)
 CORS(app)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///store.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 
 @app.route("/")
 def home():
     return render_template("index.html")
 
+
 ALLOWED_EXTENSIONS = {".js", ".css", ".svg", ".png", ".jpg"}
+
 
 def is_safe_file(filename):
     _, ext = os.path.splitext(filename)
     return ext in ALLOWED_EXTENSIONS
+
 
 @app.route('/assets/<path:filename>')
 def serve_assets(filename):
@@ -33,54 +46,26 @@ def is_alive():
         "serverTime": time.time(),
     })
 
-testcases_data = [
-    {
-        "name": "Hello",
-        "description": "This is a hello world test case",
-    },
-    {
-        "name": "Hahah",
-        "description": "This is a hello world test case",
-    },
-    {
-        "name": "Wot thenga",
-        "description": "cffyugioklmnbgvtfhy67 uy78uoik",
-    },
-    {
-        "name": "Hehehehe",
-        "description": "aedfghj dfghj",
-    }
-]
 
-@app.get('/testcases')
-def testcases():
-    return testcases_data
-
-@app.post('/delete')
-def delete():
-    data = request.json
-    temp = [item for item in testcases_data if item["name"] != data["name"]]
-
-    print("DELETED:", data)
-    print("TEMP:", temp)
-
-    testcases_data.clear()
-    testcases_data.extend(temp)
-
-    print(data)
-    return 'deleted'
+app.register_blueprint(auth, url_prefix='/auth')
+app.register_blueprint(groupRoute, url_prefix='/group')
+app.register_blueprint(testcaseRoute, url_prefix='/testcases')
+app.register_blueprint(submitRoute, url_prefix='/submit')
 
 
-def run_server(port = 5000):
-    # Suppress Flask logs
-    log = logging.getLogger("werkzeug")
-    log.setLevel(logging.ERROR)
-    click.echo = lambda *args, **kwargs: None
+def run_server(port=get_value("port"), dev_mode=False):
+    if dev_mode:
+        app.run(host="0.0.0.0", port=port, debug=True, use_reloader=True)
+    else:
+        # Suppress Flask logs
+        log = logging.getLogger("werkzeug")
+        log.setLevel(logging.ERROR)
+        click.echo = lambda *args, **kwargs: None
 
-    app.run(host="0.0.0.0", port=port, debug=False, use_reloader=False)
+        app.run(host="0.0.0.0", port=port, debug=False, use_reloader=False)
 
 
 # Example CLI command
 if __name__ == "__main__":
-    run_server()
+    run_server(dev_mode=True)
     input("Press Enter to exit...\n")
