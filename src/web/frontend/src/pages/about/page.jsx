@@ -2,8 +2,10 @@
 import logo from '/src/assets/logo.png';
 
 export default function AboutPage() {
-    return <div className="px-[55px] py-[20px]">
-
+   
+    return (
+    <div className="px-[55px] py-[20px]">
+           
            <div>
            <img src = {logo} className = "mx-auto mb-[50px] w-[150px] items-center"></img> 
            </div>
@@ -70,4 +72,5 @@ export default function AboutPage() {
                 </ul>
             </div>
     </div>
+    )
 }
