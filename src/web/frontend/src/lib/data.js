@@ -34,9 +34,23 @@ export const ROUTES = [
         ]
     }, {
         title: 'About',
-        route: '/about',
+        route: '/about/brief',
         icon: CircleHelp,
-        children: []
+        children: [
+            {
+                name: 'Brief',
+                route: '/about/brief'
+            },{
+                name: 'Commands',
+                route: '/about/commands'
+            },{
+                name: 'Installation',
+                route:'/about/install'
+            },{
+                name: 'User Guide',
+                route: '/about/userguide'
+            }
+        ]
     }, {
         title: 'Settings',
         route: '/settings',
