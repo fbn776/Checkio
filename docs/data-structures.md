@@ -1,0 +1,46 @@
+
+# Data structures
+
+## Testcase Data
+
+```json
+{
+  "group_id": "string",
+  "id": "string",
+  "title": "string",
+  "description": "string",
+  "data": [
+    {
+      "output": "string",
+      "input": "string",
+      "hidden": "boolean",
+      "cli_args": [
+        "string"
+      ],
+      "files": [
+        {
+          "name": "string",
+          "content": "string"
+        }
+      ]
+    }
+  ]
+}
+```
+
+Here
+- `group_id` is the id of the group to which the testcase belongs.
+- `id` is the id of the testcase.
+- `title` is the title of the testcase.
+- `description` is the description of the testcase.
+- `data` is the test units of the testcases.
+  - `input` is the input of the test unit (optional).
+  - `output` is the expected output of the test unit.
+  - `hidden` is a boolean value which tells whether the test unit is hidden or not.
+  - `cli_args` (array) is the command line arguments to be passed to the program (optional).
+  - `files`(array) is the list of files to be created in the working directory (optional).
+    - `name` is the name of the file.
+    - `content` is the content of the file.
+
+---
+
