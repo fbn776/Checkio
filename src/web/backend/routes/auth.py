@@ -35,6 +35,22 @@ def login():
         return jsonify({"error": "Invalid username or password"}), 401
 
 
+@auth.get('/test-token')
+@token_required
+def test_token():
+    if not g.user or not g.user.get("username"):
+        return jsonify({"message": "Token is invalid"}), 401
+
+    username = g.user.get("username")
+
+    db = next(get_db())
+    user = db.query(User).filter_by(username=username).first()
+
+    if not user:
+        return jsonify({"message": "Token is invalid"}), 401
+
+    return jsonify({"message": "Token is valid"}), 200
+
 @auth.get('/profile')
 @token_required
 def profile():
