@@ -15,7 +15,7 @@ class PythonRunner(BaseRunner):
         subprocess.run([self.python, self.file_name])
 
     def testcase_run_func(self, unit):
-        return subprocess.run([self.python, self.file_name], input=unit["input"], text=True, capture_output=True)
+        return subprocess.run([self.python, self.file_name] + (unit.cli_args or []), input=unit["input"], text=True, capture_output=True)
 
     def cleanup(self):
         pass
