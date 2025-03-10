@@ -27,7 +27,8 @@ def login():
         token = jwt.encode({
             "username": user.username,
             "role": user.role,
-            "exp": datetime.datetime.now(datetime.UTC) + datetime.timedelta(hours=1)
+            # TODO - Change this 100hrs to a suitable one;
+            "exp": datetime.datetime.now(datetime.UTC) + datetime.timedelta(hours=100)
         }, get_value("token_secret"), algorithm="HS256")
 
         return jsonify({"message": "Login successful", "token": token}), 200
