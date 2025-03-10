@@ -1,9 +1,14 @@
+import json
+
 from flask import Blueprint, request, g
+from pydantic import ValidationError
+from rich.console import Console
 from sqlalchemy.exc import IntegrityError
 from core.db.db import get_db
 from core.db.models.Group import Group
 from core.db.models.Testcase import Testcase
 from core.db.models.User import User
+from utils.testcase_model import TestCaseObj
 from web.backend.middleware.token_required import token_required
 
 testcaseRoute = Blueprint('testcases', __name__)
@@ -57,37 +62,78 @@ def get_testcase(id):
         }, 200
 
 
+"""
+{
+  "group_id": "string",
+  "id": "string",
+  "title": "string",
+  "description": "string",
+  "data": [
+    {
+      "output": "string",
+      "input": "string",
+      "hidden": "boolean",
+      "cli_args": [
+        "string"
+      ],
+      "files": [
+        {
+          "name": "string",
+          "content": "string"
+        }
+      ]
+    }
+  ]
+}
+"""
+
+console = Console()
+
 @testcaseRoute.post('/')
 @token_required
 def create_testcase():
-    body = request.get_json()
-
-    group_id = body.get('group_id')
-    id = body.get('id')
-    title = body.get('title')
-    description = body.get('description')
-    data = body.get('data')
-
-    if not group_id or not id or not title or not description or not data:
-        return {"error": "All fields are required - group_id, id, title, description, data"}, 400
-
     try:
-        db = next(get_db())
+        body = request.get_json()
+        testcase = TestCaseObj(**body)
 
-        if db.query(Group).filter_by(id=group_id, created_by=g.user["username"]).all() is None:
-            return {"error": "Group ID doesn't exists"}, 400
 
-        testcase = Testcase(group_id=group_id, id=id, title=title, description=description, data=data)
-        db.add(testcase)
-        db.commit()
-    except IntegrityError:
-        return {"error": "Group ID doesn't exists"}, 400
-    except Exception as e:
-        print(e)
-        return {"error": "An error occurred while creating the testcase"}, 500
+        group_id = testcase.group_id
+        id = testcase.id
+        title = testcase.title
+        description = testcase.description
+        data = testcase.data
 
-    return {"message": "Testcase created successfully"}, 200
+        print(testcase.group_id, testcase.id, testcase.title, testcase.description, testcase.data)
 
+        if len(data) == 0:
+            return {"error": "No testcase unit specified"}, 400
+
+        try:
+            db = next(get_db())
+
+            if db.query(Group).filter_by(id=group_id, created_by=g.user["username"]).all() is None:
+                return {"error": "Group ID doesn't exists"}, 400
+
+            testcase = Testcase(group_id=group_id, id=id, title=title, description=description, data=json.dumps(body.get('data')))
+
+            db.add(testcase)
+            db.commit()
+        except IntegrityError as e:
+            print(e)
+            return {"message": "Testcase already exits or group ID doesn't exits"}, 400
+        except Exception as e:
+            print(e)
+            console.print_exception(show_locals=True)
+            return {"message": "An error occurred while creating the testcase"}, 500
+
+        return {"message": "Testcase created successfully"}, 200
+    except ValidationError as e:
+        # str = ', '.join([error['loc'][0] for error in e.errors()])
+        for error in e.errors():
+            print(f"Field: {'.'.join(map(str, error['loc']))} - Error: {error['msg']}")
+
+
+        return {"message": f"Missing Data"}, 400
 
 @testcaseRoute.put('/<id>')
 @token_required

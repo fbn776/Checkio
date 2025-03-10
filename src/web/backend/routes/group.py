@@ -14,11 +14,14 @@ def create_group():
 
     if not name:
         return jsonify({"error": "Group ID is required"}), 400
-
-    db = next(get_db())
-    group = Group(id=name, created_by=g.user['username'])
-    db.add(group)
-    db.commit()
+    try:
+        db = next(get_db())
+        group = Group(id=name, created_by=g.user['username'])
+        db.add(group)
+        db.commit()
+    except Exception as e:
+        print(e)
+        return jsonify({"error": str(e)}), 400
 
     return jsonify({"message": "Group created successfully"}), 200
 
@@ -54,15 +57,18 @@ def update_group(id):
 
     if not name:
         return jsonify({"error": "Group ID is required"}), 400
+    try:
+        db = next(get_db())
+        group = db.query(Group).filter_by(id=id, created_by=g.user["username"]).first()
 
-    db = next(get_db())
-    group = db.query(Group).filter_by(id=id, created_by=g.user["username"]).first()
+        if not group:
+            return jsonify({"error": "Group not found"}), 404
 
-    if not group:
-        return jsonify({"error": "Group not found"}), 404
-
-    group.id = name
-    db.commit()
+        group.id = name
+        db.commit()
+    except Exception as e:
+        print(e)
+        return jsonify({"error": str(e)}), 400
 
     return jsonify({"message": "Group updated successfully"}), 200
 
