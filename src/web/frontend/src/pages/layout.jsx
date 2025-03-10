@@ -9,8 +9,11 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import useTestToken from "@/hooks/test-token.js";
+import {logoutService} from "@/services/auth-service.js";
 
 export default function Layout() {
+    useTestToken();
     const pathname = useLocation().pathname;
     const selectedRoute = ROUTES.find(route => route.route.split('/')[1] === pathname.split('/')[1]);
 
@@ -35,7 +38,7 @@ export default function Layout() {
                 )}
             </section>
             <footer className="mx-10 border-t-2 border-white/10">
-                <button className="w-full flex items-center justify-center py-6 gap-4 hover:text-red-400">
+                <button className="w-full flex items-center justify-center py-6 gap-4 hover:text-red-400 cursor-pointer" onClick={logoutService}>
                     <LogOut className="size-5"/>Logout
                 </button>
             </footer>
