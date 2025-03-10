@@ -1,6 +1,17 @@
 
 # Data structures
 
+## Testcase Identifier
+
+```
+<group_id>.<id>
+```
+
+Where 
+- `group_id` is the id of the group to which the testcase belongs (Its cannot contain `.`).
+- `id` is the id of the testcase (It cannot contain `.`).
+
+
 ## Testcase Data
 
 ```json
