@@ -10,11 +10,18 @@ import EvaluatePage from "@/pages/evaluate/page.jsx";
 import SettingsPage from "@/pages/settings/page.jsx";
 import CreatePage from "@/pages/testcases/create/page.jsx";
 import ViewPage from "@/pages/testcases/view/page.jsx";
+import LoginPage from "@/pages/login/page.jsx";
+import {Toaster} from "sonner";
+import AuthTokenSetup from "@/lib/axios-interceptor.js";
+
+AuthTokenSetup();
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>
+        <Toaster richColors/>
         <BrowserRouter>
             <Routes>
+                <Route path="/login" element={<LoginPage/>}/>
                 <Route element={<Layout/>}>
                     <Route path="/" element={<HomePage/>}/>
                     <Route path="/testcase" element={<Page/>}>
