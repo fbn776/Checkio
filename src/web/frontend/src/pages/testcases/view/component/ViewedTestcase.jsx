@@ -21,14 +21,12 @@ const ThreeDotsButton = () =>{
         </DropdownMenu>
     )
 }
-
 export default function ViewedTestcase() {
 
     const navigate = useNavigate();
     const { testcaseId } = useParams();
 
     const testcase = {
-        id: "qAIBVY",
         title: "Add 2 Numbers",
         desc: "Given 2 numbers x,y , return its sum",
         testcase_unit: [
@@ -52,19 +50,19 @@ export default function ViewedTestcase() {
     return (
         <div className="w-full p-5 flex flex-col gap-3">
             <div className="border shadow p-4 bg-white rounded-md w-full">
-                <div className="flex items-center justify-between mb-8">
-                    <div className="flex items-center justify-center gap-5">
-                        <ArrowLeft size={22} className="text-[#007ab7] cursor-pointer" onClick={() => {
-                            navigate('/testcase/view/')
-                        }}/>
-                        <h1 className="text-xl text-left">Testcase Details</h1>
-                        <div
-                            className="flex items-center text-sm justify-center px-2 py-1 rounded-[5px] bg-gray-200 text-[#007ab7] ml-2">
-                            ID: {testcaseId}
+                    <div className="flex items-center justify-between mb-8">
+                        <div className="flex items-center justify-center gap-5">
+                            <ArrowLeft size={22} className="text-[#007ab7] cursor-pointer" onClick={() => {
+                                navigate('/testcase/view/')
+                            }}/>
+                            <h1 className="text-xl text-left">Testcase Details</h1>
+                            <div
+                                className="flex items-center text-sm justify-center px-2 py-1 rounded-[5px] bg-gray-200 text-[#007ab7] ml-2">
+                                ID: {testcaseId}
+                            </div>
                         </div>
+                        <ThreeDotsButton className="cursor-pointer border-none"/>
                     </div>
-                    <ThreeDotsButton className="cursor-pointer border-none"/>
-                </div>
                 <div className="space-y-4 divide-y">
                     {/*Title*/}
                     <div className="pb-4">

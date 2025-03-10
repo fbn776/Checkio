@@ -10,6 +10,8 @@ import EvaluatePage from "@/pages/evaluate/page.jsx";
 import SettingsPage from "@/pages/settings/page.jsx";
 import CreatePage from "@/pages/testcases/create/page.jsx";
 import ViewPage from "@/pages/testcases/view/page.jsx";
+import SubmittedPrograms from "@/pages/evaluate/submitted_programs/page.jsx";
+
 import LoginPage from "@/pages/login/page.jsx";
 import {Toaster} from "sonner";
 import AuthTokenSetup from "@/lib/axios-interceptor.js";
@@ -30,7 +32,9 @@ createRoot(document.getElementById('root')).render(
                         <Route path="view/:testcaseId" element={<ViewPage/>}/>
                     </Route>
                     <Route path="/about" element={<AboutPage/>}/>
-                    <Route path="/evaluate" element={<EvaluatePage/>}/>
+                    <Route path="/evaluate" element={<Page/>}>
+                        <Route path="submittedPrograms" element={<SubmittedPrograms/>}/>
+                    </Route>
                     <Route path="/settings" element={<SettingsPage/>}/>
                 </Route>
             </Routes>

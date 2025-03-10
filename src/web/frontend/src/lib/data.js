@@ -25,10 +25,13 @@ export const ROUTES = [
         icon: GraduationCap,
         children: [
             {
-                name: 'View Evaluation',
+                name: 'Evaluation',
                 route: '/evaluate'
             }, {
-                name: 'Create',
+                name: 'Submitted Programs',
+                route: '/evaluate/submittedPrograms'
+            }, {
+                name: 'Create Evaluation',
                 route: '/evaluate/create'
             }
         ]
