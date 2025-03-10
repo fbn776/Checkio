@@ -1,8 +1,9 @@
 import {Search} from 'lucide-react'
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import ViewedTestcase from "@/pages/testcases/view/component/ViewedTestcase.jsx";
 import {useNavigate, useParams} from "react-router";
 import {cn} from "@/lib/utils.js";
+import axios from "axios";
 
 export default function ViewPage() {
 
@@ -23,6 +24,11 @@ export default function ViewPage() {
     const selectedTestcase = param.testcaseId || null;
     const [selectedGroup, setSelectedGroup] = useState('all');
     const [filters, setFilters] = useState(["All", "CN", "OS", "Test"])
+
+
+    useEffect(() => {
+        //axios.get("/")
+    }, []);
 
     return (
         <div className="w-full flex flex-col gap-3">
