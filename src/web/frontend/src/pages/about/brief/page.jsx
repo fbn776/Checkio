@@ -17,7 +17,7 @@ export default function BriefPage() {
                 </h1>
                 <p className="text-[#081627] text-[18px]">
                 Checkio is a test case execution tool designed for students and faculty. It allows users to create test cases, run programs against a specified testcase. The tool provides insights and suggestions for failed test cases, helping users to debug their code efficiently.
-                This project is developed as part of our S6 KTU CSD 334 - Mini Project under the guidance of <b>Prof. Shibu Kumar.</b>
+                This project is developed as part of our S6 KTU <b>CSD 334 - Mini Project</b> under the guidance of <b>Prof. Shibu Kumar.</b>
                 </p>
             </div>
             <div className = "px-[30px] py-[20px] bg-white shadow-xl rounded-[10px] mb-[30px]">
@@ -39,7 +39,7 @@ export default function BriefPage() {
                     <li>Abhiram Ashok</li>
                     <li>Aysha Naurin</li>
                     <li>Febin Nelson P</li>
-                    <li>Sreelakshmi P</li>
+                    <li>Sreelakshmi K</li>
                 </ul>
             </div>
     </div>
