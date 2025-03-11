@@ -1,6 +1,5 @@
 from sqlalchemy import Column, Integer, String, DateTime, func, ForeignKey, PrimaryKeyConstraint, JSON, UniqueConstraint
 from sqlalchemy.orm import relationship, validates
-
 from core.db.db import Base
 from core.global_store import get_value
 

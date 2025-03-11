@@ -2,9 +2,8 @@ import getpass
 import json
 
 from core.db.db import get_db
-from core.db.models.Submission import Submission
 from core.db.models.Testcase import Testcase
-# from core.db.models.Submission import Submission, SubmittedFiles
+from core.db.models.Submission import Submission
 from core.global_store import get_value
 from utils.utils import get_group_and_testcase_id
 from rich.console import Console
@@ -21,8 +20,11 @@ def handle_submit(values, testcase):
         console.print(f"[bold red]Usage:[/][red] [yellow]<group_id>{id_split_delimiter}<testcase_id>[/]")
         exit(1)
 
+    group_id = group_id.strip()
+    testcase_id = testcase_id.strip()
+
     db = next(get_db())
-    testcase = db.query(Testcase).filter_by(id=testcase_id, group_id=group_id).first()
+    testcase = db.query(Testcase).filter(Testcase.id == testcase_id and Testcase.group_id == group_id).first()
 
     if testcase is None:
         console.print("[bold red]Error:[/][red] Testcase not found[/]")
@@ -42,11 +44,16 @@ def handle_submit(values, testcase):
             console.print(f"[bold red]Warning:[/] File '{value}' not found. Skipping...")
             exit(1)
 
-    db = next(get_db())
-    submission = Submission(group_id=group_id, testcase_id=testcase.main_id, submitted_by=getpass.getuser(),
-                            submitted_files=json.dumps(file_objects))
+    try:
+        db = next(get_db())
+        submission = Submission(group_id=group_id,
+                                testcase_id=testcase.main_id,
+                                submitted_by=getpass.getuser(),
+                                submitted_files=json.dumps(file_objects))
 
-    db.add(submission)
-    db.commit()
+        db.add(submission)
+        db.commit()
+    except Exception as e:
+        print(e)
 
     console.print("[bold green]Submission successful![/]")

@@ -4,6 +4,7 @@ load_data_from_json("./config/DEFAULT_CONFIG.json")
 import click
 from cli.utils.custom_formats import CustomFormats
 from rich.console import Console
+import core.db.init_db
 
 console = Console()
 
