@@ -1,6 +1,7 @@
-import {Pencil, Plus} from 'lucide-react';
+import {Pencil, Plus, Loader} from 'lucide-react';
 import {TestcaseElement} from "@/pages/testcases/create/component/TestcaseElement.jsx";
-import { useState} from "react";
+import {useState} from "react";
+import {toast} from "sonner";
 import GroupSelector from "@/components/group-input.jsx";
 
 
@@ -10,6 +11,7 @@ export default function CreatePage() {
     const [groupId, setGroupId] = useState("")
     const [testcaseId, setTestcaseId] = useState("")
     const [description, setDescription] = useState("")
+    const [isLoading, setIsLoading] = useState(false)
 
     // Main state to track all testcases data
     const [testcases, setTestcases] = useState([
@@ -47,30 +49,49 @@ export default function CreatePage() {
 
     // Handle form submission
     const handleSubmit = async () => {
-        const formData = {
-            title,
-            groupId,
-            testcaseId,
-            description,
-            testcases: testcases.map((testcase) => ({
-                isHidden: testcase.isHidden,
-                cliArgs: testcase.cliArgs,
-                files: testcase.files,
-                input: testcase.input,
-                output: testcase.output,
-            })),
-        }
-        console.log("Submission data", formData)
+        setIsLoading(true)
+        setTimeout(() => {
+            setIsLoading(false)
+            const formData = {
+                title,
+                groupId,
+                testcaseId,
+                description,
+                testcases: testcases.map((testcase) => ({
+                    isHidden: testcase.isHidden,
+                    cliArgs: testcase.cliArgs,
+                    files: testcase.files,
+                    input: testcase.input,
+                    output: testcase.output,
+                })),
+            }
+            console.log("Submission data", formData)
+            toast.success("Testcase Created Successfully")
+            const clearContainer = () =>{
+                setTestcases([{
+                    isHidden: false,
+                    cliArgs: [],
+                    files: [],
+                    input: "",
+                    output: "",
+                }])
+                setTitle("");
+                setGroupId("");
+                setTestcaseId("");
+                setDescription("");
+            }
+            clearContainer();
+        }, 1000);
     }
 
     return (
-        <div className="w-full p-5 flex flex-col gap-3 items-center">
+        <div className="relative w-full p-5 flex flex-col gap-3 items-center">
             {/*Title*/}
             <div className="border shadow p-4 bg-white rounded-md w-full">
                 <h1 className="text-xl mb-4">Title</h1>
                 <input value={title} onChange={(e)=>setTitle(e.target.value)}
-                    className="w-full p-3 flex-1 border bg-white border-gray-300 rounded-md px-4 py-2 focus:border-[#009be5] focus:outline-none mb-[8px]"
-                    placeholder="Enter Title"/>
+                       className="w-full p-3 flex-1 border bg-white border-gray-300 rounded-md px-4 py-2 focus:border-[#009be5] focus:outline-none mb-[8px]"
+                       placeholder="Enter Title"/>
             </div>
 
             {/*Testcase Id*/}
@@ -108,7 +129,7 @@ export default function CreatePage() {
             <div className="flex items-center justify-end w-full">
                 <button className="ml-2 max-w-fit" onClick={addTestcase}>
                     <div
-                         className="flex items-center bg-gradient-to-b from-[#009be5] to-[#0088cc] text-white px-4 py-2 rounded-md hover:from-[#0088cc] hover:to-[#0077b3] shadow-sm border border-[#0077b3] transition duration-150 ease-in-out cursor-pointer gap-2">
+                        className="flex items-center bg-gradient-to-b from-[#009be5] to-[#0088cc] text-white px-4 py-2 rounded-md hover:from-[#0088cc] hover:to-[#0077b3] shadow-sm border border-[#0077b3] transition duration-150 ease-in-out cursor-pointer gap-2">
                         <Plus size={18}/>
                         Add New Testcase
                     </div>
@@ -123,6 +144,14 @@ export default function CreatePage() {
                     Create Testcase
                 </div>
             </button>
+
+            {/*Loading*/}
+            {isLoading &&
+                <div className="absolute top-0 left-0 flex flex-1 w-full h-full bg-gray-700/50 items-center justify-center gap-2">
+                    <Loader className="h-6 w-6 animate-spin text-primary" />
+                    <span className="text-lg">Creating Testcase</span>
+                </div>
+            }
         </div>
     )
 }
