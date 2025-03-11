@@ -5,14 +5,26 @@ import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/compon
 import {DeleteButton} from "@/pages/testcases/create/component/DeleteButton.jsx";
 import {Switch} from "@/components/ui/switch.jsx";
 import {MinusButton} from "@/pages/testcases/create/component/MinusButton.jsx";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
 
-const InputSection = ({ title, onDelete, children, isCLISec=false, onMinus=()=>{}}) => (
+
+const InputSection = ({
+                          title, onDelete, children, isCLISec = false, onMinus = () => {
+    }
+                      }) => (
     <div className="relative mt-4 mb-8 bg-gray-50 p-5 rounded-lg border border-gray-200">
         <div className="flex items-center justify-between gap-5 pr-5">
             <h2>{title}</h2>
-            <DeleteButton onClick={onDelete} />
+            <DeleteButton onClick={onDelete}/>
             {isCLISec &&
-            <MinusButton onClick={onMinus} />
+                <MinusButton onClick={onMinus}/>
             }
         </div>
         <div className="relative mt-3">{children}</div>
@@ -40,11 +52,12 @@ export function TestcaseElement({index}) {
             <div className="flex items-center justify-between mb-4">
                 <h1 className="text-xl">Testcase Unit #{index + 1}</h1>
                 {/*Testcase Visible/Hidden Toggle Button*/}
-                <div className={`flex items-center justify-between text-sm gap-2 ${isTestcaseHidden ? "text-gray-400" :"text-black"}`}>
+                <div
+                    className={`flex items-center justify-between text-sm gap-2 ${isTestcaseHidden ? "text-gray-400" : "text-black"}`}>
                     <TooltipProvider>
                         <Tooltip>
                             <TooltipTrigger asChild>
-                                <Switch className={`${isTestcaseHidden ? "bg-[#e5e5e5]" :"bg-[#009be5]"}`}
+                                <Switch className={`${isTestcaseHidden ? "bg-[#e5e5e5]" : "bg-[#009be5]"}`}
                                         checked={!isTestcaseHidden}
                                         onCheckedChange={(checked) => setIsTestcaseHidden(!checked)}
                                 />
@@ -75,10 +88,10 @@ export function TestcaseElement({index}) {
                     setIsCliVisible(false);
                     setCli([]);
                 }}
-                onMinus={()=>{
-                    setCli((prevCli) => prevCli.slice(0, -1));
+                              onMinus={() => {
+                                  setCli((prevCli) => prevCli.slice(0, -1));
 
-                }}>
+                              }}>
                     <div className="flex gap-2 flex-wrap items-center">
                         {cli.map((_, index) => (
                             <input key={index}
@@ -107,16 +120,52 @@ export function TestcaseElement({index}) {
             )}
 
             {isFilesUploadVisible && (
-                <InputSection title="Files Upload" onDelete={() => setIsFilesUploadVisible(false)}>
-                    <div
-                        className="flex items-center border border-gray-300 hover:border-[#009be5] rounded-lg overflow-hidden">
-                        <label
-                            className="flex items-center bg-white px-4 py-2 text-gray-700 cursor-pointer hover:bg-gray-50">
-                            Choose files
-                            <input type="file" className="hidden" multiple onChange={handleFileChange}/>
-                        </label>
-                        <span className="px-3 py-2 text-gray-400 flex-1 truncate">{fileName}</span>
-                    </div>
+                <InputSection title="Files Upload" onDelete={() => setIsFilesUploadVisible(false)} isCLISec={false}>
+
+                    <Dialog>
+                        <DialogTrigger>
+                            <button onClick={() => {
+
+                            }}>
+                                <div
+                                    className='flex items-center gap-1 bg-gradient-to-b from-[#009be5] to-[#0088cc] text-white px-2 py-2 rounded-md hover:from-[#0088cc] hover:to-[#0077b3] shadow-sm border border-[#0077b3] transition duration-150 ease-in-out hover:cursor-pointer'>
+                                    <Plus height={18} width={18} color={'white'}/> Create File
+                                </div>
+                            </button>
+                        </DialogTrigger>
+                        <DialogContent>
+                            <DialogHeader>
+                                <DialogTitle>Create an Input File</DialogTitle>
+                                <form className="flex flex-col justify-start gap-4 py-4">
+                                    <div className="flex items-center gap-4">
+                                        <label htmlFor="name" className="text-gray-500">
+                                            File Name:
+                                        </label>
+                                        <input key={index}
+                                               className="flex-1 border bg-white border-gray-300 rounded-md px-4 py-2 focus:border-[#009be5] focus:outline-none"
+                                               placeholder="Enter filename" required={true}/>
+                                    </div>
+                                    <div className="flex flex-col items-center gap-2">
+                                        <label htmlFor="username" className="text-gray-500 w-full">
+                                            Content:
+                                        </label>
+                                        <textarea
+                                            className="w-full p-3 min-h-40 flex-1 border bg-white border-gray-300 rounded-md px-4 py-2 focus:border-[#009be5] focus:outline-none"
+                                            placeholder="Type content ..." required={true}/>
+                                    </div>
+                                    <button onClick={() => {
+
+                                    }} type={"submit"}>
+                                        <div
+                                            className='flex items-center justify-center gap-1 bg-gradient-to-b from-[#009be5] to-[#0088cc] text-white px-2 py-2 rounded-md hover:from-[#0088cc] hover:to-[#0077b3] shadow-sm border border-[#0077b3] transition duration-150 ease-in-out hover:cursor-pointer'>
+                                            Create File
+                                        </div>
+                                    </button>
+                                </form>
+                            </DialogHeader>
+                        </DialogContent>
+                    </Dialog>
+
                 </InputSection>
             )}
 
@@ -131,6 +180,7 @@ export function TestcaseElement({index}) {
             <textarea
                 className="w-full p-3 min-h-10 flex-1 border bg-white border-gray-300 rounded-md px-4 py-2 focus:border-[#009be5] focus:outline-none"
                 placeholder="Output"/>
+
         </div>
     )
 }
