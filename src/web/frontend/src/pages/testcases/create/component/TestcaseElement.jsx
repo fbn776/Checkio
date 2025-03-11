@@ -38,7 +38,7 @@ export function TestcaseElement({index}) {
     return (
         <div className="shadow p-4 bg-white rounded-md w-full">
             <div className="flex items-center justify-between mb-4">
-                <h1 className="text-xl">Testcase #{index + 1}</h1>
+                <h1 className="text-xl">Testcase Unit #{index + 1}</h1>
                 {/*Testcase Visible/Hidden Toggle Button*/}
                 <div className={`flex items-center justify-between text-sm gap-2 ${isTestcaseHidden ? "text-gray-400" :"text-black"}`}>
                     <TooltipProvider>
