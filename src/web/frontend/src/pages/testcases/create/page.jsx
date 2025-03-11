@@ -1,4 +1,4 @@
-import {Pencil, Plus} from 'lucide-react';
+import {Pencil, Plus, Loader} from 'lucide-react';
 import {TestcaseElement} from "@/pages/testcases/create/component/TestcaseElement.jsx";
 import {useState} from "react";
 import GroupSelector from "@/components/group-input.jsx";
@@ -48,7 +48,9 @@ export default function CreatePage() {
     }
 
     // Handle form submission
-    const handleSubmit = async () => {
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
         const formData = {
             title,
             group_id: selectedGroup?.id,
@@ -61,23 +63,33 @@ export default function CreatePage() {
                 input: testcase.input,
                 output: testcase.output,
             })) || [],
-        }
+        };
         console.log("Submission data", formData);
 
+        // Validating form
+        if (!formData.title || !formData.group_id || !formData.id || !formData.description) {
+            toast.error("Please fill all required fields.");
+            return;
+        }
+
         setLoading(true);
-        axios.post('/api/testcases/', formData).then(res => {
-            console.log(res);
-            toast.success("Testcase created successfully.");
-        }).catch(e => {
-            console.error(e);
-            toast.error("Failed to create testcase. Please try again.");
-        }).finally(() => {
-            setLoading(false);
-        })
-    }
+        axios.post('/api/testcases/', formData)
+            .then((res) => {
+                console.log(res);
+                toast.success("Testcase created successfully.");
+            })
+            .catch((e) => {
+                console.error(e);
+                toast.error("Failed to create testcase. Please try again.");
+            })
+            .finally(() => {
+                setTimeout(() => setLoading(false), 500);
+            });
+    };
+
 
     return (
-        <div className="w-full p-5 flex flex-col gap-3 items-center">
+        <form className="w-full p-5 flex flex-col gap-3 items-center" onSubmit={handleSubmit}>
             {/*Title*/}
             <div className="border shadow p-4 bg-white rounded-md w-full">
                 <h1 className="text-xl mb-4">Title</h1>
@@ -129,13 +141,20 @@ export default function CreatePage() {
             </div>
 
             {/*Add New Testcase Button*/}
-            <button className="mt-1 min-w-[40%]" onClick={handleSubmit}>
+            <button className="mt-1 min-w-[40%]" type={'submit'}>
                 <div
                     className="flex items-center justify-center bg-gradient-to-b from-[#009be5] to-[#0088cc] text-white px-4 py-2 rounded-md hover:from-[#0088cc] hover:to-[#0077b3] shadow-sm border border-[#0077b3] transition duration-150 ease-in-out cursor-pointer gap-2">
                     <Pencil size={18}/>
                     Create Testcase
                 </div>
             </button>
-        </div>
+
+            {loading &&
+            <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center gap-2 bg-black/70">
+                <Loader className="h-6 w-6 animate-spin text-primary "/>
+                <span className="text-white text-lg">Creating Testcase</span>
+            </div>
+            }
+        </form>
     )
 }
