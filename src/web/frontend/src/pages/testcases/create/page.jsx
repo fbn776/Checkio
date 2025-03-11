@@ -1,4 +1,4 @@
-import {TestTubeDiagonal, Pencil, Plus} from 'lucide-react';
+import {Pencil, Plus} from 'lucide-react';
 import {TestcaseElement} from "@/pages/testcases/create/component/TestcaseElement.jsx";
 import {useState} from "react";
 

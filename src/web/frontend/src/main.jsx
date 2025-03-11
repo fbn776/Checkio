@@ -13,11 +13,20 @@ import BriefPage from './pages/about/brief/page';
 import CommandPage from './pages/about/commands/page';
 import InstallPage from './pages/about/installation/page';
 import UserguidePage from './pages/about/userguide/page';
+import SubmittedPrograms from "@/pages/evaluate/submitted_programs/page.jsx";
+
+import LoginPage from "@/pages/login/page.jsx";
+import {Toaster} from "sonner";
+import AuthTokenSetup from "@/lib/axios-interceptor.js";
+
+AuthTokenSetup();
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>
+        <Toaster richColors/>
         <BrowserRouter>
             <Routes>
+                <Route path="/login" element={<LoginPage/>}/>
                 <Route element={<Layout/>}>
                     <Route path="/" element={<HomePage/>}/>
                     <Route path="/testcase" element={<Page/>}>
@@ -33,6 +42,10 @@ createRoot(document.getElementById('root')).render(
 
                     </Route>
                     <Route path="/evaluate" element={<EvaluatePage/>}/>
+                    <Route path="/about" element={<AboutPage/>}/>
+                    <Route path="/evaluate" element={<Page/>}>
+                        <Route path="submittedPrograms" element={<SubmittedPrograms/>}/>
+                    </Route>
                     <Route path="/settings" element={<SettingsPage/>}/>
                 </Route>
             </Routes>
