@@ -25,18 +25,35 @@ export const ROUTES = [
         icon: GraduationCap,
         children: [
             {
-                name: 'View Evaluation',
+                name: 'Evaluation',
                 route: '/evaluate'
             }, {
-                name: 'Create',
+                name: 'Submitted Programs',
+                route: '/evaluate/submittedPrograms'
+            }, {
+                name: 'Create Evaluation',
                 route: '/evaluate/create'
             }
         ]
     }, {
         title: 'About',
-        route: '/about',
+        route: '/about/brief',
         icon: CircleHelp,
-        children: []
+        children: [
+            {
+                name: 'Brief',
+                route: '/about/brief'
+            },{
+                name: 'Commands',
+                route: '/about/commands'
+            },{
+                name: 'Installation',
+                route:'/about/install'
+            },{
+                name: 'User Guide',
+                route: '/about/userguide'
+            }
+        ]
     }, {
         title: 'Settings',
         route: '/settings',
