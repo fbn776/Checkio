@@ -47,6 +47,24 @@ export default function CreatePage() {
         ])
     }
 
+    //Reset Create Testcase
+    const clearContainer = ()=>{
+        setTitle("");
+        setSelectedGroup(null)
+        setTestcaseId("");
+        setDescription("");
+        setTestcases([
+            {
+                isHidden: false,
+                cliArgs: [],
+                files: [],
+                input: "",
+                output: "",
+            },
+        ])
+
+    }
+
     // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -76,14 +94,17 @@ export default function CreatePage() {
         axios.post('/api/testcases/', formData)
             .then((res) => {
                 console.log(res);
-                toast.success("Testcase created successfully.");
+                setTimeout(() => {
+                    toast.success("Testcase created successfully.")
+                    clearContainer();
+                }, 1100);
             })
             .catch((e) => {
                 console.error(e);
-                toast.error("Failed to create testcase. Please try again.");
+                setTimeout(() => toast.error("Failed to create testcase. Please try again."), 1100);
             })
             .finally(() => {
-                setTimeout(() => setLoading(false), 500);
+                setTimeout(() => setLoading(false), 1000);
             });
     };
 
@@ -135,7 +156,7 @@ export default function CreatePage() {
                     <div
                         className="flex items-center bg-gradient-to-b from-[#009be5] to-[#0088cc] text-white px-4 py-2 rounded-md hover:from-[#0088cc] hover:to-[#0077b3] shadow-sm border border-[#0077b3] transition duration-150 ease-in-out cursor-pointer gap-2">
                         <Plus size={18}/>
-                        Add New Testcase
+                        Add New TestUnit
                     </div>
                 </button>
             </div>
