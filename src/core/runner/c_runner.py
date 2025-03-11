@@ -51,7 +51,7 @@ class CRunner(BaseRunner):
         subprocess.run([self.exec_path])
 
     def testcase_run_func(self, unit):
-        return subprocess.run([self.exec_path], input=unit["input"], text=True, capture_output=True)
+        return subprocess.run([self.exec_path] + (unit.cli_args or []), input=unit.input, text=True, capture_output=True)
 
     def cleanup(self):
         try:

@@ -14,20 +14,35 @@ def create_group():
 
     if not name:
         return jsonify({"error": "Group ID is required"}), 400
+    try:
+        db = next(get_db())
+        group = Group(id=name, created_by=g.user['username'])
+        db.add(group)
+        db.commit()
 
-    db = next(get_db())
-    group = Group(id=name, created_by=g.user['username'])
-    db.add(group)
-    db.commit()
+        return jsonify({"message": "Group created successfully", "data": {
+            "id": group.id,
+            "created_by": group.created_by,
+            "created_at": group.created_at
+        }}), 200
 
-    return jsonify({"message": "Group created successfully"}), 200
+    except Exception as e:
+        print(e)
+        return jsonify({"error": "Failed to create group"}), 400
 
 
 @groupRoute.get('/')
 @token_required
 def list_groups():
+    keyword = request.args.get('keyword') or ""
+
     db = next(get_db())
-    groups = db.query(Group).filter_by(created_by=g.user['username']).all()
+
+    groups = db.query(Group).filter(
+        Group.created_by == g.user["username"],
+        Group.id.ilike(f"%{keyword}%")
+    ).all()
+
     return jsonify([{
         "id": group.id,
         "created_by": group.created_by,
@@ -54,15 +69,18 @@ def update_group(id):
 
     if not name:
         return jsonify({"error": "Group ID is required"}), 400
+    try:
+        db = next(get_db())
+        group = db.query(Group).filter_by(id=id, created_by=g.user["username"]).first()
 
-    db = next(get_db())
-    group = db.query(Group).filter_by(id=id, created_by=g.user["username"]).first()
+        if not group:
+            return jsonify({"error": "Group not found"}), 404
 
-    if not group:
-        return jsonify({"error": "Group not found"}), 404
-
-    group.id = name
-    db.commit()
+        group.id = name
+        db.commit()
+    except Exception as e:
+        print(e)
+        return jsonify({"error": str(e)}), 400
 
     return jsonify({"message": "Group updated successfully"}), 200
 

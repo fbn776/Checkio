@@ -14,15 +14,38 @@ from web.backend.routes.testcase import testcaseRoute
 
 app = Flask(__name__)
 CORS(app)
+CORS(auth)
+CORS(groupRoute)
+CORS(testcaseRoute)
+CORS(submitRoute)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///store.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+@app.get('/api/is-alive')
+def is_alive():
+    return jsonify({
+        "status": "alive",
+        "serverTime": time.time(),
+    })
+
+@app.get('/api/data')
+def get_data():
+    return jsonify({
+        "data": "Hello World"
+    })
+
+app.register_blueprint(auth, url_prefix='/api/auth')
+app.register_blueprint(groupRoute, url_prefix='/api/group')
+app.register_blueprint(testcaseRoute, url_prefix='/api/testcases')
+app.register_blueprint(submitRoute, url_prefix='/api/submission')
 
 
-@app.route("/")
-def home():
+@app.route("/", defaults={"path": ""})
+@app.route("/<path:path>")
+def home(path):
+    if is_safe_file(path):  # Prevent direct access to JS, CSS, etc.
+        abort(403)
+
     return render_template("index.html")
-
 
 ALLOWED_EXTENSIONS = {".js", ".css", ".svg", ".png", ".jpg"}
 
@@ -37,21 +60,6 @@ def serve_assets(filename):
     if not is_safe_file(filename):
         abort(403)  # Forbidden if file type is not allowed
     return send_from_directory(os.path.join(app.root_path, 'templates/assets'), filename)
-
-
-@app.get('/is-alive')
-def is_alive():
-    return jsonify({
-        "status": "alive",
-        "serverTime": time.time(),
-    })
-
-
-app.register_blueprint(auth, url_prefix='/auth')
-app.register_blueprint(groupRoute, url_prefix='/group')
-app.register_blueprint(testcaseRoute, url_prefix='/testcases')
-app.register_blueprint(submitRoute, url_prefix='/submit')
-
 
 def run_server(port=get_value("port"), dev_mode=False):
     if dev_mode:

@@ -27,13 +27,30 @@ def login():
         token = jwt.encode({
             "username": user.username,
             "role": user.role,
-            "exp": datetime.datetime.now(datetime.UTC) + datetime.timedelta(hours=1)
+            # TODO - Change this 100hrs to a suitable one;
+            "exp": datetime.datetime.now(datetime.UTC) + datetime.timedelta(hours=100)
         }, get_value("token_secret"), algorithm="HS256")
 
         return jsonify({"message": "Login successful", "token": token}), 200
     else:
         return jsonify({"error": "Invalid username or password"}), 401
 
+
+@auth.get('/test-token')
+@token_required
+def test_token():
+    if not g.user or not g.user.get("username"):
+        return jsonify({"message": "Token is invalid"}), 401
+
+    username = g.user.get("username")
+
+    db = next(get_db())
+    user = db.query(User).filter_by(username=username).first()
+
+    if not user:
+        return jsonify({"message": "Token is invalid"}), 401
+
+    return jsonify({"message": "Token is valid"}), 200
 
 @auth.get('/profile')
 @token_required

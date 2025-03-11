@@ -1,5 +1,7 @@
-import click
+from core.global_store import load_data_from_json
+load_data_from_json("./config/DEFAULT_CONFIG.json")
 
+import click
 from cli.do_testing import do_testing
 from cli.handle_cli import handle_cli
 from cli.handle_config import handle_config
@@ -13,14 +15,12 @@ from cli.handle_user_delete import handle_user_delete
 from cli.utils.custom_formats import CustomFormats
 from cli.handle_about import handle_about
 from core.auth.validate_user import is_valid_user
-from core.global_store import load_data_from_json
 from core.pre_requisites import pre_requisites
 from rich.console import Console
 
 console = Console()
 
 # Load the default configuration file
-load_data_from_json("./config/DEFAULT_CONFIG.json")
 
 
 @click.group(
