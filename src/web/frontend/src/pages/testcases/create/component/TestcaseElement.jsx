@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {InputSelectorButton} from "@/pages/testcases/create/component/InputSelectorButton.jsx";
 import {X, File, FileInputIcon as Input, Plus, Terminal, Pencil} from "lucide-react";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip.jsx";
@@ -30,17 +30,109 @@ const InputSection = ({
     </div>
 );
 
-export function TestcaseElement({index}) {
-    const [cli, setCli] = useState([]);
+export function TestcaseElement({index, testcaseData, updateTestcaseData}) {
+    //const [cli, setCli] = useState([]);
     const [isCliVisible, setIsCliVisible] = useState(false);
     const [isFilesUploadVisible, setIsFilesUploadVisible] = useState(false);
     const [isInputVisible, setIsInputVisible] = useState(false);
-    const [isTestcaseHidden, setIsTestcaseHidden] = useState(false);
     const [isFileDialogBoxOpen, setIsFileDialogBoxOpen] = useState(false);
-    const [createdFiles, setCreatedFiles] = useState([{
-        name: 'wsxgh'
-    }]);
-    const [fileName, setFileName] = useState('');
+    //const [isTestcaseHidden, setIsTestcaseHidden] = useState(false);
+    //const [createdFiles, setCreatedFiles] = useState([]);
+
+    // Local state for file creation
+    const [fileName, setFileName] = useState("")
+    const [fileContent, setFileContent] = useState("")
+
+    // Local state for CLI args (to manage the UI)
+    const [cliValues, setCliValues] = useState([])
+
+    // Initialize local state from props
+    useEffect(() => {
+        if (testcaseData) {
+            setCliValues(testcaseData.cliArgs.length ? testcaseData.cliArgs : [])
+            setIsCliVisible(testcaseData.cliArgs.length > 0)
+            setIsFilesUploadVisible(testcaseData.files.length > 0)
+            setIsInputVisible(!!testcaseData.input)
+        }
+    }, [testcaseData])
+
+    // Update parent state when CLI args change
+    const updateCliArgs = (newCliArgs) => {
+        updateTestcaseData({cliArgs: newCliArgs})
+        setCliValues(newCliArgs)
+    }
+
+    // Handle CLI input change
+    const handleCliInputChange = (index, value) => {
+        const newCliValues = [...cliValues]
+        newCliValues[index] = value
+        updateCliArgs(newCliValues)
+    }
+
+    // Add new CLI arg
+    const addCliArg = () => {
+        const newCliValues = [...cliValues, ""]
+        updateCliArgs(newCliValues)
+    }
+
+    // Remove last CLI arg
+    const removeLastCliArg = () => {
+        if (cliValues.length > 0) {
+            const newCliValues = cliValues.slice(0, -1)
+            updateCliArgs(newCliValues)
+        }
+    }
+
+    // Clear all CLI args
+    const clearCliArgs = () => {
+        updateCliArgs([])
+        setIsCliVisible(false)
+    }
+
+    // Add a new file
+    const addFile = () => {
+        if (fileName.trim()) {
+            const newFile = {
+                name: fileName,
+                content: fileContent,
+            }
+
+            const updatedFiles = [...(testcaseData.files || []), newFile]
+            updateTestcaseData({files: updatedFiles})
+
+            // Reset form
+            setFileName("")
+            setFileContent("")
+            setIsFileDialogBoxOpen(false)
+        }
+    }
+
+    // Delete a file
+    const deleteFile = (index) => {
+        const updatedFiles = [...testcaseData.files]
+        updatedFiles.splice(index, 1)
+        updateTestcaseData({files: updatedFiles})
+
+        if (updatedFiles.length === 0) {
+            setIsFilesUploadVisible(false)
+        }
+    }
+
+    // Handle input text change
+    const handleInputChange = (value) => {
+        updateTestcaseData({input: value})
+    }
+
+    // Handle output text change
+    const handleOutputChange = (value) => {
+        updateTestcaseData({output: value})
+    }
+
+    // Toggle testcase visibility
+    const toggleTestcaseVisibility = () => {
+        updateTestcaseData({isHidden: !testcaseData.isHidden})
+    }
+
 
     return (
         <div className="shadow p-4 bg-white rounded-md w-full">
@@ -48,29 +140,33 @@ export function TestcaseElement({index}) {
                 <h1 className="text-xl">Testcase Unit #{index + 1}</h1>
                 {/*Testcase Visible/Hidden Toggle Button*/}
                 <div
-                    className={`flex items-center justify-between text-sm gap-2 ${isTestcaseHidden ? "text-gray-400" : "text-black"}`}>
+                    className={`flex items-center justify-between text-sm gap-2 ${testcaseData.isHidden ? "text-gray-400" : "text-black"}`}>
                     <TooltipProvider>
                         <Tooltip>
                             <TooltipTrigger asChild>
-                                <Switch className={`${isTestcaseHidden ? "bg-[#e5e5e5]" : "bg-[#009be5]"}`}
-                                        checked={!isTestcaseHidden}
-                                        onCheckedChange={(checked) => setIsTestcaseHidden(!checked)}
+                                <Switch className={`${testcaseData.isHidden ? "bg-[#e5e5e5]" : "bg-[#009be5]"}`}
+                                        checked={!testcaseData.isHidden}
+                                        onCheckedChange={toggleTestcaseVisibility}
                                 />
                             </TooltipTrigger>
                             <TooltipContent
                                 className="bg-white border-gray-200 border-[1px] text-black text-[12px] px-2 py-2 rounded-[5px] shadow-lg mb-2"
                                 side={'top'}>
-                                <p>Make testcase {isTestcaseHidden ? 'Visible' : 'Hidden'}</p>
+                                <p>Make testcase {testcaseData.isHidden ? 'Visible' : 'Hidden'}</p>
                             </TooltipContent>
                         </Tooltip>
                     </TooltipProvider>
-                    <span>{isTestcaseHidden ? 'Hidden' : 'Visible'}</span>
+                    <span>{testcaseData.isHidden ? 'Hidden' : 'Visible'}</span>
                 </div>
             </div>
             <div className="w-full my-2 flex gap-3 flex-wrap">
                 <InputSelectorButton onClick={() => {
                     setIsCliVisible(true)
-                }} Icon={Terminal} text={'CLI Args'}/>
+                    if (cliValues.length === 0) {
+                        updateCliArgs([""])
+                    }
+                }} Icon={Terminal} text={'CLI Args'}
+                />
                 <InputSelectorButton onClick={() => {
                     setIsFilesUploadVisible(true)
                 }} Icon={File} text={'Files'}/>
@@ -79,21 +175,17 @@ export function TestcaseElement({index}) {
                 }} Icon={Input} text={'Input'}/>
             </div>
             {isCliVisible && (
-                <InputSection title="Command Line Argument" isCLISec={true} onDelete={() => {
-                    setIsCliVisible(false);
-                    setCli([]);
-                }}
-                              onMinus={() => {
-                                  setCli((prevCli) => prevCli.slice(0, -1));
-
-                              }}>
+                <InputSection title="Command Line Argument" isCLISec={true} onDelete={clearCliArgs}
+                              onMinus={removeLastCliArg}>
                     <div className="flex gap-2 flex-wrap items-center">
-                        {cli.map((_, index) => (
-                            <input key={index}
+                        {cliValues.map((value, idx) => (
+                            <input key={idx}
+                                   value={value}
+                                   onChange={(e) => handleCliInputChange(idx, e.target.value)}
                                    className="flex-1 border bg-white border-gray-300 rounded-md px-4 py-2 focus:border-[#009be5] focus:outline-none"
                                    placeholder="Input"/>
                         ))}
-                        <button onClick={() => setCli(p => [...p, 1])}>
+                        <button onClick={addCliArg}>
                             <TooltipProvider>
                                 <Tooltip>
                                     <TooltipTrigger asChild>
@@ -115,33 +207,45 @@ export function TestcaseElement({index}) {
             )}
 
             {isFilesUploadVisible && (
-                <InputSection title="Files Upload" onDelete={() => setIsFilesUploadVisible(false)} isCLISec={false}>
-                    {createdFiles.map((item, index) => (
-                        <div key={index}
-                             className="flex mb-2 items-center justify-between w-full border bg-white border-gray-200  px-5 py-1 rounded-md">
-                            <span className="text-gray-900 text-lg">{item.name}</span>
-                            <div className="flex gap-2 justify-center items-center">
-                                <button
-                                    className="p-2 hover:bg-gray-50 rounded-full transition-colors duration-200"
-                                    onClick={() => {
-                                        setIsFileDialogBoxOpen(true)
-                                    }}
-                                >
-                                    <Pencil className="h-4 w-4 text-gray-500 hover:text-blue-700"/>
-                                </button>
-                                <button
-                                    className="p-2 hover:bg-gray-50 rounded-full transition-colors duration-200"
-                                    onClick={() => setCreatedFiles((prevFiles) => prevFiles.filter((_, i) => i !== index))}
-                                >
-                                    <X className="h-4 w-4 text-gray-500 hover:text-red-700"/>
-                                </button>
-                            </div>
-                        </div>))}
-                    <Dialog open={isFileDialogBoxOpen} onOpenChange={() => {
-                        setIsFileDialogBoxOpen(!isFileDialogBoxOpen)
-                    }}>
+                <InputSection title="Files Upload" onDelete={() => {
+                    updateTestcaseData({files: []})
+                    setIsFilesUploadVisible(false)
+                }} isCLISec={false}
+                >
+                    {testcaseData.files &&
+                        testcaseData.files.map((file, idx) => (
+                            <div key={idx}
+                                 className="flex mb-2 items-center justify-between w-full border bg-white border-gray-200  px-5 py-1 rounded-md">
+                                <span className="text-gray-900 text-lg">{file.name}</span>
+                                <div className="flex gap-2 justify-center items-center">
+                                    <button
+                                        className="p-2 hover:bg-gray-50 rounded-full transition-colors duration-200"
+                                        onClick={() => {
+                                            setFileName(file.name)
+                                            setFileContent(file.content)
+                                            setIsFileDialogBoxOpen(true)
+                                        }}
+                                    >
+                                        <Pencil className="h-4 w-4 text-gray-500 hover:text-blue-700"/>
+                                    </button>
+                                    <button
+                                        className="p-2 hover:bg-gray-50 rounded-full transition-colors duration-200"
+                                        onClick={() => deleteFile(idx)}
+                                    >
+                                        <X className="h-4 w-4 text-gray-500 hover:text-red-700"/>
+                                    </button>
+                                </div>
+                            </div>))}
+                    <Dialog
+                        open={isFileDialogBoxOpen}
+                        onOpenChange={() => {
+                            setIsFileDialogBoxOpen(!isFileDialogBoxOpen)
+                        }}>
                         <DialogTrigger>
-                            <button onClick={() => {
+                            <button
+                                onClick={() => {
+                                setFileName("")
+                                setFileContent("")
                                 setIsFileDialogBoxOpen(true)
                             }}>
                                 <div
@@ -155,15 +259,13 @@ export function TestcaseElement({index}) {
                                 <DialogTitle>Create an Input File</DialogTitle>
                                 <form className="flex flex-col justify-start gap-4 py-4" onSubmit={(e) => {
                                     e.preventDefault()
-                                    setIsFileDialogBoxOpen(false)
-                                    setCreatedFiles((prevFiles) => [...prevFiles, {name: fileName}]);
+                                    addFile()
                                 }}>
                                     <div className="flex items-center gap-4">
                                         <label htmlFor="name" className="text-gray-500">
                                             File Name:
                                         </label>
-                                        <input key={index}
-                                               value={fileName} // Step 2: Controlled input
+                                        <input value={fileName}
                                                onChange={(e) => setFileName(e.target.value)}
                                                className="flex-1 border bg-white border-gray-300 rounded-md px-4 py-2 focus:border-[#009be5] focus:outline-none"
                                                placeholder="Enter filename" required={true}/>
@@ -173,6 +275,8 @@ export function TestcaseElement({index}) {
                                             Content:
                                         </label>
                                         <textarea
+                                            value={fileContent}
+                                            onChange={(e) => setFileContent(e.target.value)}
                                             className="w-full p-3 min-h-40 flex-1 border bg-white border-gray-300 rounded-md px-4 py-2 focus:border-[#009be5] focus:outline-none"
                                             placeholder="Type content ..." required={true}/>
                                     </div>
@@ -193,14 +297,22 @@ export function TestcaseElement({index}) {
             )}
 
             {isInputVisible && (
-                <InputSection title="Input" onDelete={() => setIsInputVisible(false)}>
+                <InputSection title="Input"
+                              onDelete={() => {
+                                  updateTestcaseData({ input: "" })
+                                  setIsInputVisible(false)
+                              }}>
                             <textarea
+                                value={testcaseData.input || ""}
+                                onChange={(e) => handleInputChange(e.target.value)}
                                 className="w-full p-3 min-h-10 flex-1 border bg-white border-gray-300 rounded-md px-4 py-2 focus:border-[#009be5] focus:outline-none"
                                 placeholder="Input"/>
                 </InputSection>
             )}
 
             <textarea
+                value={testcaseData.output || ""}
+                onChange={(e) => handleOutputChange(e.target.value)}
                 className="w-full p-3 min-h-10 flex-1 border bg-white border-gray-300 rounded-md px-4 py-2 focus:border-[#009be5] focus:outline-none"
                 placeholder="Output"/>
 
