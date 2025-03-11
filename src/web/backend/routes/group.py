@@ -19,18 +19,30 @@ def create_group():
         group = Group(id=name, created_by=g.user['username'])
         db.add(group)
         db.commit()
+
+        return jsonify({"message": "Group created successfully", "data": {
+            "id": group.id,
+            "created_by": group.created_by,
+            "created_at": group.created_at
+        }}), 200
+
     except Exception as e:
         print(e)
-        return jsonify({"error": str(e)}), 400
-
-    return jsonify({"message": "Group created successfully"}), 200
+        return jsonify({"error": "Failed to create group"}), 400
 
 
 @groupRoute.get('/')
 @token_required
 def list_groups():
+    keyword = request.args.get('keyword') or ""
+
     db = next(get_db())
-    groups = db.query(Group).filter_by(created_by=g.user['username']).all()
+
+    groups = db.query(Group).filter(
+        Group.created_by == g.user["username"],
+        Group.id.ilike(f"%{keyword}%")
+    ).all()
+
     return jsonify([{
         "id": group.id,
         "created_by": group.created_by,

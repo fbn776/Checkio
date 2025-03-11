@@ -6,18 +6,12 @@ from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import Callable, final
 from rich.console import Console
-
 from core.db.db import get_db
 from core.db.models.Testcase import Testcase
-from core.db.testcases import get_testcase_by_name
 from core.global_store import get_value
 from utils.errors import DontContinue
-from utils.testcase_model import TestUnitObj, TestCaseObj
+from utils.pydantic_models import TestUnitObj, TestCaseObj
 from utils.utils import boxed_text
-from rich.panel import Panel
-from rich.syntax import Syntax
-from rich.text import Text
-from rich.console import Group
 from utils.spinners import spinner_context
 
 
