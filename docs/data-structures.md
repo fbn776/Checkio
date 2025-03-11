@@ -11,6 +11,7 @@ Where
 - `group_id` is the id of the group to which the testcase belongs (Its cannot contain `.`).
 - `id` is the id of the testcase (It cannot contain `.`).
 
+---
 
 ## Testcase Data
 
@@ -44,7 +45,7 @@ Here
 - `id` is the id of the testcase.
 - `title` is the title of the testcase.
 - `description` is the description of the testcase.
-- `data` is the test units of the testcases.
+- `data` (testunit) is the test units of the testcases.
   - `input` is the input of the test unit (optional).
   - `output` is the expected output of the test unit.
   - `hidden` is a boolean value which tells whether the test unit is hidden or not.
@@ -55,3 +56,15 @@ Here
 
 ---
 
+
+## Evaluation
+
+```json
+[
+  {
+    "testunit": "testcase.testunit",
+    "status": "passed | failed",
+    "output": "string"
+  }
+]
+```
