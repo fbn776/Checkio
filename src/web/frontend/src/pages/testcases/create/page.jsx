@@ -152,7 +152,7 @@ export default function CreatePage() {
 
             {/*Add New Testcase Button*/}
             <div className="flex items-center justify-end w-full">
-                <button className="ml-2 max-w-fit" onClick={addTestcase}>
+                <button className="ml-2 max-w-fit" onClick={addTestcase} type={'button'}>
                     <div
                         className="flex items-center bg-gradient-to-b from-[#009be5] to-[#0088cc] text-white px-4 py-2 rounded-md hover:from-[#0088cc] hover:to-[#0077b3] shadow-sm border border-[#0077b3] transition duration-150 ease-in-out cursor-pointer gap-2">
                         <Plus size={18}/>

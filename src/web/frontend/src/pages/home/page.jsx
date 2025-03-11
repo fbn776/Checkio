@@ -1,7 +1,18 @@
 import CircularProgress from "./CircularProgress";
+import {useEffect} from "react";
+import axios from "axios";
 
 
 export default function HomePage() {
+
+    useEffect(() => {
+        axios.get('/api/group/').then(response => {
+            console.log(response.data);
+        }).catch(e => {
+            console.error(e);
+        })
+    }, []);
+
     return <div>
         {/* home */}
         <div className={'bg-[#009BE5] '}>
