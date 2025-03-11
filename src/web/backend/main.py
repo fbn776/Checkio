@@ -14,10 +14,10 @@ from web.backend.routes.testcase import testcaseRoute
 
 app = Flask(__name__)
 CORS(app)
-
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///store.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
+CORS(auth)
+CORS(groupRoute)
+CORS(testcaseRoute)
+CORS(submitRoute)
 
 @app.route("/", defaults={"path": ""})
 @app.route("/<path:path>")
@@ -54,11 +54,11 @@ def get_data():
         "data": "Hello World"
     })
 
-
 app.register_blueprint(auth, url_prefix='/api/auth')
 app.register_blueprint(groupRoute, url_prefix='/api/group')
 app.register_blueprint(testcaseRoute, url_prefix='/api/testcases')
-app.register_blueprint(submitRoute, url_prefix='/api/submit')
+app.register_blueprint(submitRoute, url_prefix='/api/submissions')
+
 
 
 def run_server(port=get_value("port"), dev_mode=False):

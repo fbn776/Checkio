@@ -5,6 +5,7 @@ from core.db.db import Base, engine
 import core.db.models.Group
 import core.db.models.Testcase
 import core.db.models.User
+import core.db.models.Submission
 
 console = Console()
 

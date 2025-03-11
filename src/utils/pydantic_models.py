@@ -33,3 +33,8 @@ class TestResult(BaseModel):
 class TestResultsList(BaseModel):
     """A list of results of a testcase evaluation"""
     results: List[TestResult]
+
+class SubmittedFile(BaseModel):
+    """A file object that is submitted by the user"""
+    name: str
+    content: str
