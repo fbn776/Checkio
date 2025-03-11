@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {InputSelectorButton} from "@/pages/testcases/create/component/InputSelectorButton.jsx";
-import {File, FileInputIcon as Input, Plus, Terminal} from "lucide-react";
+import {X, File, FileInputIcon as Input, Plus, Terminal, Pencil} from "lucide-react";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip.jsx";
 import {DeleteButton} from "@/pages/testcases/create/component/DeleteButton.jsx";
 import {Switch} from "@/components/ui/switch.jsx";
@@ -8,7 +8,6 @@ import {MinusButton} from "@/pages/testcases/create/component/MinusButton.jsx";
 import {
     Dialog,
     DialogContent,
-    DialogDescription,
     DialogHeader,
     DialogTitle,
     DialogTrigger,
@@ -36,17 +35,13 @@ export function TestcaseElement({index}) {
     const [isCliVisible, setIsCliVisible] = useState(false);
     const [isFilesUploadVisible, setIsFilesUploadVisible] = useState(false);
     const [isInputVisible, setIsInputVisible] = useState(false);
-    const [fileName, setFileName] = useState("No file chosen");
     const [isTestcaseHidden, setIsTestcaseHidden] = useState(false);
+    const [isFileDialogBoxOpen, setIsFileDialogBoxOpen] = useState(false);
+    const [createdFiles, setCreatedFiles] = useState([{
+        name: 'wsxgh'
+    }]);
+    const [fileName, setFileName] = useState('');
 
-    const handleFileChange = (e) => {
-        const files = e.target.files
-        if (files && files.length > 0) {
-            setFileName(files.length === 1 ? files[0].name : `${files.length} files selected`)
-        } else {
-            setFileName("No file chosen")
-        }
-    }
     return (
         <div className="shadow p-4 bg-white rounded-md w-full">
             <div className="flex items-center justify-between mb-4">
@@ -121,14 +116,36 @@ export function TestcaseElement({index}) {
 
             {isFilesUploadVisible && (
                 <InputSection title="Files Upload" onDelete={() => setIsFilesUploadVisible(false)} isCLISec={false}>
-
-                    <Dialog>
+                    {createdFiles.map((item, index) => (
+                        <div key={index}
+                             className="flex mb-2 items-center justify-between w-full border bg-white border-gray-200  px-5 py-1 rounded-md">
+                            <span className="text-gray-900 text-lg">{item.name}</span>
+                            <div className="flex gap-2 justify-center items-center">
+                                <button
+                                    className="p-2 hover:bg-gray-50 rounded-full transition-colors duration-200"
+                                    onClick={() => {
+                                        setIsFileDialogBoxOpen(true)
+                                    }}
+                                >
+                                    <Pencil className="h-4 w-4 text-gray-500 hover:text-blue-700"/>
+                                </button>
+                                <button
+                                    className="p-2 hover:bg-gray-50 rounded-full transition-colors duration-200"
+                                    onClick={() => setCreatedFiles((prevFiles) => prevFiles.filter((_, i) => i !== index))}
+                                >
+                                    <X className="h-4 w-4 text-gray-500 hover:text-red-700"/>
+                                </button>
+                            </div>
+                        </div>))}
+                    <Dialog open={isFileDialogBoxOpen} onOpenChange={() => {
+                        setIsFileDialogBoxOpen(!isFileDialogBoxOpen)
+                    }}>
                         <DialogTrigger>
                             <button onClick={() => {
-
+                                setIsFileDialogBoxOpen(true)
                             }}>
                                 <div
-                                    className='flex items-center gap-1 bg-gradient-to-b from-[#009be5] to-[#0088cc] text-white px-2 py-2 rounded-md hover:from-[#0088cc] hover:to-[#0077b3] shadow-sm border border-[#0077b3] transition duration-150 ease-in-out hover:cursor-pointer'>
+                                    className='flex items-center gap-1 mt-1 ml-1 bg-gradient-to-b from-[#009be5] to-[#0088cc] text-white px-2 py-2 rounded-md hover:from-[#0088cc] hover:to-[#0077b3] shadow-sm border border-[#0077b3] transition duration-150 ease-in-out hover:cursor-pointer'>
                                     <Plus height={18} width={18} color={'white'}/> Create File
                                 </div>
                             </button>
@@ -136,12 +153,18 @@ export function TestcaseElement({index}) {
                         <DialogContent>
                             <DialogHeader>
                                 <DialogTitle>Create an Input File</DialogTitle>
-                                <form className="flex flex-col justify-start gap-4 py-4">
+                                <form className="flex flex-col justify-start gap-4 py-4" onSubmit={(e) => {
+                                    e.preventDefault()
+                                    setIsFileDialogBoxOpen(false)
+                                    setCreatedFiles((prevFiles) => [...prevFiles, {name: fileName}]);
+                                }}>
                                     <div className="flex items-center gap-4">
                                         <label htmlFor="name" className="text-gray-500">
                                             File Name:
                                         </label>
                                         <input key={index}
+                                               value={fileName} // Step 2: Controlled input
+                                               onChange={(e) => setFileName(e.target.value)}
                                                className="flex-1 border bg-white border-gray-300 rounded-md px-4 py-2 focus:border-[#009be5] focus:outline-none"
                                                placeholder="Enter filename" required={true}/>
                                     </div>
