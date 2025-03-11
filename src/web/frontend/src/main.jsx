@@ -18,6 +18,7 @@ import SubmittedPrograms from "@/pages/evaluate/submitted_programs/page.jsx";
 import LoginPage from "@/pages/login/page.jsx";
 import {Toaster} from "sonner";
 import AuthTokenSetup from "@/lib/axios-interceptor.js";
+import EvaluationReport from "@/pages/evaluate/evaluation_report/page.jsx";
 
 AuthTokenSetup();
 
@@ -44,6 +45,7 @@ createRoot(document.getElementById('root')).render(
                     <Route path="/evaluate" element={<EvaluatePage/>}/>
                     <Route path="/evaluate" element={<Page/>}>
                         <Route path="submittedPrograms" element={<SubmittedPrograms/>}/>
+                        <Route path="evaluation-report" element={<EvaluationReport/>}/>
                     </Route>
                     <Route path="/settings" element={<SettingsPage/>}/>
                 </Route>

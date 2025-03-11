@@ -6,14 +6,12 @@ from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import Callable, final
 from rich.console import Console
-from core.db.testcases import get_testcase_by_name
+from core.db.db import get_db
+from core.db.models.Testcase import Testcase
 from core.global_store import get_value
 from utils.errors import DontContinue
+from utils.pydantic_models import TestUnitObj, TestCaseObj
 from utils.utils import boxed_text
-from rich.panel import Panel
-from rich.syntax import Syntax
-from rich.text import Text
-from rich.console import Group
 from utils.spinners import spinner_context
 
 
@@ -33,18 +31,19 @@ class BaseRunner(ABC):
         self.console = Console() if console is None else console
         self.file_name = file_name
 
-    def __get_testcase(self, testcase):
+    def __get_testcase(self, group_id: str, testcase_id: str) -> TestCaseObj:
         """
         Get the testcase from the database
         """
-        db_rows = get_testcase_by_name(testcase)
-        # If the testcase is not found, the program will not run
-        if db_rows is None:
-            self.console.print(f"[bold red]Error:[/] [red]The testcase '[yellow italic]{testcase}[/]' was not found[/]")
-            # TODO - Implement show similar testcases
+        db = next(get_db())
+
+        testcase = db.query(Testcase).filter_by(id=testcase_id, group_id=group_id).first()
+        if not testcase:
+            boxed_text(self.console, "Error", "Testcase not found", "bold red", "bold red")
             raise DontContinue()
 
-        return json.loads(db_rows[3])
+        return TestCaseObj(title=testcase.title, description=testcase.description, data=json.loads(testcase.data),
+                           id=testcase.id, group_id=testcase.group_id)
 
     def handle_file_not_exists(self):
         if Path(self.file_name).is_file():
@@ -55,11 +54,11 @@ class BaseRunner(ABC):
                    border_style="bold red", style="bold red")
         raise DontContinue()
 
-    def __check_output(self, testunit, output):
+    def __check_output(self, testunit: TestUnitObj, output):
         """
         Check the output of the program and return True or False
         """
-        return output.strip() == testunit["output"].strip()
+        return output.strip() == testunit.output.strip()
 
     @abstractmethod
     def cleanup(self):
@@ -83,38 +82,38 @@ class BaseRunner(ABC):
         pass
 
     @abstractmethod
-    def testcase_run_func(self, unit):
+    def testcase_run_func(self, unit: TestUnitObj):
         """This function is to be implemented by the child classes.
         This gets called when the runner is run with a testcase and the testcase is passed to this function.
         """
         pass
 
     @final
-    def __run_with_testcase(self, testcase, run_func: Callable[[dict], subprocess.CompletedProcess]) -> None:
+    def __run_with_testcase(self, testcase_id, testcase_group,
+                            run_func: Callable[[TestUnitObj], subprocess.CompletedProcess]) -> None:
         """
         Runs a given function `run_func` with the given testcase. The run function should return a subprocess.CompletedProcess object
         """
-        testcase_data = self.__get_testcase(testcase)
+        testcase_data = self.__get_testcase(testcase_id=testcase_id, group_id=testcase_group)
 
         i = 1
-        for unit in testcase_data["testcases"]:
+        for unit in testcase_data.data:
             process = run_func(unit)
             passed = self.__check_output(unit, process.stdout)
-            boxed_text(self.console, f"Testcase #{i}",
-                       Group(
-                           Panel(Syntax(unit["input"], "bash", theme="ansi_dark"), title="Input"),
-                           Panel(Syntax(unit["output"], "bash", theme="ansi_dark"), title="Expected Output"),
-                           Panel(Syntax(process.stdout, "bash", theme="ansi_dark"), title="Output"),
-                           Panel(
-                               Text("Passed" if passed else "Failed", justify="center"),
-                               style="bold green" if passed else "bold red"
-                           )
-                       ),
-                       "bold green", "bold green")
+            self.console.print(f"""{":white_check_mark: " if passed else ":cross_mark: "} [bold underline cyan]Testcase #{i}[/]
+[bold]Input:[/]
+{unit.input}{"" if not unit.cli_args else f"\n[bold]CLI Args:[/]\n{" ".join(unit.cli_args)}"}
+[bold]Expected Output:[/]
+{unit.output}
+[bold]Output:[/]
+{process.stdout}
+[bold]Status:[/] {"[black on bright_green] Passed [/]" if passed else "[black on red] Failed [/]"}
+""")
+
             print()
             i += 1
 
-    def execute(self, testcase):
+    def execute(self, testcase_id, testcase_group):
         with spinner_context(self.console, "Compiling...") as status:
             try:
                 status.update("Setting Up...")
@@ -123,8 +122,9 @@ class BaseRunner(ABC):
                 status.update("Running...")
                 status.stop()
 
-                if testcase:
-                    self.__run_with_testcase(testcase, self.testcase_run_func)
+                if testcase_id and testcase_group:
+                    self.__run_with_testcase(testcase_id=testcase_id, testcase_group=testcase_group,
+                                             run_func=self.testcase_run_func)
                 else:
                     self.no_testcase_run_func()
 
