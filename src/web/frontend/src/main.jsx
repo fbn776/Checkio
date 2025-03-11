@@ -18,6 +18,7 @@ import SubmittedPrograms from "@/pages/evaluate/submitted_programs/page.jsx";
 import LoginPage from "@/pages/login/page.jsx";
 import {Toaster} from "sonner";
 import AuthTokenSetup from "@/lib/axios-interceptor.js";
+import WelcomePage from './pages/welcome/page';
 
 AuthTokenSetup();
 
@@ -26,6 +27,7 @@ createRoot(document.getElementById('root')).render(
         <Toaster richColors/>
         <BrowserRouter>
             <Routes>
+            <Route path="/welcome" element={<WelcomePage/>}/>
                 <Route path="/login" element={<LoginPage/>}/>
                 <Route element={<Layout/>}>
                     <Route path="/" element={<HomePage/>}/>

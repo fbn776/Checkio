@@ -28,7 +28,7 @@ export default function LoginPage() {
     }
 
     return (
-        <div className="flex items-center justify-center h-screen bg-gray-100">
+        <div className="flex items-center justify-center h-screen bg-[#c7e0ec]">
             <div className="flex-1 p-8">
                 <div className="max-w-md mx-auto bg-white rounded-md shadow-sm p-8">
                     <h2 className="text-xl font-semibold mb-6">Login to Checkio</h2>
