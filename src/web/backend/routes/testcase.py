@@ -89,13 +89,13 @@ def get_testcase(id):
 
 console = Console()
 
+
 @testcaseRoute.post('/')
 @token_required
 def create_testcase():
     try:
         body = request.get_json()
         testcase = TestCaseObj(**body)
-
 
         group_id = testcase.group_id
         id = testcase.id
@@ -114,7 +114,13 @@ def create_testcase():
             if db.query(Group).filter_by(id=group_id, created_by=g.user["username"]).all() is None:
                 return {"error": "Group ID doesn't exists"}, 400
 
-            testcase = Testcase(group_id=group_id, id=id, title=title, description=description, data=json.dumps(body.get('data')))
+            testcase = Testcase(group_id=group_id,
+                                id=id,
+                                title=title,
+                                description=description,
+                                data=json.dumps(body.get('data')),
+                                created_by=g.user["username"],
+                                )
 
             db.add(testcase)
             db.commit()
@@ -132,8 +138,8 @@ def create_testcase():
         for error in e.errors():
             print(f"Field: {'.'.join(map(str, error['loc']))} - Error: {error['msg']}")
 
-
         return {"message": f"Missing Data"}, 400
+
 
 @testcaseRoute.put('/<id>')
 @token_required

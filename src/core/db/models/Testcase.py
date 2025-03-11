@@ -13,14 +13,15 @@ class Testcase(Base):
 
     # The actual ID of the testcase
     main_id = Column(Integer, primary_key=True, autoincrement=True)
-    created_by = Column(String, ForeignKey('users.username'))
 
-    group_id = Column(String, ForeignKey('groups.id'))
+    created_by = Column(String, ForeignKey('users.username'), nullable=False)
+
+    group_id = Column(String, ForeignKey('groups.id'), nullable=False)
     # This is just the title or id of the testcase; not the unique identifier
-    id = Column(String)
-    title = Column(String)
+    id = Column(String, nullable=False)
+    title = Column(String, nullable=False)
     description = Column(String)
-    data = Column(JSON)
+    data = Column(JSON, nullable=False)
     created_at = Column(DateTime, server_default=func.now())
 
     __table_args__ = (UniqueConstraint("group_id", "id", name="uq_group_id_testcase_id"),)
