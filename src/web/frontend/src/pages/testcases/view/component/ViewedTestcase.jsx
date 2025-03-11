@@ -8,6 +8,9 @@ import {
 } from "@/components/ui/dropdown-menu"
 import {DeleteButton} from "@/pages/testcases/create/component/DeleteButton.jsx";
 import {MinusButton} from "@/pages/testcases/create/component/MinusButton.jsx";
+import {useEffect, useState} from "react";
+import axios from "axios";
+import {toast} from "sonner";
 
 
 const ThreeDotsButton = () => {
@@ -28,12 +31,22 @@ export default function ViewedTestcase() {
     const navigate = useNavigate();
     const {testcaseId} = useParams();
 
+    const [testcases, setTestcases] = useState([
+        {
+            isHidden: false,
+            cliArgs: [],
+            files: [],
+            input: "",
+            output: "",
+        },
+    ])
+
     const testcase = {
         title: "Add 2 Numbers",
         desc: "Given 2 numbers x,y , return its sum",
         testcase_unit: [
             {
-                id: '#1',
+                id: 'a6zRty',
                 input: '2 5',
                 output: '7',
                 cli: ['add'],
@@ -48,6 +61,18 @@ export default function ViewedTestcase() {
             }
         ]
     }
+
+    useEffect(() => {
+        axios.get(`/api/testcases/${testcaseId}`)
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((e) => {
+                console.error(e);
+            })
+            .finally(() => {
+            });
+    }, []);
 
     return (
         <div className="w-full p-5 flex flex-col gap-3">

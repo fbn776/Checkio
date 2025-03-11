@@ -103,7 +103,7 @@ export default function GroupSelector({selectedGroup, setSelectedGroup}) {
         <div className="flex-1">
             <Popover open={open} onOpenChange={setOpen} className="w-full">
                 <PopoverTrigger asChild className="w-full">
-                    <button aria-expanded={open} className="w-full p-3 flex-1 flex items-center justify-between border bg-white border-gray-300 rounded-md px-4 py-2 focus:border-[#009be5] focus:outline-none mb-[8px]">
+                    <button type="button" aria-expanded={open} className="w-full p-3 flex-1 flex items-center justify-between border bg-white border-gray-300 rounded-md px-4 py-2 focus:border-[#009be5] focus:outline-none mb-[8px]">
                         {selectedGroup ? selectedGroup.id : <span className="text-gray-500">Select a group...</span>}
                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50"/>
                     </button>
@@ -120,6 +120,7 @@ export default function GroupSelector({selectedGroup, setSelectedGroup}) {
                                         <p>No groups found.</p>
                                         {searchValue && !hasExactMatch && (
                                             <Button
+                                                type="button"
                                                 variant="outline"
                                                 className="mt-2"
                                                 onClick={() => {
@@ -159,7 +160,11 @@ export default function GroupSelector({selectedGroup, setSelectedGroup}) {
 
             <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
                 <DialogContent className="sm:max-w-[425px]">
-                    <form onSubmit={form.handleSubmit(handleCreateGroup)}>
+                    <form onSubmit={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        form.handleSubmit(handleCreateGroup)(e)
+                    }}>
                         <DialogHeader>
                             <DialogTitle>Create new group</DialogTitle>
                             <DialogDescription>Enter a name for the new group.</DialogDescription>
