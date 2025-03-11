@@ -19,13 +19,12 @@ import {Button} from "@/components/ui/button.jsx";
 import axios from "axios";
 
 
-export default function GroupSelector() {
+export default function GroupSelector({selectedGroup, setSelectedGroup}) {
     const [open, setOpen] = useState(false)
     const [dialogOpen, setDialogOpen] = useState(false)
     const [groups, setGroups] = useState([])
     const [loading, setLoading] = useState(false)
     const [searchValue, setSearchValue] = useState("")
-    const [selectedGroup, setSelectedGroup] = useState(null);
     const debounceRef = useRef()
 
     const form = useForm({
