@@ -247,7 +247,7 @@ export function TestcaseElement({index, testcaseData, updateTestcaseData}) {
                                 setFileName("")
                                 setFileContent("")
                                 setIsFileDialogBoxOpen(true)
-                            }}>
+                            }} type={'button'}>
                                 <div
                                     className='flex items-center gap-1 mt-1 ml-1 bg-gradient-to-b from-[#009be5] to-[#0088cc] text-white px-2 py-2 rounded-md hover:from-[#0088cc] hover:to-[#0077b3] shadow-sm border border-[#0077b3] transition duration-150 ease-in-out hover:cursor-pointer'>
                                     <Plus height={18} width={18} color={'white'}/> Create File
@@ -259,6 +259,7 @@ export function TestcaseElement({index, testcaseData, updateTestcaseData}) {
                                 <DialogTitle>Create an Input File</DialogTitle>
                                 <form className="flex flex-col justify-start gap-4 py-4" onSubmit={(e) => {
                                     e.preventDefault()
+                                    e.stopPropagation()
                                     addFile()
                                 }}>
                                     <div className="flex items-center gap-4">
@@ -280,9 +281,7 @@ export function TestcaseElement({index, testcaseData, updateTestcaseData}) {
                                             className="w-full p-3 min-h-40 flex-1 border bg-white border-gray-300 rounded-md px-4 py-2 focus:border-[#009be5] focus:outline-none"
                                             placeholder="Type content ..." required={true}/>
                                     </div>
-                                    <button onClick={() => {
-
-                                    }} type={"submit"}>
+                                    <button>
                                         <div
                                             className='flex items-center justify-center gap-1 bg-gradient-to-b from-[#009be5] to-[#0088cc] text-white px-2 py-2 rounded-md hover:from-[#0088cc] hover:to-[#0077b3] shadow-sm border border-[#0077b3] transition duration-150 ease-in-out hover:cursor-pointer'>
                                             Create File
