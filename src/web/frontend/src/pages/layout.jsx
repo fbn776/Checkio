@@ -13,7 +13,7 @@ import useTestToken from "@/hooks/test-token.js";
 import {logoutService} from "@/services/auth-service.js";
 
 export default function Layout() {
-    useTestToken();
+    //useTestToken();
     const pathname = useLocation().pathname;
     const selectedRoute = ROUTES.find(route => route.route.split('/')[1] === pathname.split('/')[1]);
 

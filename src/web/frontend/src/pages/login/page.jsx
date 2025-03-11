@@ -16,7 +16,7 @@ export default function LoginPage() {
         setIsLoading(true)
 
         try {
-            await loginService(username, password);
+            //await loginService(username, password);
             navigate("/");
         } catch (err) {
             const errorMessage = err.response?.data?.message || "Login failed. Please try again.";

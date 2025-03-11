@@ -15,7 +15,7 @@ export default function UserguidePage() {
                         1. Setting up Checkio
                     </h2>
                     To set up Checkio and adjust system settings, use:<br/>
-                    <div className="bg-grey px-[35px] py-[5px] font-semibold">
+                    <div className="bg-gray-200 text-center py-[5px] font-semibold w-[230px] rounded-[10px]">
                         checkio config
                     </div>
                     This command allows Faculty to configure necessary settings, such as database connections, environment variables, and other system preferences.
@@ -28,14 +28,14 @@ export default function UserguidePage() {
                         2.1 Creating a Faculty user
                     </h2>
                     Before using Checkio, Faculty members need an account. To create a new faculty account:<br/>
-                    <div className="bg-grey px-[35px] py-[5px] font-semibold">
+                    <div className="bg-gray-200 text-center py-[5px] font-semibold w-[230px] rounded-[10px]">
                         checkio user create
                     </div>
                     <h2 className="text-[#081627] text-[16px] font-semibold mt-4 px-1 mb-2">
                         2.2 Deleting a Faculty user
                     </h2>
                     If a faculty member’s account is no longer needed, you can remove it using:<br/>
-                    <div className="bg-grey px-[35px] py-[5px] font-semibold">
+                    <div className="bg-gray-200 text-center py-[5px] font-semibold w-[230px] rounded-[10px]">
                         checkio user delete
                     </div>  
                 </div>
@@ -44,7 +44,7 @@ export default function UserguidePage() {
                        3. Web-Based Access
                     </h2>
                     To access the Checkio dashboard via a web browser:<br/>
-                    <div className="bg-grey px-[35px] py-[5px] font-semibold">
+                    <div className="bg-gray-200 text-center py-[5px] font-semibold w-[230px] rounded-[10px]">
                         checkio serve
                     </div>
                 </div>
@@ -53,7 +53,7 @@ export default function UserguidePage() {
                        4. Creating Test Cases
                     </h2>
                     To create a test case for student assignments:<br/>
-                    <div className="bg-grey px-[35px] py-[5px] font-semibold">
+                    <div className="bg-gray-200 text-center py-[5px] font-semibold w-[230px] rounded-[10px]">
                         checkio create
                     </div>
                 </div> 
@@ -73,7 +73,7 @@ export default function UserguidePage() {
                         1. Running a Program
                     </h2>
                     To execute the program and check if it produces the desired output, use:<br/>
-                    <div className="bg-grey px-[35px] py-[5px] font-semibold">
+                    <div className="bg-gray-200 text-center py-[5px] font-semibold w-[230px] rounded-[10px]">
                         checkio run
                     </div>
                 </div>
@@ -82,7 +82,7 @@ export default function UserguidePage() {
                         2. Analyzing Code
                     </h2>
                     To analyze the logic and performance of a program, use:<br/>
-                    <div className="bg-grey px-[35px] py-[5px] font-semibold">
+                    <div className="bg-gray-200 text-center py-[5px] font-semibold w-[230px] rounded-[10px]">
                        checkio analyze 
                     </div>  
                 </div>
@@ -91,7 +91,7 @@ export default function UserguidePage() {
                        3.Submitting Code
                     </h2>
                     To submit a program to Checkio for evaluation, use:<br/>
-                    <div className="bg-grey px-[35px] py-[5px] font-semibold">
+                    <div className="bg-gray-200 text-center py-[5px] font-semibold w-[230px] rounded-[10px]">
                         checkio submit
                     </div>
                 </div>
