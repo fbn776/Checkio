@@ -1,6 +1,7 @@
-import {TestTubeDiagonal, Pencil, Plus} from 'lucide-react';
+import { Pencil, Plus} from 'lucide-react';
 import {TestcaseElement} from "@/pages/testcases/create/component/TestcaseElement.jsx";
-import {useState} from "react";
+import { useState} from "react";
+import GroupSelector from "@/components/group-input.jsx";
 
 
 export default function CreatePage() {
@@ -20,9 +21,10 @@ export default function CreatePage() {
             <div className="border shadow p-4 bg-white rounded-md w-full">
                 <h1 className="text-xl mb-4">Testcase Id</h1>
                 <div className="flex items-center gap-5">
-                    <input
-                        className="w-full p-3 flex-1 border bg-white border-gray-300 rounded-md px-4 py-2 focus:border-[#009be5] focus:outline-none mb-[8px]"
-                        placeholder="Enter Group Id"/>
+                    <GroupSelector/>
+                    {/*<input*/}
+                    {/*    className="w-full p-3 flex-1 border bg-white border-gray-300 rounded-md px-4 py-2 focus:border-[#009be5] focus:outline-none mb-[8px]"*/}
+                    {/*    placeholder="Enter Group Id"/>*/}
                     <input
                         className="w-full p-3 flex-1 border bg-white border-gray-300 rounded-md px-4 py-2 focus:border-[#009be5] focus:outline-none mb-[8px]"
                         placeholder="Enter Testcase Id"/>
