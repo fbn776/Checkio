@@ -1,12 +1,13 @@
 import os
 import subprocess
+import sys
 
 from rich.syntax import Syntax
 from rich.text import Text
 from core.global_store import get_value
 from core.runner.base_runner import BaseRunner
 from utils.errors import DontContinue, CompilationError
-from utils.utils import boxed_text
+from utils.utils import boxed_text, get_error_message
 
 
 class CRunner(BaseRunner):
@@ -48,7 +49,10 @@ class CRunner(BaseRunner):
             boxed_text(self.console, "Error", "The current file name is None", "bold red", "bold red")
             raise DontContinue()
 
-        subprocess.run([self.exec_path])
+        res = subprocess.run([self.exec_path], stdout=sys.stdout, stderr=sys.stderr)
+        if res.returncode != 0:
+            boxed_text(self.console, "Error", f"The program returned a non-zero exit code\n\n[bold red]Possible cause: {get_error_message(res.returncode)}[/]", "bold red", "bold red")
+            raise DontContinue()
 
     def testcase_run_func(self, unit):
         return subprocess.run([self.exec_path] + (unit.cli_args or []), input=unit.input, text=True, capture_output=True)

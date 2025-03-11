@@ -9,8 +9,8 @@ class Submission(Base):
     __tablename__ = "submissions"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    group_id = Column(String, ForeignKey('groups.id'))
-    testcase_id = Column(String, ForeignKey('testcases.main_id'))
+    group_id = Column(String, ForeignKey('groups.id', ondelete="CASCADE", onupdate="CASCADE"))
+    testcase_id = Column(String, ForeignKey('testcases.main_id', ondelete="CASCADE", onupdate="CASCADE"))
     submitted_by = Column(String)
 
     # See docs/data-structures.md for the structure of the submitted_files

@@ -11,10 +11,10 @@ class Evaluation(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
 
     # This is the user (faculty) who evaluated the submission
-    created_by = Column(String, ForeignKey('users.username'))
+    created_by = Column(String, ForeignKey('users.username', ondelete="CASCADE", onupdate="CASCADE"))
 
     # This is the submission that is being evaluated
-    submission_id = Column(Integer, ForeignKey('submissions.id'))
+    submission_id = Column(Integer, ForeignKey('submissions.id', ondelete="CASCADE", onupdate="CASCADE"))
 
     # The evaluation status
     status = Column(String, default="pending")
