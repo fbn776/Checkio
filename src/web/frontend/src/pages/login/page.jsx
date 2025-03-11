@@ -1,6 +1,7 @@
 import {useState} from "react"
 import {useNavigate} from "react-router";
 import {toast} from "sonner";
+import { motion } from "framer-motion";
 import {loginService} from "@/services/auth-service.js";
 
 export default function LoginPage() {
@@ -16,7 +17,7 @@ export default function LoginPage() {
         setIsLoading(true)
 
         try {
-            //await loginService(username, password);
+            await loginService(username, password);
             navigate("/");
         } catch (err) {
             const errorMessage = err.response?.data?.message || "Login failed. Please try again.";
@@ -29,8 +30,18 @@ export default function LoginPage() {
 
     return (
         <div className="flex items-center justify-center h-screen bg-[#c7e0ec]">
+             <div className="w-1/3 h-screen bg-gray-900 flex items-center justify-center">
+                 
+                  <h1 className="text-white text-3xl font-semibold">CHECKIO</h1>
+                
+            </div>
+
             <div className="flex-1 p-8">
-                <div className="max-w-md mx-auto bg-white rounded-md shadow-sm p-8">
+                <motion.div
+                    className="max-w-md mx-auto bg-white rounded-md shadow-sm p-8"
+                    initial={{ scale: 0.4, opacity: 0 }} 
+                    animate={{ scale: 1, opacity: 1 }} 
+                    transition={{ duration: 0.8, ease: "easeOut" }}>
                     <h2 className="text-xl font-semibold mb-6">Login to Checkio</h2>
 
                     {error && <div className="mb-4 p-3 bg-red-50 text-red-700 rounded-md text-sm">{error}</div>}
@@ -72,7 +83,7 @@ export default function LoginPage() {
                             {isLoading ? "Logging in..." : "Login"}
                         </button>
                     </form>
-                </div>
+                </motion.div>
             </div>
         </div>
     )
