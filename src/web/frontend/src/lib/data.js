@@ -30,10 +30,7 @@ export const ROUTES = [
             }, {
                 name: 'Submitted Programs',
                 route: '/evaluate/submittedPrograms'
-            }, {
-                name: 'Create Evaluation',
-                route: '/evaluate/create'
-            }
+            },
         ]
     }, {
         title: 'About',

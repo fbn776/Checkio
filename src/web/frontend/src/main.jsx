@@ -20,6 +20,7 @@ import {Toaster} from "sonner";
 import AuthTokenSetup from "@/lib/axios-interceptor.js";
 import EvaluationReport from "@/pages/evaluate/evaluation_report/page.jsx";
 import ViewedTestcase from "@/pages/testcases/view/component/ViewedTestcase.jsx";
+import ViewedSubmittedProgram from "@/pages/evaluate/submitted_programs/view/page.jsx";
 
 AuthTokenSetup();
 
@@ -41,12 +42,11 @@ createRoot(document.getElementById('root')).render(
                         <Route path="commands" element={<CommandPage/>}/>
                         <Route path="install" element={<InstallPage/>}/>
                         <Route path="userguide" element={<UserguidePage/>}/>
-
                     </Route>
-                    <Route path="/evaluate" element={<EvaluatePage/>}/>
                     <Route path="/evaluate" element={<Page/>}>
                         <Route path="submittedPrograms" element={<SubmittedPrograms/>}/>
                         <Route path="evaluation-report" element={<EvaluationReport/>}/>
+                        <Route path="submittedPrograms/view/:submissionId" element={<ViewedSubmittedProgram/>}/>
                     </Route>
                     <Route path="/settings" element={<SettingsPage/>}/>
                 </Route>
