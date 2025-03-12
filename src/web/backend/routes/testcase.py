@@ -17,16 +17,16 @@ testcaseRoute = Blueprint('testcases', __name__)
 @testcaseRoute.get('/')
 @token_required
 def list_testcases():
+    group = request.args.get('group')
+
     with next(get_db()) as session:
-        testcases = (
-            session.query(Testcase)
-            .join(Group, Testcase.group_id == Group.id)
-            .join(User, Group.created_by == User.username)
-            .filter(User.username == g.user['username'])
-            .all()
-        )
+        testcases = session.query(Testcase).join(Group, Testcase.group_id == Group.id).join(User, Group.created_by == User.username).filter(User.username == g.user['username'])
+        if group:
+            testcases = testcases.filter(Testcase.group_id == group)
+
 
         return [{
+            "_id": testcase.main_id,
             "group_id": testcase.group_id,
             "id": testcase.id,
             "title": testcase.title,
@@ -45,7 +45,7 @@ def get_testcase(id):
             session.query(Testcase)
             .join(Group, Testcase.group_id == Group.id)
             .join(User, Group.created_by == User.username)
-            .filter(User.username == g.user['username'], Testcase.id == id)
+            .filter(User.username == g.user['username'], Testcase.main_id == id)
             .first()
         )
 
@@ -53,6 +53,7 @@ def get_testcase(id):
             return {"error": "Testcase not found"}, 404
 
         return {
+            "_id": testcase.main_id,
             "group_id": testcase.group_id,
             "id": testcase.id,
             "title": testcase.title,
@@ -62,34 +63,7 @@ def get_testcase(id):
         }, 200
 
 
-"""
-{
-  "group_id": "string",
-  "id": "string",
-  "title": "string",
-  "description": "string",
-  "data": [
-    {
-      "output": "string",
-      "input": "string",
-      "hidden": "boolean",
-      "cli_args": [
-        "string"
-      ],
-      "files": [
-        {
-          "name": "string",
-          "content": "string"
-        }
-      ]
-    }
-  ]
-}
-"""
-
 console = Console()
-
-
 @testcaseRoute.post('/')
 @token_required
 def create_testcase():
@@ -175,22 +149,25 @@ def update_testcase(id):
         return {"message": "Testcase updated successfully"}, 200
 
 
-@testcaseRoute.delete('/<id>')
+@testcaseRoute.delete('/<t_id>')
 @token_required
-def delete_testcase(id):
-    with next(get_db()) as session:
-        testcase = (
-            session.query(Testcase)
-            .join(Group, Testcase.group_id == Group.id)
-            .join(User, Group.created_by == User.username)
-            .filter(User.username == g.user['username'], Testcase.id == id)
-            .first()
-        )
+def delete_testcase(t_id):
+    print("ID = ", t_id, type(t_id))
+    try:
+        with next(get_db()) as session:
+            testcase = (
+                session.query(Testcase)
+                .filter(Testcase.created_by == g.user['username'], Testcase.main_id == t_id)
+                .first()
+            )
 
-        if not testcase:
-            return {"error": "Testcase not found"}, 404
+            if not testcase:
+                return {"error": "Testcase not found"}, 404
 
-        session.delete(testcase)
-        session.commit()
+            session.delete(testcase)
+            session.commit()
 
-        return {"message": "Testcase deleted successfully"}, 200
+            return {"message": "Testcase deleted successfully"}, 200
+    except Exception as e:
+        print(e)
+        return {"error": "An error occurred while deleting the testcase"}, 500

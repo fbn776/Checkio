@@ -4,6 +4,7 @@ from typing import Literal
 def find_lang(file_name: str) -> Literal["c", "py", "java", None]:
     """
     Find the language of the file
+    :rtype: object
     :param file_name: The name of the file
     :return: The language of the file
     """

@@ -1,6 +1,5 @@
 from sqlalchemy import Column, Integer, String, DateTime, func, ForeignKey, PrimaryKeyConstraint, JSON, UniqueConstraint
 from sqlalchemy.orm import relationship, validates
-
 from core.db.db import Base
 from core.global_store import get_value
 
@@ -14,9 +13,9 @@ class Testcase(Base):
     # The actual ID of the testcase
     main_id = Column(Integer, primary_key=True, autoincrement=True)
 
-    created_by = Column(String, ForeignKey('users.username'), nullable=False)
+    created_by = Column(String, ForeignKey('users.username', ondelete="CASCADE", onupdate="CASCADE"), nullable=False)
 
-    group_id = Column(String, ForeignKey('groups.id'), nullable=False)
+    group_id = Column(String, ForeignKey('groups.id', ondelete="CASCADE", onupdate="CASCADE"), nullable=False)
     # This is just the title or id of the testcase; not the unique identifier
     id = Column(String, nullable=False)
     title = Column(String, nullable=False)
