@@ -31,7 +31,7 @@ export default function HomePage() {
             <div className="w-full flex flex-row gap-[40px]">
                 {/* Recently Generated report */}
                 <div className="w-full bg-[#fff] shadow-[0px_0px_20px_2px_#c4c4c4] h-auto p-[20px] flex flex-col gap-[20px] hover:bg-[#e8f6fc] rounded-[15px]">
-                    <h1 className="text-[22px] font-medium text-[#009BE5] font-semibold">View Report</h1>
+                    <h1 className="text-[22px] text-[#009BE5] font-semibold">View Report</h1>
                     <div className="flex gap-[10px] ml-[20px]">
                         <div className="flex flex-col gap-[2px] w-full">
                             <p className="text-[#9c9c9c]">Submissions: <span className="font-light">75</span></p>
