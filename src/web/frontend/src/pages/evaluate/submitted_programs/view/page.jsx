@@ -26,7 +26,7 @@ const ThreeDotsButton = ({handleDelete}) => {
         </DropdownMenu>
     )
 }
-export default function ViewedTestcase() {
+export default function ViewedSubmittedProgram() {
 
     const navigate = useNavigate();
     const {submissionId} = useParams();
@@ -37,7 +37,33 @@ export default function ViewedTestcase() {
     return (
         <div className="relative w-full p-5 flex flex-col gap-3">
             {!loading &&
-                <div>Hellooo</div>
+                <div className="border shadow p-4 bg-white rounded-md w-full">
+                    <div className="flex items-center justify-between mb-8">
+                        <div className="flex items-center justify-center gap-5">
+                            <ArrowLeft size={22} className="text-[#007ab7] cursor-pointer" onClick={() => {
+                                navigate('/evaluate/submittedPrograms')
+                            }}/>
+                            <h1 className="text-xl text-left">Submission Details</h1>
+                            <div
+                                className="flex items-center text-sm justify-center px-2 py-1 rounded-[5px] bg-gray-200 text-[#007ab7] ml-2">
+                                ID: {submissionId}
+                            </div>
+                        </div>
+                        <ThreeDotsButton className="cursor-pointer border-none"/>
+                    </div>
+                    <div className="space-y-4 divide-y">
+                        {/*Title*/}
+                        <div className="pb-4">
+                            <h1 className="text-sm text-gray-400">Title</h1>
+                            {/*<p>{testcase.title}</p>*/}
+                        </div>
+                        {/*Description*/}
+                        <div>
+                            <h1 className="text-sm text-gray-400">Description</h1>
+                            {/*<p>{testcase.description}</p>*/}
+                        </div>
+                    </div>
+                </div>
             }
             {loading &&
                 <div
