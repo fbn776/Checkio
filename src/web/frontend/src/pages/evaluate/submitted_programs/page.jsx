@@ -4,7 +4,7 @@ import {Fragment, useEffect, useState} from "react"
 import {Calendar, Search} from "lucide-react"
 import {format} from "date-fns"
 import {Button} from "@/components/ui/button"
-import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card"
+import {CardContent, CardHeader, CardTitle} from "@/components/ui/card"
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "@/components/ui/dropdown-menu"
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select"
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table"
@@ -158,186 +158,190 @@ export default function TestcaseSubmission() {
     }
 
     return (
-        <Card className="relative w-full max-w-6xl mx-auto p-5 mt-5 pb-14 mr-5">
-            <CardHeader className="pb-0">
-                <CardTitle className="text-2xl font-semibold text-primary">Submission Details</CardTitle>
-            </CardHeader>
-            <CardContent>
-                <form
-                    className="flex flex-wrap gap-4 mb-8"
-                    onSubmit={(e) => {
-                        e.preventDefault()
-                        handleSearch()
-                    }}
-                >
-                    <Select onValueChange={(value) => setSelectedGroup(value)} value={selectedGroup}>
-                        <SelectTrigger className="w-[180px] bg-muted/40 ring-none border-none outline-none">
-                            <SelectValue placeholder="Group ID"/>
-                        </SelectTrigger>
-                        <SelectContent>
-                            {groups?.map((option) => (
-                                <SelectItem key={option.id} value={option.id}>
-                                    {option.id}
-                                </SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
-
-                    <Select onValueChange={(value) => setSelectedTestcase(value)} value={selectedTestcase}>
-                        <SelectTrigger className="w-[180px] bg-muted/40 ring-none border-none outline-none text-black">
-                            <SelectValue placeholder="Testcase ID">{selectedTestcase}</SelectValue>
-                        </SelectTrigger>
-                        <SelectContent>
-                            {testcases.map((item, index) => (
-                                <SelectItem key={index} value={item._id}>
-                                    {item.id}
-                                </SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
-
-
-                    <div className="flex items-center gap-2">
-                        <span className="text-sm font-medium">From:</span>
-                        <Popover>
-                            <PopoverTrigger asChild>
-                                <Button variant="outline"
-                                        className="w-[180px] justify-start text-left font-normal bg-muted/40">
-                                    {fromDate ? format(fromDate, "dd-MM-yyyy") : "dd-mm-yyyy"}
-                                    <Calendar className="ml-auto h-4 w-4 opacity-50"/>
-                                </Button>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-auto p-0" align="start">
-                                <CalendarComponent mode="single" selected={fromDate} onSelect={setFromDate}
-                                                   initialFocus/>
-                            </PopoverContent>
-                        </Popover>
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                        <span className="text-sm font-medium">To:</span>
-                        <Popover>
-                            <PopoverTrigger asChild>
-                                <Button variant="outline"
-                                        className="w-[180px] justify-start text-left font-normal bg-muted/40">
-                                    {toDate ? format(toDate, "dd-MM-yyyy") : "dd-mm-yyyy"}
-                                    <Calendar className="ml-auto h-4 w-4 opacity-50"/>
-                                </Button>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-auto p-0" align="start">
-                                <CalendarComponent mode="single" selected={toDate} onSelect={setToDate} initialFocus/>
-                            </PopoverContent>
-                        </Popover>
-                    </div>
-                    <button
-                        type={"submit"}
-                        className="flex items-center bg-gradient-to-b from-[#009be5] to-[#0088cc] text-white px-4 py-1 ml-5 rounded-md hover:from-[#0088cc] hover:to-[#0077b3] shadow-sm border border-[#0077b3] transition duration-150 ease-in-out cursor-pointer gap-2"
+        <div className="px-5">
+            <div className="bg-white rounded-lg shadow-2xs relative w-full p-5 mt-5 pb-14">
+                <CardHeader className="pb-0">
+                    <CardTitle className="text-2xl font-semibold text-primary">Submission Details</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <form
+                        className="flex flex-wrap gap-4 mb-8"
+                        onSubmit={(e) => {
+                            e.preventDefault()
+                            handleSearch()
+                        }}
                     >
-                        <Search className="h-5 w-5 mr-1"/>
-                        <span>Search</span>
-                    </button>
-                </form>
-                {submission.length > 0 && submission[0].testcase_id !== null && (
-                    <Fragment>
-                        <div className="border-b-2 border-primary mb-4">
-                            <h2 className="text-xl font-semibold text-primary mb-2">Submissions</h2>
+                        <Select onValueChange={(value) => setSelectedGroup(value)} value={selectedGroup}>
+                            <SelectTrigger className="w-[180px] bg-muted/40 ring-none border-none outline-none">
+                                <SelectValue placeholder="Group ID"/>
+                            </SelectTrigger>
+                            <SelectContent>
+                                {groups?.map((option) => (
+                                    <SelectItem key={option.id} value={option.id}>
+                                        {option.id}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+
+                        <Select onValueChange={(value) => setSelectedTestcase(value)} value={selectedTestcase}>
+                            <SelectTrigger
+                                className="w-[180px] bg-muted/40 ring-none border-none outline-none text-black">
+                                <SelectValue placeholder="Testcase ID">{selectedTestcase}</SelectValue>
+                            </SelectTrigger>
+                            <SelectContent>
+                                {testcases.map((item, index) => (
+                                    <SelectItem key={index} value={item._id}>
+                                        {item.id}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+
+
+                        <div className="flex items-center gap-2">
+                            <span className="text-sm font-medium">From:</span>
+                            <Popover>
+                                <PopoverTrigger asChild>
+                                    <Button variant="outline"
+                                            className="w-[180px] justify-start text-left font-normal bg-muted/40">
+                                        {fromDate ? format(fromDate, "dd-MM-yyyy") : "dd-mm-yyyy"}
+                                        <Calendar className="ml-auto h-4 w-4 opacity-50"/>
+                                    </Button>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-auto p-0" align="start">
+                                    <CalendarComponent mode="single" selected={fromDate} onSelect={setFromDate}
+                                                       initialFocus/>
+                                </PopoverContent>
+                            </Popover>
                         </div>
 
-                        {selectedSubmissions.length > 0 && (
-                            <div className="mb-4 flex items-center gap-2">
+                        <div className="flex items-center gap-2">
+                            <span className="text-sm font-medium">To:</span>
+                            <Popover>
+                                <PopoverTrigger asChild>
+                                    <Button variant="outline"
+                                            className="w-[180px] justify-start text-left font-normal bg-muted/40">
+                                        {toDate ? format(toDate, "dd-MM-yyyy") : "dd-mm-yyyy"}
+                                        <Calendar className="ml-auto h-4 w-4 opacity-50"/>
+                                    </Button>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-auto p-0" align="start">
+                                    <CalendarComponent mode="single" selected={toDate} onSelect={setToDate}
+                                                       initialFocus/>
+                                </PopoverContent>
+                            </Popover>
+                        </div>
+                        <button
+                            type={"submit"}
+                            className="flex items-center bg-gradient-to-b from-[#009be5] to-[#0088cc] text-white px-4 py-1 ml-5 rounded-md hover:from-[#0088cc] hover:to-[#0077b3] shadow-sm border border-[#0077b3] transition duration-150 ease-in-out cursor-pointer gap-2"
+                        >
+                            <Search className="h-5 w-5 mr-1"/>
+                            <span>Search</span>
+                        </button>
+                    </form>
+                    {submission.length > 0 && submission[0].testcase_id !== null && (
+                        <Fragment>
+                            <div className="border-b-2 border-primary mb-4">
+                                <h2 className="text-xl font-semibold text-primary mb-2">Submissions</h2>
+                            </div>
+
+                            {selectedSubmissions.length > 0 && (
+                                <div className="mb-4 flex items-center gap-2">
                 <span className="text-sm font-medium text-red-500">
                   {selectedSubmissions.length} {selectedSubmissions.length === 1 ? "submission" : "submissions"}{" "}
                     selected
                 </span>
-                                <Button
-                                    variant="outline"
-                                    size="sm"
-                                    onClick={() => {
-                                        setSelectedSubmissions([])
-                                        setSelectAll(false)
-                                    }}
-                                >
-                                    Clear Selection
-                                </Button>
-                            </div>
-                        )}
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => {
+                                            setSelectedSubmissions([])
+                                            setSelectAll(false)
+                                        }}
+                                    >
+                                        Clear Selection
+                                    </Button>
+                                </div>
+                            )}
 
-                        <div className="overflow-x-auto">
-                            <Table>
-                                <TableHeader>
-                                    <TableRow>
-                                        <TableHead className="w-12">
-                                            <Checkbox
-                                                checked={selectAll}
-                                                onCheckedChange={handleSelectAllChange}
-                                                aria-label="Select all submissions"
-                                            />
-                                        </TableHead>
-                                        <TableHead className="font-bold">Student ID</TableHead>
-                                        <TableHead className="font-bold">Group ID</TableHead>
-                                        <TableHead className="font-bold">Testcase ID</TableHead>
-                                        <TableHead className="font-bold">Date</TableHead>
-                                        <TableHead className="font-bold text-right">Actions</TableHead>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    {submission.map((submission, index) => (
-                                        <TableRow key={index}
-                                                  className={selectedSubmissions.includes(submission.id) ? "bg-muted/30" : ""}
-                                                  onClick={() => {
-                                                      navigate(`/evaluate/submittedPrograms/view/${submission.id}`)
-                                                  }}>
-                                            <TableCell>
+                            <div className="overflow-x-auto">
+                                <Table>
+                                    <TableHeader>
+                                        <TableRow>
+                                            <TableHead className="w-12">
                                                 <Checkbox
-                                                    checked={selectedSubmissions.includes(submission.id)}
-                                                    onCheckedChange={() => handleCheckboxChange(submission.id)}
-                                                    aria-label={`Select submission for ${submission.submitted_by}`}
+                                                    checked={selectAll}
+                                                    onCheckedChange={handleSelectAllChange}
+                                                    aria-label="Select all submissions"
                                                 />
-                                            </TableCell>
-                                            <TableCell className="font-medium">{submission.submitted_by}</TableCell>
-                                            <TableCell>{submission.group_id}</TableCell>
-                                            <TableCell>{submission.testcase_id}</TableCell>
-                                            <TableCell>{submission.created_at}</TableCell>
-                                            <TableCell className="text-right">
-                                                <DropdownMenu>
-                                                    <DropdownMenuTrigger asChild>
-                                                        <Button variant="ghost" className="h-8 w-8 p-0">
-                                                            <span className="sr-only">Open menu</span>
-                                                            <div
-                                                                className="flex flex-col items-center justify-center h-full">
-                                                                <div
-                                                                    className="w-1 h-1 rounded-full bg-foreground mb-0.5"></div>
-                                                                <div
-                                                                    className="w-1 h-1 rounded-full bg-foreground mb-0.5"></div>
-                                                                <div
-                                                                    className="w-1 h-1 rounded-full bg-foreground"></div>
-                                                            </div>
-                                                        </Button>
-                                                    </DropdownMenuTrigger>
-                                                    <DropdownMenuContent align="end">
-                                                        <DropdownMenuItem>View</DropdownMenuItem>
-                                                        <DropdownMenuItem>Delete</DropdownMenuItem>
-                                                    </DropdownMenuContent>
-                                                </DropdownMenu>
-                                            </TableCell>
+                                            </TableHead>
+                                            <TableHead className="font-bold">Student ID</TableHead>
+                                            <TableHead className="font-bold">Group ID</TableHead>
+                                            <TableHead className="font-bold">Testcase ID</TableHead>
+                                            <TableHead className="font-bold">Date</TableHead>
+                                            <TableHead className="font-bold text-right">Actions</TableHead>
                                         </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </div>
-                    </Fragment>
-                )}
+                                    </TableHeader>
+                                    <TableBody>
+                                        {submission.map((submission, index) => (
+                                            <TableRow key={index}
+                                                      className={selectedSubmissions.includes(submission.id) ? "bg-muted/30" : ""}
+                                                      onClick={() => {
+                                                          navigate(`/evaluate/submittedPrograms/view/${submission.id}`)
+                                                      }}>
+                                                <TableCell>
+                                                    <Checkbox
+                                                        checked={selectedSubmissions.includes(submission.id)}
+                                                        onCheckedChange={() => handleCheckboxChange(submission.id)}
+                                                        aria-label={`Select submission for ${submission.submitted_by}`}
+                                                    />
+                                                </TableCell>
+                                                <TableCell className="font-medium">{submission.submitted_by}</TableCell>
+                                                <TableCell>{submission.group_id}</TableCell>
+                                                <TableCell>{submission.testcase_id}</TableCell>
+                                                <TableCell>{submission.created_at}</TableCell>
+                                                <TableCell className="text-right">
+                                                    <DropdownMenu>
+                                                        <DropdownMenuTrigger asChild>
+                                                            <Button variant="ghost" className="h-8 w-8 p-0">
+                                                                <span className="sr-only">Open menu</span>
+                                                                <div
+                                                                    className="flex flex-col items-center justify-center h-full">
+                                                                    <div
+                                                                        className="w-1 h-1 rounded-full bg-foreground mb-0.5"></div>
+                                                                    <div
+                                                                        className="w-1 h-1 rounded-full bg-foreground mb-0.5"></div>
+                                                                    <div
+                                                                        className="w-1 h-1 rounded-full bg-foreground"></div>
+                                                                </div>
+                                                            </Button>
+                                                        </DropdownMenuTrigger>
+                                                        <DropdownMenuContent align="end">
+                                                            <DropdownMenuItem>View</DropdownMenuItem>
+                                                            <DropdownMenuItem>Delete</DropdownMenuItem>
+                                                        </DropdownMenuContent>
+                                                    </DropdownMenu>
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </div>
+                        </Fragment>
+                    )}
 
-                {selectedSubmissions.length > 0 && (
-                    <button
-                        onClick={handleEvaluate}
-                        className="absolute bottom-2 right-10 flex items-center bg-gradient-to-b from-[#009be5] to-[#0088cc] text-white px-4 py-1 ml-5 rounded-md hover:from-[#0088cc] hover:to-[#0077b3] shadow-sm border border-[#0077b3] transition duration-150 ease-in-out cursor-pointer gap-2"
-                    >
-                        <span>Evaluate</span>
-                    </button>
-                )}
-            </CardContent>
-        </Card>
+                    {selectedSubmissions.length > 0 && (
+                        <button
+                            onClick={handleEvaluate}
+                            className="absolute bottom-2 right-10 flex items-center bg-gradient-to-b from-[#009be5] to-[#0088cc] text-white px-4 py-1 ml-5 rounded-md hover:from-[#0088cc] hover:to-[#0077b3] shadow-sm border border-[#0077b3] transition duration-150 ease-in-out cursor-pointer gap-2"
+                        >
+                            <span>Evaluate</span>
+                        </button>
+                    )}
+                </CardContent>
+            </div>
+        </div>
     )
 }
 

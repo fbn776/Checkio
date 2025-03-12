@@ -48,7 +48,7 @@ export default function IndividualReport() {
                             <h1 className="text-sm text-gray-500">Submitted By <b
                                 className="ml-1 font-normal text-black text-xl">{item.submitted_by}</b></h1>
 
-                            <Link to={`/submittedPrograms/view/${item.submission_id}`}
+                            <Link to={`/evaluate/submittedPrograms/view/${item.submission_id}`}
                                   className="flex items-center gap-2">
                                 See Submission
                                 <ArrowUpRight/>
