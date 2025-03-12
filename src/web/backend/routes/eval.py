@@ -25,6 +25,7 @@ def get_eval():
             "id": eval.id,
             "created_by": eval.created_by,
             "submission_id": eval.submission_id,
+            "submitted_by": eval.submission.submitted_by,
             "data": eval.data,
             "created_at": eval.created_at,
             "status": eval.status,
@@ -36,24 +37,26 @@ def get_eval():
 @token_required
 def get_eval_by_id(id):
     db = next(get_db())
-    eval_group = db.query(EvalGroup).filter_by(id=id).first()
+    group = db.query(EvalGroup).filter_by(id=id).first()
 
-    if eval_group is None:
+    if group is None:
         return jsonify({
             "error": "Evaluation group not found"
         }), 404
 
+
     return jsonify({
-        "id": eval_group.id,
-        "name": eval_group.name,
+        "id": group.id,
+        "name": group.name,
         "eval": [{
             "id": eval.id,
             "created_by": eval.created_by,
             "submission_id": eval.submission_id,
+            "submitted_by": eval.submission.submitted_by,
             "data": eval.data,
             "created_at": eval.created_at,
             "status": eval.status,
-        } for eval in eval_group.evaluations]
+        } for eval in group.evaluations]
     }), 200
 
 @evalRoute.get('/unit/<id>')
