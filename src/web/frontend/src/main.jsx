@@ -21,6 +21,7 @@ import AuthTokenSetup from "@/lib/axios-interceptor.js";
 import EvaluationReport from "@/pages/evaluate/evaluation_report/page.jsx";
 import ViewedTestcase from "@/pages/testcases/view/component/ViewedTestcase.jsx";
 import ViewedSubmittedProgram from "@/pages/evaluate/submitted_programs/view/page.jsx";
+import IndividualReport from "@/pages/evaluate/evaluation_report/individual-report.jsx";
 
 AuthTokenSetup();
 
@@ -46,6 +47,7 @@ createRoot(document.getElementById('root')).render(
                     <Route path="/evaluate" element={<Page/>}>
                         <Route path="submittedPrograms" element={<SubmittedPrograms/>}/>
                         <Route path="evaluation-report" element={<EvaluationReport/>}/>
+                        <Route path="evaluation-report/:evaluationId" element={<IndividualReport/>}/>
                         <Route path="submittedPrograms/view/:submissionId" element={<ViewedSubmittedProgram/>}/>
                     </Route>
                     <Route path="/settings" element={<SettingsPage/>}/>

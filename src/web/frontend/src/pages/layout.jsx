@@ -57,12 +57,7 @@ export default function Layout() {
                             <User/>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent className="mr-5">
-                            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                            <DropdownMenuSeparator/>
-                            <DropdownMenuItem>Profile</DropdownMenuItem>
-                            <DropdownMenuItem>Billing</DropdownMenuItem>
-                            <DropdownMenuItem>Team</DropdownMenuItem>
-                            <DropdownMenuItem>Subscription</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => logoutService()}>Logout</DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
 

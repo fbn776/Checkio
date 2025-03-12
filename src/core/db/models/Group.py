@@ -11,7 +11,7 @@ class Group(Base):
     __tablename__ = "groups"
 
     id = Column(String, primary_key=True)
-    created_by = Column(String, ForeignKey('users.username'))
+    created_by = Column(String, ForeignKey('users.username', ondelete="CASCADE", onupdate="CASCADE"))
     created_at = Column(DateTime, server_default=func.now())
 
     user = relationship("User")

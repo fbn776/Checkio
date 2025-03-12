@@ -16,7 +16,7 @@ from utils.spinners import spinner_context
 
 
 class BaseRunner(ABC):
-    def __init__(self, file_name, print_output=True, console=None):
+    def __init__(self, file_name, print_output=True, console=None, submission=None):
         """
         The base class for all the runners
         :param print_output: If True, the output of the program will be printed to the stdin
@@ -90,10 +90,12 @@ class BaseRunner(ABC):
 
     @final
     def __run_with_testcase(self, testcase_id, testcase_group,
-                            run_func: Callable[[TestUnitObj], subprocess.CompletedProcess]) -> None:
+                            run_func: Callable[[TestUnitObj], subprocess.CompletedProcess]):
         """
         Runs a given function `run_func` with the given testcase. The run function should return a subprocess.CompletedProcess object
         """
+        result = []
+
         testcase_data = self.__get_testcase(testcase_id=testcase_id, group_id=testcase_group)
 
         i = 1
@@ -110,20 +112,39 @@ class BaseRunner(ABC):
 [bold]Status:[/] {"[black on bright_green] Passed [/]" if passed else "[black on red] Failed [/]"}
 """)
 
+            result.append({
+                "input": unit.input,
+                "cli_args": unit.cli_args,
+                "expected_output": unit.output,
+                "output": process.stdout,
+                "passed": passed
+            })
+
             print()
             i += 1
 
+        return result
+
     def execute(self, testcase_id, testcase_group):
+        result = {
+            "setup_completed": False,
+            "tests": [],
+            "error": None
+        }
+
         with spinner_context(self.console, "Compiling...") as status:
             try:
                 status.update("Setting Up...")
                 self.handle_file_not_exists()
                 self.setup()
+
+                result["setup_completed"] = True
+
                 status.update("Running...")
                 status.stop()
 
                 if testcase_id and testcase_group:
-                    self.__run_with_testcase(testcase_id=testcase_id, testcase_group=testcase_group,
+                    result["tests"] = self.__run_with_testcase(testcase_id=testcase_id, testcase_group=testcase_group,
                                              run_func=self.testcase_run_func)
                 else:
                     self.no_testcase_run_func()
@@ -131,9 +152,13 @@ class BaseRunner(ABC):
                 status.update("Done")
                 status.start()
             except DontContinue:
+                result["error"] = "Don't Continue"
                 exit(1)
             except Exception as e:
+                result["error"] = str(e)
                 self.console.print(f"[bold red]Operation failed: {str(e)}")
                 exit(1)
             finally:
                 self.cleanup()
+
+        return result

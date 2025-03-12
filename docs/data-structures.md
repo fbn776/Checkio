@@ -75,11 +75,20 @@ The data representation of the file submitted by the user.
 ## Evaluation
 
 ```json
-[
-  {
-    "testunit": "testcase.testunit",
-    "status": "passed | failed",
-    "output": "string"
-  }
-]
+{
+  "setup_completed": "boolean",
+  "tests": [
+    {
+      "input": "2 3",
+      "cli_args": [
+        "4",
+        "4"
+      ],
+      "expected_output": "8",
+      "output": "5\n",
+      "passed: "boolean",
+    }
+  ],
+  "error": "string"
+}
 ```

@@ -2,10 +2,11 @@ import click
 from rich.console import Console
 from sqlalchemy import inspect
 from core.db.db import Base, engine
+import core.db.models.User
 import core.db.models.Group
 import core.db.models.Testcase
-import core.db.models.User
 import core.db.models.Submission
+import core.db.models.Evaluation
 
 console = Console()
 

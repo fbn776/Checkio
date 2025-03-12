@@ -8,6 +8,7 @@ from flask_cors import CORS
 
 from core.global_store import get_value
 from web.backend.routes.auth import auth
+from web.backend.routes.eval import evalRoute
 from web.backend.routes.group import groupRoute
 from web.backend.routes.submit import submitRoute
 from web.backend.routes.testcase import testcaseRoute
@@ -18,7 +19,7 @@ CORS(auth)
 CORS(groupRoute)
 CORS(testcaseRoute)
 CORS(submitRoute)
-
+CORS(evalRoute)
 
 @app.get('/api/is-alive')
 def is_alive():
@@ -37,7 +38,7 @@ app.register_blueprint(auth, url_prefix='/api/auth')
 app.register_blueprint(groupRoute, url_prefix='/api/group')
 app.register_blueprint(testcaseRoute, url_prefix='/api/testcases')
 app.register_blueprint(submitRoute, url_prefix='/api/submission')
-
+app.register_blueprint(evalRoute, url_prefix='/api/eval')
 
 @app.route("/", defaults={"path": ""})
 @app.route("/<path:path>")
