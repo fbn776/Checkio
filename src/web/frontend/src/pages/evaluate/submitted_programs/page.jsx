@@ -13,6 +13,7 @@ import {Calendar as CalendarComponent} from "@/components/ui/calendar"
 import {Checkbox} from "@/components/ui/checkbox"
 import axios from "axios"
 import {toast} from "sonner"
+import {useNavigate} from "react-router";
 
 export default function TestcaseSubmission() {
     const [selectedGroup, setSelectedGroup] = useState()
@@ -21,6 +22,7 @@ export default function TestcaseSubmission() {
     const [toDate, setToDate] = useState()
     const [selectedSubmissions, setSelectedSubmissions] = useState([])
     const [selectAll, setSelectAll] = useState(false)
+    const navigate = useNavigate()
 
     const [submission, setSubmission] = useState([
         {
@@ -281,7 +283,10 @@ export default function TestcaseSubmission() {
                                 <TableBody>
                                     {submission.map((submission, index) => (
                                         <TableRow key={index}
-                                                  className={selectedSubmissions.includes(submission.id) ? "bg-muted/30" : ""}>
+                                                  className={selectedSubmissions.includes(submission.id) ? "bg-muted/30" : ""}
+                                                  onClick={() => {
+                                                      navigate(`/evaluate/submittedPrograms/view/${submission.id}`)
+                                                  }}>
                                             <TableCell>
                                                 <Checkbox
                                                     checked={selectedSubmissions.includes(submission.id)}

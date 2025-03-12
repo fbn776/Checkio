@@ -39,7 +39,7 @@ createRoot(document.getElementById('root')).render(
                         <Route path="view/:testcaseId" element={<ViewedTestcase/>}/>
                     </Route>
                     <Route path="/about" element={<Page/>}>
-                        <Route path="brief" element={<BriefPage/>}/> 
+                        <Route path="brief" element={<BriefPage/>}/>
                         <Route path="commands" element={<CommandPage/>}/>
                         <Route path="install" element={<InstallPage/>}/>
                         <Route path="userguide" element={<UserguidePage/>}/>

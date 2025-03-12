@@ -21,7 +21,7 @@ export const ROUTES = [
         ]
     }, {
         title: 'Evaluate',
-        route: '/evaluate',
+        route: '/evaluate/evaluation-report',
         icon: GraduationCap,
         children: [
             {
