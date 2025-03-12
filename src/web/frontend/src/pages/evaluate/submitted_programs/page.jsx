@@ -235,7 +235,7 @@ export default function TestcaseSubmission() {
                         <span>Search</span>
                     </button>
                 </form>
-                {submission[0].testcase_id !== null && (
+                {submission.length > 0 && submission[0].testcase_id !== null && (
                     <Fragment>
                         <div className="border-b-2 border-primary mb-4">
                             <h2 className="text-xl font-semibold text-primary mb-2">Submissions</h2>
