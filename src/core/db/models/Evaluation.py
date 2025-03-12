@@ -13,6 +13,7 @@ class Evaluation(Base):
 
     data = Column(String, default="[]")
     created_at = Column(DateTime, server_default=func.now())
+    status = Column(String, default="pending")
 
     eval_group_id = Column(Integer, ForeignKey('eval_group.id', ondelete="CASCADE"))
     eval_group = relationship("EvalGroup", back_populates="evaluations")

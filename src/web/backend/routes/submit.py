@@ -51,7 +51,7 @@ def all():
 
     return jsonify([{
         "id": submission.id,
-        "group_id": group_id,
+        "group_id": submission.group_id,
         "testcase_id": submission.testcase_id,
         "submitted_by": submission.submitted_by,
         "submitted_files": submission.submitted_files,

@@ -24,7 +24,7 @@ def handle_submit(values, testcase):
     testcase_id = testcase_id.strip()
 
     db = next(get_db())
-    testcase = db.query(Testcase).filter(Testcase.id == testcase_id and Testcase.group_id == group_id).first()
+    testcase = db.query(Testcase).filter_by(id = testcase_id, group_id = group_id).first()
 
     if testcase is None:
         console.print("[bold red]Error:[/][red] Testcase not found[/]")
@@ -33,6 +33,10 @@ def handle_submit(values, testcase):
     file_objects = []
 
     for value in values:
+        if not value.endswith(".c") and not value.endswith(".py") and not value.endswith(".java"):
+            console.print(f"[bold red]Error:[/][red] The file type is not supported[/]")
+            exit(1)
+
         try:
             with open(value, "r") as file:
                 content = file.read()
@@ -54,6 +58,8 @@ def handle_submit(values, testcase):
         db.add(submission)
         db.commit()
     except Exception as e:
+        console.print("[bold red]Error:[/][red] An error occurred while submitting the program[/]")
         print(e)
+        exit(1)
 
     console.print("[bold green]Submission successful![/]")
