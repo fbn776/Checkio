@@ -152,7 +152,7 @@ export default function TestcaseSubmission() {
             toast.success(`${selectedData.length} submissions sent for Evaluation`)
         }).catch((e) => {
             toast.error(`${selectedData.length} submissions failed for Evaluation`)
-            })
+        })
     }
 
     return (
