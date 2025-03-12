@@ -30,9 +30,9 @@ export default function ViewedTestcase() {
 
     const navigate = useNavigate();
     const {submissionId} = useParams();
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     useEffect(()=>{
-
+        console.log(submissionId);
     },[])
     return (
         <div className="relative w-full p-5 flex flex-col gap-3">
