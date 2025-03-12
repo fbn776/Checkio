@@ -63,7 +63,7 @@ export default function ViewPage() {
                     )}
                 </div>
 
-                {testcases.map((testcase, index) => (
+                {testcases.length>0 ? testcases.map((testcase, index) => (
                     <div key={index}
                          className="w-full flex flex-col items-start bg-white border shadow p-4 rounded-md gap-2 cursor-pointer hover:scale-[1.01] transition-transform duration-200"
                          onClick={() => {
@@ -90,7 +90,10 @@ export default function ViewPage() {
                             {formatDistanceToNow(testcase.created_at, {addSuffix: true})}
                         </div>
                     </div>
-                ))}
+                )):
+                <div className="flex mt-20 items-center justify-center w-full text-gray-400 text-xl">
+                    No Data Found
+                </div>}
             </div>
         </div>
     )
