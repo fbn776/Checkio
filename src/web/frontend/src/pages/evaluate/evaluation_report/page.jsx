@@ -25,10 +25,17 @@ export default function EvaluationReport() {
 
     return (
         <div className="m-[20px] flex flex-col gap-[30px]">
-            <div className="p-6 bg-white rounded-lg shadow-sm w-full mx-auto flex items-center gap-3">
-                <h1 className="text-xl font-medium">
-                    List of Evaluations
-                </h1>
+            <div
+                className="p-6 bg-white rounded-lg shadow-md border border-gray-100 w-full mx-auto flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                    <div className="h-8 w-1 bg-gray-800 rounded-full"></div>
+                    <h1 className="text-xl font-semibold text-gray-800">List of Evaluations</h1>
+                </div>
+                <div className="flex items-center gap-2">
+          <span className="px-3 py-1.5 bg-gray-100 text-gray-700 text-sm font-medium rounded-md">
+            Total: {data?.evals?.length || 0}
+          </span>
+                </div>
             </div>
 
             <div className="space-y-4">

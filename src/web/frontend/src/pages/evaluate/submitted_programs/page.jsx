@@ -1,19 +1,28 @@
 "use client"
 
-import {Fragment, useEffect, useState} from "react"
-import {Calendar} from "lucide-react"
-import {format} from "date-fns"
-import {Button} from "@/components/ui/button"
-import {CardContent, CardHeader, CardTitle} from "@/components/ui/card"
-import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "@/components/ui/dropdown-menu"
-import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select"
-import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table"
-import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover"
-import {Calendar as CalendarComponent} from "@/components/ui/calendar"
-import {Checkbox} from "@/components/ui/checkbox"
+import { useEffect, useState } from "react"
+import { Calendar } from "lucide-react"
+import { format } from "date-fns"
+import { Button } from "@/components/ui/button"
+import { CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { Calendar as CalendarComponent } from "@/components/ui/calendar"
+import { Checkbox } from "@/components/ui/checkbox"
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+} from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
 import axios from "axios"
-import {toast} from "sonner"
-import {useNavigate} from "react-router";
+import { toast } from "sonner"
+import { useNavigate } from "react-router"
 
 export default function TestcaseSubmission() {
     const [selectedGroup, setSelectedGroup] = useState()
@@ -36,6 +45,9 @@ export default function TestcaseSubmission() {
     const [testcases, setTestcases] = useState([])
     const [groups, setGroups] = useState([])
 
+    const [evaluationDialogOpen, setEvaluationDialogOpen] = useState(false)
+    const [evaluationName, setEvaluationName] = useState("")
+
     useEffect(() => {
         axios
             .get("/api/group/")
@@ -45,7 +57,7 @@ export default function TestcaseSubmission() {
             .catch((e) => {
                 console.error(e)
             })
-    }, []);
+    }, [])
 
     useEffect(() => {
         if (selectedGroup) {
@@ -69,22 +81,19 @@ export default function TestcaseSubmission() {
 
     useEffect(() => {
         const params = {}
-        if (selectedGroup)
-            params.group_id = selectedGroup
+        if (selectedGroup) params.group_id = selectedGroup
 
-        if (selectedTestcase)
-            params.testcase_id = selectedTestcase
+        if (selectedTestcase) params.testcase_id = selectedTestcase
 
-        if (fromDate)
-            params.from = new Date(fromDate).toISOString().slice(0, 19).replace("T", " ");
+        if (fromDate) params.from = new Date(fromDate).toISOString().slice(0, 19).replace("T", " ")
 
-        if (toDate)
-            params.to = new Date(toDate).toISOString().slice(0, 19).replace("T", " ");
+        if (toDate) params.to = new Date(toDate).toISOString().slice(0, 19).replace("T", " ")
 
-        axios.get("/api/submission/", {params})
+        axios
+            .get("/api/submission/", { params })
             .then((res) => {
-                console.log(res);
-                setSubmission(Array.isArray(res.data) ? res.data : []);
+                console.log(res)
+                setSubmission(Array.isArray(res.data) ? res.data : [])
                 setSelectedSubmissions([])
                 setSelectAll(false)
             })
@@ -92,8 +101,7 @@ export default function TestcaseSubmission() {
                 console.error(e)
                 setTestcases([])
             })
-    }, [fromDate, selectedGroup, selectedTestcase, toDate]);
-
+    }, [fromDate, selectedGroup, selectedTestcase, toDate])
 
     const handleCheckboxChange = (submissionId) => {
         setSelectedSubmissions((prev) => {
@@ -125,16 +133,32 @@ export default function TestcaseSubmission() {
     }
 
     const handleEvaluate = () => {
+        setEvaluationDialogOpen(true)
+    }
+
+    const handleSubmitEvaluation = () => {
+        if (!evaluationName.trim()) {
+            toast.error("Please enter an evaluation name")
+            return
+        }
+
         const selectedData = getSelectedSubmissionData()
         console.log("Evaluating submissions:", selectedData)
-        axios.post('/api/eval/', {
-            submissions: selectedSubmissions,
-        }).then(() => {
-            toast.success(`${selectedData.length} submissions sent for Evaluation`)
-        }).catch((e) => {
-            console.error(e);
-            toast.error(`${selectedData.length} submissions failed for Evaluation`)
-        })
+
+        axios
+            .post("/api/eval/", {
+                submissions: selectedSubmissions,
+                name: evaluationName,
+            })
+            .then(() => {
+                toast.success(`${selectedData.length} submissions sent for Evaluation: "${evaluationName}"`)
+                setEvaluationDialogOpen(false)
+                setEvaluationName("")
+            })
+            .catch((e) => {
+                console.error(e)
+                toast.error(`${selectedData.length} submissions failed for Evaluation`)
+            })
     }
 
     return (
@@ -147,7 +171,7 @@ export default function TestcaseSubmission() {
                     <div className="flex items-center gap-4 flex-wrap">
                         <Select onValueChange={(value) => setSelectedGroup(value)} value={selectedGroup}>
                             <SelectTrigger className="cursor-pointer w-[180px] bg-muted/40">
-                                <SelectValue placeholder="Group ID"/>
+                                <SelectValue placeholder="Group ID" />
                             </SelectTrigger>
                             <SelectContent>
                                 {groups?.map((option) => (
@@ -158,10 +182,12 @@ export default function TestcaseSubmission() {
                             </SelectContent>
                         </Select>
 
-                        <Select onValueChange={(value) => setSelectedTestcase(value)} value={selectedTestcase}
-                                disabled={!selectedGroup}>
-                            <SelectTrigger
-                                className="cursor-pointer w-[180px] bg-muted/40">
+                        <Select
+                            onValueChange={(value) => setSelectedTestcase(value)}
+                            value={selectedTestcase}
+                            disabled={!selectedGroup}
+                        >
+                            <SelectTrigger className="cursor-pointer w-[180px] bg-muted/40">
                                 <SelectValue placeholder="Testcase ID">{selectedTestcase}</SelectValue>
                             </SelectTrigger>
                             <SelectContent>
@@ -173,20 +199,17 @@ export default function TestcaseSubmission() {
                             </SelectContent>
                         </Select>
 
-
                         <div className="flex items-center gap-2">
                             <span className="text-sm font-medium">From:</span>
                             <Popover>
                                 <PopoverTrigger asChild>
-                                    <Button variant="outline"
-                                            className="w-[180px] justify-start text-left font-normal bg-muted/40">
+                                    <Button variant="outline" className="w-[180px] justify-start text-left font-normal bg-muted/40">
                                         {fromDate ? format(fromDate, "dd-MM-yyyy") : "dd-mm-yyyy"}
-                                        <Calendar className="ml-auto h-4 w-4 opacity-50"/>
+                                        <Calendar className="ml-auto h-4 w-4 opacity-50" />
                                     </Button>
                                 </PopoverTrigger>
                                 <PopoverContent className="w-auto p-0" align="start">
-                                    <CalendarComponent mode="single" selected={fromDate} onSelect={setFromDate}
-                                                       initialFocus/>
+                                    <CalendarComponent mode="single" selected={fromDate} onSelect={setFromDate} initialFocus />
                                 </PopoverContent>
                             </Popover>
                         </div>
@@ -195,22 +218,20 @@ export default function TestcaseSubmission() {
                             <span className="text-sm font-medium">To:</span>
                             <Popover>
                                 <PopoverTrigger asChild>
-                                    <Button variant="outline"
-                                            className="w-[180px] justify-start text-left font-normal bg-muted/40">
+                                    <Button variant="outline" className="w-[180px] justify-start text-left font-normal bg-muted/40">
                                         {toDate ? format(toDate, "dd-MM-yyyy") : "dd-mm-yyyy"}
-                                        <Calendar className="ml-auto h-4 w-4 opacity-50"/>
+                                        <Calendar className="ml-auto h-4 w-4 opacity-50" />
                                     </Button>
                                 </PopoverTrigger>
                                 <PopoverContent className="w-auto p-0" align="start">
-                                    <CalendarComponent mode="single" selected={toDate} onSelect={setToDate}
-                                                       initialFocus/>
+                                    <CalendarComponent mode="single" selected={toDate} onSelect={setToDate} initialFocus />
                                 </PopoverContent>
                             </Popover>
                         </div>
                     </div>
-                    {(submission.length === 0) ? <p className="w-full pt-10 text-gray-500 text-center">
-                        No submissions found
-                    </p> :  (
+                    {submission.length === 0 ? (
+                        <p className="w-full pt-10 text-gray-500 text-center">No submissions found</p>
+                    ) : (
                         <>
                             <div className="border-b-2 border-primary mb-4">
                                 <h2 className="text-xl font-semibold text-primary mb-2">Submissions</h2>
@@ -218,11 +239,11 @@ export default function TestcaseSubmission() {
 
                             {selectedSubmissions.length > 0 && (
                                 <div className="mb-4 flex items-center gap-2">
-                                    <span className="text-sm font-medium text-red-500">
-                                      {selectedSubmissions.length} {selectedSubmissions.length === 1 ? "submission" : "submissions"}{" "}
-                                        selected
-                                    </span>
-                                        <Button
+                  <span className="text-sm font-medium text-red-500">
+                    {selectedSubmissions.length} {selectedSubmissions.length === 1 ? "submission" : "submissions"}{" "}
+                      selected
+                  </span>
+                                    <Button
                                         variant="outline"
                                         size="sm"
                                         onClick={() => {
@@ -255,9 +276,10 @@ export default function TestcaseSubmission() {
                                     </TableHeader>
                                     <TableBody>
                                         {submission.map((submission, index) => (
-                                            <TableRow key={index}
-                                                      className={selectedSubmissions.includes(submission.id) ? "bg-muted/30" : ""}
-                                                      >
+                                            <TableRow
+                                                key={index}
+                                                className={selectedSubmissions.includes(submission.id) ? "bg-muted/30" : ""}
+                                            >
                                                 <TableCell>
                                                     <Checkbox
                                                         checked={selectedSubmissions.includes(submission.id)}
@@ -274,21 +296,21 @@ export default function TestcaseSubmission() {
                                                         <DropdownMenuTrigger asChild>
                                                             <Button variant="ghost" className="h-8 w-8 p-0">
                                                                 <span className="sr-only">Open menu</span>
-                                                                <div
-                                                                    className="flex flex-col items-center justify-center h-full">
-                                                                    <div
-                                                                        className="w-1 h-1 rounded-full bg-foreground mb-0.5"></div>
-                                                                    <div
-                                                                        className="w-1 h-1 rounded-full bg-foreground mb-0.5"></div>
-                                                                    <div
-                                                                        className="w-1 h-1 rounded-full bg-foreground"></div>
+                                                                <div className="flex flex-col items-center justify-center h-full">
+                                                                    <div className="w-1 h-1 rounded-full bg-foreground mb-0.5"></div>
+                                                                    <div className="w-1 h-1 rounded-full bg-foreground mb-0.5"></div>
+                                                                    <div className="w-1 h-1 rounded-full bg-foreground"></div>
                                                                 </div>
                                                             </Button>
                                                         </DropdownMenuTrigger>
                                                         <DropdownMenuContent align="end">
-                                                            <DropdownMenuItem onClick={() => {
-                                                                navigate(`/evaluate/submittedPrograms/view/${submission.id}`)
-                                                            }}>View</DropdownMenuItem>
+                                                            <DropdownMenuItem
+                                                                onClick={() => {
+                                                                    navigate(`/evaluate/submittedPrograms/view/${submission.id}`)
+                                                                }}
+                                                            >
+                                                                View
+                                                            </DropdownMenuItem>
                                                             <DropdownMenuItem>Delete</DropdownMenuItem>
                                                         </DropdownMenuContent>
                                                     </DropdownMenu>
@@ -311,6 +333,35 @@ export default function TestcaseSubmission() {
                     )}
                 </CardContent>
             </div>
+
+            <Dialog open={evaluationDialogOpen} onOpenChange={setEvaluationDialogOpen}>
+                <DialogContent className="sm:max-w-[455px]">
+                    <DialogHeader>
+                        <DialogTitle>Create Evaluation</DialogTitle>
+                        <DialogDescription>Enter a name for this evaluation to help identify it later.</DialogDescription>
+                    </DialogHeader>
+                    <div className="grid gap-4">
+                        <div className="grid grid-cols-4 items-center gap-4">
+                            <Input
+                                id="evaluation-name"
+                                value={evaluationName}
+                                onChange={(e) => setEvaluationName(e.target.value)}
+                                placeholder="Enter Evaluation Name"
+                                className="col-span-3"
+                                autoFocus
+                            />
+                        </div>
+                    </div>
+                    <DialogFooter>
+                        <Button variant="outline" onClick={() => setEvaluationDialogOpen(false)}>
+                            Cancel
+                        </Button>
+                        <Button onClick={handleSubmitEvaluation} disabled={!evaluationName.trim()}>
+                            Submit
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </div>
     )
 }
