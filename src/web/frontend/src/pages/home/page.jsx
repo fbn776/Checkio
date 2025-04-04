@@ -1,76 +1,111 @@
-import CircularProgress from "./CircularProgress";
-import {useEffect} from "react";
-import axios from "axios";
+"use client"
 
+import CircularProgress from "./CircularProgress"
+import {useEffect, useState} from "react"
+import axios from "axios"
+import {useNavigate} from "react-router";
 
 export default function HomePage() {
+    const navigate = useNavigate();
+    const [data, setData] = useState(null)
+    const [recentData, setRecentData] = useState(null)
 
     useEffect(() => {
-        axios.get('/api/group/').then(response => {
-            console.log(response.data);
-        }).catch(e => {
-            console.error(e);
-        })
+        axios
+            .get("/api/eval/")
+            .then((response) => {
+                setData(response.data)
+            })
+            .catch((e) => {
+                console.error(e)
+            })
+    }, [])
+
+    useEffect(() => {
+        axios
+            .get("/api/testcases/recent")
+            .then((response) => {
+                setRecentData(response.data);
+
+                console.log(response.data);
+            })
+            .catch((e) => {
+                console.error("Error fetching data:", e);
+            });
     }, []);
 
-    return <div>
-        {/* home */}
-        <div className={'bg-[#009BE5] '}>
-            <div className=" ml-[15px] border-b-3">
-            <h1 className='p-[10px] mb-[5px] w-[120px]  text-center font-medium text-white h-[40px] rounded-[8px] hover:bg-[#0088cc]'>HOME</h1>
-            </div>
-        </div>
-        {/* line */}
-        <div>
-            <h1 className="m-[40px] mb-[5px] font-semibold text-black text-[30px]">Streamline Evaluation – </h1>
-            <h1 className="mt-0 ml-[40px] mb-[10px] font-medium text-black text-[30px] p-0">Define, Test, and Assess with Checkio!</h1>
-        </div>
+    return (
+        <div className="min-h-screen bg-gray-50">
 
-        <div className="h-screen flex flex-col p-[40px] gap-[40px]">
-            {/* horizontal divs */}
-            <div className="w-full flex flex-row gap-[40px]">
-                {/* Recently Generated report */}
-                <div className="w-full bg-[#fff] shadow-[0px_0px_20px_2px_#c4c4c4] h-auto p-[20px] flex flex-col gap-[20px] hover:bg-[#e8f6fc] rounded-[15px]">
-                    <h1 className="text-[22px] text-[#009BE5] font-semibold">View Report</h1>
-                    <div className="flex gap-[10px] ml-[20px]">
-                        <div className="flex flex-col gap-[2px] w-full">
-                            <p className="text-[#9c9c9c]">Submissions: <span className="font-light">75</span></p>
-                            <p className="text-[#9c9c9c]">Most Passed Test: <span className="font-light">12</span></p>
-                            <p className="text-[#9c9c9c]">Most Failed Test: <span className="font-light">8</span></p>
-                        </div>
-                        <div className="w-[200px] h-full flex justify-center items-top">
-                            <CircularProgress value={55} label="Pass Percent" />    {/* value = pass percent of the test case*/}
+            {/* Main Content */}
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                {/* Title */}
+                <div className="mb-8">
+                    <h1 className="text-3xl font-semibold text-gray-900">Streamline Evaluation –</h1>
+                    <h2 className="text-2xl font-medium text-gray-800">Define, Test, and Assess with Checkio!</h2>
+                </div>
+
+                {/* View Report Card */}
+                <div className="mb-8">
+                    <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+                        <div className="p-6">
+                            <div className="flex justify-between items-start">
+                                <h2 className="text-xl font-semibold text-[#009BE5]">Evaluation Statistics</h2>
+                            </div>
+
+                            <div
+                                className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+                                <div className="bg-gray-50 rounded-lg p-4 w-full md:w-auto gap-2 flex flex-col">
+                                    <div className="flex items-baseline">
+                                        <span className="text-gray-500 w-40">Total:</span>
+                                        <span className="font-medium text-gray-700">{data?.pass_percent.total}</span>
+                                    </div>
+                                    <div className="flex items-baseline">
+                                        <span className="text-gray-500 w-40">Passed:</span>
+                                        <span className="font-medium text-green-600">{data?.pass_percent.passed}</span>
+                                    </div>
+                                    <div className="flex items-baseline">
+                                        <span className="text-gray-500 w-40">Failed:</span>
+                                        <span
+                                            className="font-medium text-red-600">{data?.pass_percent.total - data?.pass_percent.passed}</span>
+                                    </div>
+                                </div>
+
+                                <div className="flex-shrink-0">
+                                    <CircularProgress
+                                        value={(data?.pass_percent.passed / data?.pass_percent.total) * 100}
+                                        label="Pass Percent" color="#009BE5" size={120}/>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                {/* Lab preview */}
-                <div className="w-full bg-[#fff] shadow-[0px_0px_20px_2px_#c4c4c4] h-auto p-[20px] flex flex-col gap-[20px] hover:bg-[#e8f6fc] rounded-[15px]">
-                    <h1 className="text-[22px] font-medium text-[#009BE5] font-semibold">XXX Lab</h1>
-                    <div className="flex gap-[10px] ml-[20px]">
-                        <div className="flex flex-col gap-[2px] w-full">
-                            <p className="text-[#9c9c9c]">Created Test Cases: <span className="font-light">15</span></p>
-                            <p className="text-[#9c9c9c]">Submissions: <span className="font-light">12</span></p>
-                            <p className="text-[#9c9c9c]">Report Generated: <span className="font-light">10</span></p>
-                        </div>
-                        <div className="w-[200px] h-full flex justify-center items-center">
-                            <CircularProgress value={55} label="Lab Completed" />
-                        </div>
+
+                {/* Recents Section */}
+                <div>
+                    <h2 className="text-xl font-semibold text-[#009BE5] mb-4">Recents</h2>
+                    <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+                        {recentData?.map((item, index) => {
+                            const data = JSON.parse(item.data);
+
+                            return <button
+                                key={index}
+                                className="w-full px-6 py-3 flex justify-between items-center hover:bg-gray-50 border-b border-gray-100 last:border-b-0 transition-colors"
+                                onClick={() => {
+                                    navigate(`/testcase/view/${item._id}`)
+                                }}
+                            >
+                                <div className="flex items-center">
+                                    <span className="font-medium text-gray-800"># {item.group_id}-{item.id}</span>
+                                </div>
+                                <span
+                                    className="bg-gray-100 text-gray-800 px-2 py-1 rounded-md text-sm font-medium">{data.length}</span>
+                            </button>
+                        })}
                     </div>
                 </div>
             </div>
-            {/* recents */}
-            <div className="w-full flex flex-col gap-[10px]">
-                <h1 className="text-[22px] font-medium text-[#009BE5] font-semibold ">Recents</h1>
-                {/* recent test cases */}
-                <div className="w-full h-auto flex flex-col gap-[2px] items-start shadow-[0px_0px_20px_2px_#c4c4c4] bg-[#c4c4c4]">
-                    <button className="w-full h-[40px] px-[40px] flex justify-between items-center bg-[#fff] hover:bg-[#e8f6fc] rounded">#test case 1 <span className="w-[20px]">8</span></button>                
-                    <button className="w-full h-[40px] px-[40px] flex justify-between items-center bg-[#fff] hover:bg-[#e8f6fc] rounded">#test case 1 <span className="w-[20px]">8</span></button>                
-                    <button className="w-full h-[40px] px-[40px] flex justify-between items-center bg-[#fff] hover:bg-[#e8f6fc] rounded">#test case 1 <span className="w-[20px]">8</span></button>                
-                    <button className="w-full h-[40px] px-[40px] flex justify-between items-center bg-[#fff] hover:bg-[#e8f6fc] rounded">#test case 1 <span className="w-[20px]">8</span></button>                
-                    <button className="w-full h-[40px] px-[40px] flex justify-between items-center bg-[#fff] hover:bg-[#e8f6fc] rounded">#test case 1 <span className="w-[20px]">8</span></button>                
-                </div>
-            </div>
         </div>
-
-    </div>
+    )
 }
+
