@@ -36,6 +36,21 @@ def list_testcases():
 
         } for testcase in testcases], 200
 
+@testcaseRoute.get('/recent')
+@token_required
+def list_recent_testcases():
+    with next(get_db()) as session:
+        testcases = session.query(Testcase).join(Group, Testcase.group_id == Group.id).join(User, Group.created_by == User.username).filter(User.username == g.user['username']).order_by(Testcase.created_at.desc()).limit(5)
+
+        return [{
+            "_id": testcase.main_id,
+            "group_id": testcase.group_id,
+            "id": testcase.id,
+            "title": testcase.title,
+            "description": testcase.description,
+            "data": testcase.data,
+            "created_at": testcase.created_at,
+        } for testcase in testcases], 200
 
 @testcaseRoute.get('/<id>')
 @token_required

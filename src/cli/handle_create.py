@@ -35,18 +35,37 @@ def display_testcase(name: str, description: str, visible: int, hidden: int):
     console.print(table)
 
 
+temp = {'group_id': 'OS',
+        'name': 'Hello',
+        'id': '1',
+        'description': 'hkjhedbhdbnmb',
+        'testcases': [{'title': 'Testcase 1', 'hidden': False, 'input': '10 10', 'output': '30'}]}
+
+
 def handle_create(passed_name):
     result = CreateTestcaseScreen(passed_name).run()
-
     if result is None:
         console.print("[bold red]Aborted![/bold red]")
         return
+    try:
+        create_testcase(
+            testcase_id=result["id"],
+            group_id=result["group_id"],
+            title=result["name"],
+            description=result["description"],
+            body=[{"hidden": item["hidden"], "input": item["input"], "output": item["output"]} for item in
+                  result["testcases"]]
+        )
 
-    # print(result)
+        console.print("[bold green]Test Case Created![/bold green]")
 
-    # result = {'name': 'gvhjkl;', 'description': "hjkl;'", 'testcases': [{'title': 'Testcase 1', 'hidden': False, 'input': 'hgijkl;.', 'output': 'huijokl;,   '}]}
+    except Exception as e:
+        console.print("""[bold red]An error occurred while creating the testcase![/bold red]
+Possible causes:
+- Testcase ID already exists
+- Group ID doesn't exist
+        """)
+        # console.print_exception(show_locals=True)
+        return
 
-    display_testcase(result["name"], result["description"], len(result["testcases"]),
-                     len([tc for tc in result["testcases"] if tc["hidden"]]))
-
-    create_testcase(result["name"], result["description"], json.dumps(result))
+    print(result)

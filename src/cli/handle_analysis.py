@@ -11,9 +11,11 @@ from utils.utils import boxed_text
 
 console = Console()
 
+
 def last_two_lines(text):
     lines = text.splitlines()
     return "\n".join(lines[-2:]) if len(lines) >= 2 else text
+
 
 def handle_analysis(file_name):
     if not file_name.endswith(".c"):
@@ -59,24 +61,17 @@ def analyze_crash(file_name):
             gdb_command = f"""run
 backtrace
 quit"""
-            result = subprocess.run(["gdb", "--batch", "-ex", gdb_command, debug_exe], capture_output=True, text=True)
-
-            if result.stderr:
-                console.print(result.stderr)
-
-            if result.stdout:
-                console.print(Syntax(
-                    last_two_lines(result.stdout.strip()),
-                    "bash",
-                    theme="ansi_dark"
-                ))
-
-            if result.stderr:
-                console.print(Syntax(
-                    result.stderr,
-                    "bash",
-                    theme="ansi_dark"
-                ))
+            result = subprocess.run(
+                [
+                    "gdb", "-q", "--batch",
+                    "-ex", "set debuginfod enabled off",
+                    "-ex", "set verbose off",
+                    "-ex", "set print pretty on",
+                    "-ex", "set auto-load safe-path /",
+                    "-ex", gdb_command,
+                    "--args", debug_exe
+                ]
+            )
         except Exception as e:
             console.print(f"[bold red]Error:[/] {str(e)}")
         finally:

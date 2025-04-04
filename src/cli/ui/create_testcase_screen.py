@@ -9,6 +9,7 @@ class RightButton(HorizontalGroup):
     def compose(self) -> ComposeResult:
         yield Button("Preview", classes="dock-right", variant="primary")
 
+
 class TestcaseTitle(HorizontalGroup):
     def __init__(self, title: str) -> None:
         self.title = title
@@ -17,6 +18,7 @@ class TestcaseTitle(HorizontalGroup):
     def compose(self) -> ComposeResult:
         yield Label(self.title, classes="testcase_label")
         yield Checkbox("Hidden", classes="testcase_checkbox")
+
 
 class TestcaseUnit(VerticalGroup):
     def __init__(self, testcase_count: int = 1) -> None:
@@ -27,6 +29,7 @@ class TestcaseUnit(VerticalGroup):
         yield TestcaseTitle(f"Testcase {self.testcase_count}")
         yield LabelledTextArea("Input", classes="input")
         yield LabelledTextArea("Output", classes="output")
+
 
 class CreateTestcaseScreen(App):
     CSS_PATH = "global.tcss"
@@ -45,14 +48,15 @@ class CreateTestcaseScreen(App):
     def on_mount(self):
         self.title = "Create Testcases"
 
-
     def compose(self) -> ComposeResult:
         """Called to add widgets to the app."""
         yield Header()
         yield Footer()
         yield VerticalScroll(
+            LabelledInput("Group ID", placeholder="Enter group ID", id="group-id"),
+            LabelledInput("Testcase ID", placeholder="Enter the ID of the testcase", id="testcase-id"),
             LabelledInput("Testcase name", placeholder="Enter the name of the testcase",
-                                           input_value=self.passed_name, id="testcase-name"),
+                          input_value=self.passed_name, id="testcase-name"),
             LabelledTextArea("Description", desc="Markdown is supported", id="testcase-description"),
             RightButton(),
 
@@ -82,15 +86,18 @@ class CreateTestcaseScreen(App):
             self.exit(result="Aborted", return_code=1)
 
         if event.button.id == "submit-button":
+            testcase_id = self.query_one("#testcase-id")
+            group_id = self.query_one("#group-id")
             testcase_name = self.query_one("#testcase-name")
             testcase_description = self.query_one("#testcase-description")
             testcases = self.query("TestcaseUnit")
-
             print("Testcase Name:", testcase_name)
             print("Testcase Description:", testcase_description)
 
             data = {
+                "group_id": group_id.text_input.value,
                 "name": testcase_name.text_input.value,
+                "id": testcase_id.text_input.value,
                 "description": testcase_description.text_area.text,
                 "testcases": []
             }
@@ -111,7 +118,6 @@ class CreateTestcaseScreen(App):
             print("Data:", data)
             self.exit(result=data, return_code=0)
             # self.exit(result=f"Created Successfully", return_code=0)
-
 
         if event.button.id == "start":
             self.add_class("started")

@@ -12,25 +12,57 @@ from web.backend.middleware.token_required import token_required
 evalRoute = Blueprint('eval', __name__)
 
 
+def get_pass_percent(evals):
+    total = 0
+    passed = 0
+    for eval in evals:
+        data = json.loads(eval.data)
+        for tests in data.get("tests", []):
+            if tests.get("passed"):
+                passed += 1
+            total += 1
+
+    return {"passed": passed, "total": total}
+
+
 @evalRoute.get('/')
 @token_required
 def get_eval():
     db = next(get_db())
     eval_groups = db.query(EvalGroup).all()
 
-    return jsonify([{
+    eval_data = [{
         "id": group.id,
         "name": group.name,
+        "count": len(group.evaluations),
+        "pass_percent": get_pass_percent(group.evaluations),
         "eval": [{
             "id": eval.id,
             "created_by": eval.created_by,
             "submission_id": eval.submission_id,
             "submitted_by": eval.submission.submitted_by,
-            "data": eval.data,
+            "data": json.loads(eval.data),
             "created_at": eval.created_at,
             "status": eval.status,
+            "pass_percent": get_pass_percent([eval]),
         } for eval in group.evaluations]
-    } for group in eval_groups]), 200
+    } for group in eval_groups]
+
+    pass_percent = {
+        "passed": 0,
+        "total": 0
+    }
+
+    # Calc total pass percent
+    for group in eval_groups:
+        data = get_pass_percent(group.evaluations)
+        pass_percent["passed"] += data["passed"]
+        pass_percent["total"] += data["total"]
+
+    return jsonify({
+        "evals": eval_data,
+        "pass_percent": pass_percent,
+    }), 200
 
 
 @evalRoute.get('/<id>')
@@ -44,10 +76,10 @@ def get_eval_by_id(id):
             "error": "Evaluation group not found"
         }), 404
 
-
     return jsonify({
         "id": group.id,
         "name": group.name,
+        "pass_percent": get_pass_percent(group.evaluations),
         "eval": [{
             "id": eval.id,
             "created_by": eval.created_by,
@@ -56,8 +88,10 @@ def get_eval_by_id(id):
             "data": eval.data,
             "created_at": eval.created_at,
             "status": eval.status,
+            "pass_percent": get_pass_percent([eval]),
         } for eval in group.evaluations]
     }), 200
+
 
 @evalRoute.get('/unit/<id>')
 @token_required
@@ -79,18 +113,27 @@ def get_eval_unit_by_id(id):
         "status": eval.status,
     }), 200
 
+
 @evalRoute.post('/')
 @token_required
 def create_eval():
     """
     body: {
+        name: <name of eval group>,
         submissions: [<id of submission>]
     }
     """
     body = request.get_json()
 
+    name = body.get("name")
+
+    if name is None:
+        return jsonify({
+            "error": "Name is required"
+        }), 400
+
     db = next(get_db())
-    new_group = EvalGroup(name="Mid-Term Evaluations")
+    new_group = EvalGroup(name=name)
     db.add(new_group)
     db.commit()
     db.refresh(new_group)

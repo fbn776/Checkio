@@ -8,6 +8,7 @@ import core.db.init_db
 
 console = Console()
 
+
 @click.group(
     cls=CustomFormats,
     help=f"{click.style('Checkio', bold=True, fg='bright_blue')} - A tool that not only tests your code but also suggests improvements and error fixes, making lab evaluations smarter and faster.",
@@ -74,7 +75,8 @@ def list():
 @cli.command(help="View the details of a testcase.")
 @click.argument("testcase_id")
 def view(testcase_id):
-    print(f"Viewing testcase with ID: {testcase_id}")
+    from cli.handle_view import handle_view
+    handle_view(testcase_id)
 
 
 @cli.command(help="Configure the tool.")
@@ -82,6 +84,7 @@ def config():
     from cli.handle_config import handle_config
 
     handle_config()
+
 
 @cli.command(help="Helps manage users [FOR ADMIN USE ONLY]")
 @click.argument('action', type=click.Choice(['create', 'delete'], case_sensitive=False))
@@ -93,7 +96,6 @@ def users(action):
     if not is_valid_user(admin_only=True):
         console.print("[bold red]You are not authorized to perform this action![/]")
         return
-
     print()
 
     if action == 'create':
@@ -101,11 +103,13 @@ def users(action):
     elif action == 'delete':
         handle_user_delete()
 
+
 @cli.command()
 def test():
     from cli.do_testing import do_testing
 
     do_testing()
+
 
 @cli.command(help="Check your C code for errors and memory leaks")
 @click.argument('file_name')
@@ -113,7 +117,6 @@ def analyze(file_name):
     from cli.handle_analysis import handle_analysis
 
     handle_analysis(file_name)
-
 
 
 if __name__ == "__main__":

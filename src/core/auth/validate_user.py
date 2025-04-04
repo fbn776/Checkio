@@ -13,6 +13,7 @@ def is_valid_user(in_username=None, in_password=None, admin_only=True) -> bool:
     :param in_password: The password to check (optional ; If not provided, it will prompt the user)
     :param admin_only: If True, only check for admin users
     """
+    console.print("[bold underline yellow]Confirm you are an admin[/]")
     username = in_username or click.prompt("Username", type=str)
     password = in_password or click.prompt("Password", type=str, hide_input=True)
 
