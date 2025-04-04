@@ -26,6 +26,7 @@ export default function HomePage() {
             .get("/api/testcases/recent")
             .then((response) => {
                 setRecentData(response.data);
+
                 console.log(response.data);
             })
             .catch((e) => {
@@ -84,8 +85,10 @@ export default function HomePage() {
                 <div>
                     <h2 className="text-xl font-semibold text-[#009BE5] mb-4">Recents</h2>
                     <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-                        {recentData?.map((item, index) => (
-                            <button
+                        {recentData?.map((item, index) => {
+                            const data = JSON.parse(item.data);
+
+                            return <button
                                 key={index}
                                 className="w-full px-6 py-3 flex justify-between items-center hover:bg-gray-50 border-b border-gray-100 last:border-b-0 transition-colors"
                                 onClick={() => {
@@ -95,9 +98,10 @@ export default function HomePage() {
                                 <div className="flex items-center">
                                     <span className="font-medium text-gray-800"># {item.group_id}-{item.id}</span>
                                 </div>
-                                <span className="bg-gray-100 text-gray-800 px-2 py-1 rounded-md text-sm font-medium">8</span>
+                                <span
+                                    className="bg-gray-100 text-gray-800 px-2 py-1 rounded-md text-sm font-medium">{data.length}</span>
                             </button>
-                        ))}
+                        })}
                     </div>
                 </div>
             </div>
