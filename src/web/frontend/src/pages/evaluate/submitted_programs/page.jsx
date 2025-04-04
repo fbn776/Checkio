@@ -1,7 +1,7 @@
 "use client"
 
 import {Fragment, useEffect, useState} from "react"
-import {Calendar, Search} from "lucide-react"
+import {Calendar} from "lucide-react"
 import {format} from "date-fns"
 import {Button} from "@/components/ui/button"
 import {CardContent, CardHeader, CardTitle} from "@/components/ui/card"
@@ -23,7 +23,6 @@ export default function TestcaseSubmission() {
     const [selectedSubmissions, setSelectedSubmissions] = useState([])
     const [selectAll, setSelectAll] = useState(false)
     const navigate = useNavigate()
-
     const [submission, setSubmission] = useState([
         {
             created_at: "",
@@ -34,7 +33,6 @@ export default function TestcaseSubmission() {
             testcase_id: null,
         },
     ])
-
     const [testcases, setTestcases] = useState([])
     const [groups, setGroups] = useState([])
 
@@ -47,7 +45,7 @@ export default function TestcaseSubmission() {
             .catch((e) => {
                 console.error(e)
             })
-    }, [])
+    }, []);
 
     useEffect(() => {
         if (selectedGroup) {
@@ -69,34 +67,24 @@ export default function TestcaseSubmission() {
         }
     }, [selectedGroup])
 
-
-    // Add this effect to log selected submissions whenever they change
     useEffect(() => {
-        console.log("Selected submissions:", selectedSubmissions)
-    }, [selectedSubmissions])
+        const params = {}
+        if (selectedGroup)
+            params.group_id = selectedGroup
 
-    const handleSearch = () => {
-        if (
-            selectedGroup === undefined ||
-            selectedTestcase === undefined ||
-            toDate === undefined ||
-            fromDate === undefined
-        ) {
-            toast.error("Please fill the required fields")
-            return
-        }
+        if (selectedTestcase)
+            params.testcase_id = selectedTestcase
 
-        const SearchData = {
-            group_id: selectedGroup,
-            testcase_id: selectedTestcase, //testcases.find(testcase => testcase.id === selectedTestcase)?.id,
-            from: new Date(fromDate).toISOString().slice(0, 19).replace("T", " "),
-            to: new Date(toDate).toISOString().slice(0, 19).replace("T", " "),
-        }
-        axios.get("/api/submission/", {params: SearchData})
+        if (fromDate)
+            params.from = new Date(fromDate).toISOString().slice(0, 19).replace("T", " ");
+
+        if (toDate)
+            params.to = new Date(toDate).toISOString().slice(0, 19).replace("T", " ");
+
+        axios.get("/api/submission/", {params})
             .then((res) => {
-                console.log(res.data)
-                setSubmission(Array.isArray(res.data) ? res.data : [])
-                // Reset selections when new data is loaded
+                console.log(res);
+                setSubmission(Array.isArray(res.data) ? res.data : []);
                 setSelectedSubmissions([])
                 setSelectAll(false)
             })
@@ -104,55 +92,47 @@ export default function TestcaseSubmission() {
                 console.error(e)
                 setTestcases([])
             })
-    }
+    }, [fromDate, selectedGroup, selectedTestcase, toDate]);
 
-    // Handle individual checkbox change
+
     const handleCheckboxChange = (submissionId) => {
         setSelectedSubmissions((prev) => {
             if (prev.includes(submissionId)) {
-                // If already selected, remove it
                 const newSelected = prev.filter((id) => id !== submissionId)
-                // Update selectAll state based on whether all items are selected
                 setSelectAll(newSelected.length === submission.length && submission.length > 0)
                 return newSelected
             } else {
-                // If not selected, add it
                 const newSelected = [...prev, submissionId]
-                // Update selectAll state based on whether all items are selected
                 setSelectAll(newSelected.length === submission.length)
                 return newSelected
             }
         })
     }
 
-    // Handle select all checkbox change
     const handleSelectAllChange = () => {
         if (selectAll) {
-            // If all are selected, deselect all
             setSelectedSubmissions([])
             setSelectAll(false)
         } else {
-            // If not all selected, select all
             const allSubmissionIds = submission.map((sub) => sub.id)
             setSelectedSubmissions(allSubmissionIds)
             setSelectAll(true)
         }
     }
 
-    // Function to get the selected submission objects (not just IDs)
     const getSelectedSubmissionData = () => {
         return submission.filter((sub) => selectedSubmissions.includes(sub.id))
     }
 
-    // Handle evaluate button click
     const handleEvaluate = () => {
         const selectedData = getSelectedSubmissionData()
         console.log("Evaluating submissions:", selectedData)
         axios.post('/api/eval/', {
             submissions: selectedSubmissions,
-        }).then((res) => {
+        }).then(() => {
             toast.success(`${selectedData.length} submissions sent for Evaluation`)
         }).catch((e) => {
+            console.error(e);
             toast.error(`${selectedData.length} submissions failed for Evaluation`)
         })
     }
@@ -164,15 +144,9 @@ export default function TestcaseSubmission() {
                     <CardTitle className="text-2xl font-semibold text-primary">Submission Details</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <form
-                        className="flex flex-wrap gap-4 mb-8"
-                        onSubmit={(e) => {
-                            e.preventDefault()
-                            handleSearch()
-                        }}
-                    >
+                    <div className="flex items-center gap-4 flex-wrap">
                         <Select onValueChange={(value) => setSelectedGroup(value)} value={selectedGroup}>
-                            <SelectTrigger className="w-[180px] bg-muted/40 ring-none border-none outline-none">
+                            <SelectTrigger className="cursor-pointer w-[180px] bg-muted/40">
                                 <SelectValue placeholder="Group ID"/>
                             </SelectTrigger>
                             <SelectContent>
@@ -184,15 +158,16 @@ export default function TestcaseSubmission() {
                             </SelectContent>
                         </Select>
 
-                        <Select onValueChange={(value) => setSelectedTestcase(value)} value={selectedTestcase}>
+                        <Select onValueChange={(value) => setSelectedTestcase(value)} value={selectedTestcase}
+                                disabled={!selectedGroup}>
                             <SelectTrigger
-                                className="w-[180px] bg-muted/40 ring-none border-none outline-none text-black">
+                                className="cursor-pointer w-[180px] bg-muted/40">
                                 <SelectValue placeholder="Testcase ID">{selectedTestcase}</SelectValue>
                             </SelectTrigger>
                             <SelectContent>
                                 {testcases.map((item, index) => (
                                     <SelectItem key={index} value={item._id}>
-                                        {item.id}
+                                        {item._id}
                                     </SelectItem>
                                 ))}
                             </SelectContent>
@@ -232,27 +207,22 @@ export default function TestcaseSubmission() {
                                 </PopoverContent>
                             </Popover>
                         </div>
-                        <button
-                            type={"submit"}
-                            className="flex items-center bg-gradient-to-b from-[#009be5] to-[#0088cc] text-white px-4 py-1 ml-5 rounded-md hover:from-[#0088cc] hover:to-[#0077b3] shadow-sm border border-[#0077b3] transition duration-150 ease-in-out cursor-pointer gap-2"
-                        >
-                            <Search className="h-5 w-5 mr-1"/>
-                            <span>Search</span>
-                        </button>
-                    </form>
-                    {submission.length > 0 && submission[0].testcase_id !== null && (
-                        <Fragment>
+                    </div>
+                    {(submission.length === 0) ? <p className="w-full pt-10 text-gray-500 text-center">
+                        No submissions found
+                    </p> :  (
+                        <>
                             <div className="border-b-2 border-primary mb-4">
                                 <h2 className="text-xl font-semibold text-primary mb-2">Submissions</h2>
                             </div>
 
                             {selectedSubmissions.length > 0 && (
                                 <div className="mb-4 flex items-center gap-2">
-                <span className="text-sm font-medium text-red-500">
-                  {selectedSubmissions.length} {selectedSubmissions.length === 1 ? "submission" : "submissions"}{" "}
-                    selected
-                </span>
-                                    <Button
+                                    <span className="text-sm font-medium text-red-500">
+                                      {selectedSubmissions.length} {selectedSubmissions.length === 1 ? "submission" : "submissions"}{" "}
+                                        selected
+                                    </span>
+                                        <Button
                                         variant="outline"
                                         size="sm"
                                         onClick={() => {
@@ -287,9 +257,7 @@ export default function TestcaseSubmission() {
                                         {submission.map((submission, index) => (
                                             <TableRow key={index}
                                                       className={selectedSubmissions.includes(submission.id) ? "bg-muted/30" : ""}
-                                                      onClick={() => {
-                                                          navigate(`/evaluate/submittedPrograms/view/${submission.id}`)
-                                                      }}>
+                                                      >
                                                 <TableCell>
                                                     <Checkbox
                                                         checked={selectedSubmissions.includes(submission.id)}
@@ -318,7 +286,9 @@ export default function TestcaseSubmission() {
                                                             </Button>
                                                         </DropdownMenuTrigger>
                                                         <DropdownMenuContent align="end">
-                                                            <DropdownMenuItem>View</DropdownMenuItem>
+                                                            <DropdownMenuItem onClick={() => {
+                                                                navigate(`/evaluate/submittedPrograms/view/${submission.id}`)
+                                                            }}>View</DropdownMenuItem>
                                                             <DropdownMenuItem>Delete</DropdownMenuItem>
                                                         </DropdownMenuContent>
                                                     </DropdownMenu>
@@ -328,7 +298,7 @@ export default function TestcaseSubmission() {
                                     </TableBody>
                                 </Table>
                             </div>
-                        </Fragment>
+                        </>
                     )}
 
                     {selectedSubmissions.length > 0 && (

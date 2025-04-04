@@ -17,7 +17,7 @@ export default defineConfig({
     server: {
         proxy: {
             '/api': {
-                target: 'http://192.168.145.20:5555/',//'http://127.0.0.1:5555/',  http://172.16.18.172:5555/ // Backend server
+                target: 'http://localhost:5555/',//'http://127.0.0.1:5555/',  http://172.16.18.172:5555/ // Backend server
                 changeOrigin: true,
                 rewrite: (path) => path,//path.replace(/^\/api/, ''),
             },

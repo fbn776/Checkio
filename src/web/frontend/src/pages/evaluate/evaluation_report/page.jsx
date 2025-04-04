@@ -21,6 +21,7 @@ const temp = {
 export default function EvaluationReport() {
     const [visibleStudent, setVisibleStudent] = useState(null);
     const [visibleTest, setVisibleTest] = useState(null);
+
     const group_id = "DS";
     const testcase_id = "02";
     const eTitle = "Linear Search";
@@ -73,6 +74,7 @@ export default function EvaluationReport() {
         setLoading(true)
         axios.get('/api/eval/').then(res => {
             setData(res.data);
+            console.error("DATA", res.data);
         }).catch(e => {
             toast.error("Failed to fetch data");
         }).finally(() => {
