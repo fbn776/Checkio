@@ -33,6 +33,7 @@ export default function ViewedSubmittedProgram() {
         axios.get(`/api/submission/${submissionId}`)
             .then((response) => {
                 setSubmission(response.data);
+                console.log(response.data)
             })
             .catch((error) => {
                 console.error("Error fetching submission:", error);
