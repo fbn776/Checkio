@@ -3,8 +3,10 @@
 import CircularProgress from "./CircularProgress"
 import {useEffect, useState} from "react"
 import axios from "axios"
+import {useNavigate} from "react-router";
 
 export default function HomePage() {
+    const navigate = useNavigate();
     const [data, setData] = useState(null)
     const [recentData, setRecentData] = useState(null)
 
@@ -86,6 +88,9 @@ export default function HomePage() {
                             <button
                                 key={index}
                                 className="w-full px-6 py-3 flex justify-between items-center hover:bg-gray-50 border-b border-gray-100 last:border-b-0 transition-colors"
+                                onClick={() => {
+                                    navigate(`/testcase/view/${item._id}`)
+                                }}
                             >
                                 <div className="flex items-center">
                                     <span className="font-medium text-gray-800"># {item.group_id}-{item.id}</span>
