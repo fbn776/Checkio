@@ -143,11 +143,11 @@ export default function IndividualReport() {
                                         <div className="inline-flex items-center">
                       <span
                           className={`inline-block w-2 h-2 rounded-full mr-2 ${
-                              item.status === "success" ? "bg-green-500" : "bg-red-500"
+                              item.passed === "success" ? "bg-green-500" : "bg-red-500"
                           }`}
                       ></span>
                                             <span className="text-base font-medium text-gray-900">
-                        {item.status === "success" ? "Success" : "Failed"}
+                        {item.passed === "success" ? "Success" : "Failed"}
                       </span>
                                         </div>
                                     </div>
