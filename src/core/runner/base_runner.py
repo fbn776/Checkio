@@ -59,13 +59,13 @@ class BaseRunner(ABC):
         Check the output of the program and return True or False
         """
         stripped_output: str = output.strip()
-        stripped_testunit: str = stripped_output.strip()
+        stripped_testunit: str = testunit.output.strip()
 
         if stripped_output == stripped_testunit:
             return True
-
-        if stripped_output.endswith(stripped_testunit):
-            return True
+        #
+        # if stripped_output.endswith(stripped_testunit):
+        #     return True
 
         return False
 

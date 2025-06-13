@@ -141,14 +141,14 @@ export default function IndividualReport() {
                                         <div className="text-xs uppercase tracking-wider text-gray-500 mb-1">Status
                                         </div>
                                         <div className="inline-flex items-center">
-                      <span
-                          className={`inline-block w-2 h-2 rounded-full mr-2 ${
-                              item.status === "success" ? "bg-green-500" : "bg-red-500"
-                          }`}
-                      ></span>
+                                            <div
+                                                className={`inline-block w-2 h-2 rounded-full mr-2 ${
+                                                    item.status === "success" ? "bg-green-500" : "bg-red-500"
+                                                }`}
+                                            />
                                             <span className="text-base font-medium text-gray-900">
-                        {item.status === "success" ? "Success" : "Failed"}
-                      </span>
+                                                {item.status === "success" ? "Success" : "Failed"}
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
