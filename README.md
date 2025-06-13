@@ -1,4 +1,4 @@
-<img alt="Checkio - cover photo" src="/docs/cover.jpg" width="100%">
+<img alt="Checkio - cover photo" src="/docs/cover.png" width="100%">
 
 # Checkio - Automated Code Testing Tool
 
