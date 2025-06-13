@@ -61,8 +61,6 @@ For a more detailed installation guide, refer to [setup](docs/setup.md).
 
 ---
 
-## 📸 Screenshot
-
 ## 📸 Screenshots
 
 <details>
