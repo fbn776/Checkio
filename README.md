@@ -65,6 +65,7 @@ For a more detailed installation guide, refer to [setup](docs/setup.md).
 
 <details>
 <summary><strong>💻 Terminal Interface</strong></summary>
+
 - **Checkio commands**
 
   ![Checkio Commands](docs/images/checkio-terminal.png)
@@ -80,6 +81,7 @@ For a more detailed installation guide, refer to [setup](docs/setup.md).
 
 <details>
 <summary><strong>🌐 Web Interface</strong></summary>
+
 - **Homepage - About Checkio**
 
   ![Web About](docs/images/web-about.png)
