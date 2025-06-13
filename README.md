@@ -1,4 +1,4 @@
-<img alt="Checkio - cover photo" src="/docs/cover.png" width="100%">
+<img alt="Checkio - cover photo" src="/docs/images/cover.png" width="100%">
 
 # Checkio - Automated Code Testing Tool
 
@@ -9,9 +9,11 @@ This project is developed as part of our **KTU S6 Mini Project**.
 ---
 
 ## 🚀 Features
-- **CLI Interface** – Easily create testcase and run programs against a specified testcase.
-- **Web Interface** – Run test cases via a user-friendly React-based UI.
-- **Error Suggestions** – Provides insights and fixes for failed test cases.
+- **CLI Interface** – Easily run programs against a specified testcase, compile and run in a single command
+- **Web Interface** – The admins or faculty can add, view, and evaluate testcases.
+- **Error Suggestions** – Provides insights and fixes for faulty programs.
+- **Find Seg Faults** - `analyze` gives you where seg faults occur in a C code.
+- **Test Case Management** – Create, edit, and delete test cases with ease.
 
 ---
 
@@ -47,7 +49,7 @@ This project is developed as part of our **KTU S6 Mini Project**.
     uv run python3 src/main.py
     ```
 
-For a more detailed installation guide, refer to [docs/setup.md](docs/setup.md)
+For a more detailed installation guide, refer to [setup](docs/setup.md).
 
 ---
 
@@ -56,6 +58,91 @@ For a more detailed installation guide, refer to [docs/setup.md](docs/setup.md)
 - **Aysha Naurin** ([@Aysha022](https://github.com/Aysha022)
 - **Febin Nelson P** ([@fbn776](https://github.com/fbn776))
 - **Sreelakshmi K** ([@SreelakshmiKSudheer](https://github.com/SreelakshmiKSudheer))
+
+---
+
+## 📸 Screenshot
+
+## 📸 Screenshots
+
+<details>
+<summary><strong>💻 Terminal Interface</strong></summary>
+- **Checkio commands**
+
+  ![Checkio Commands](docs/images/checkio-terminal.png)
+
+- **Creating a test case from terminal**
+
+  ![Create Test Case](docs/images/terminal-create-testcase.png)
+
+- **Running a C file against test cases**
+
+  ![Run C File](docs/images/terminal-run-add-c.png)
+</details>
+
+<details>
+<summary><strong>🌐 Web Interface</strong></summary>
+- **Homepage - About Checkio**
+
+  ![Web About](docs/images/web-about.png)
+
+- **Installation Guide Section**
+
+  ![Web Installation](docs/images/web-about-installation.png)
+
+- **User Guide Overview**
+
+  ![Web User Guide](docs/images/web-about-userguide.png)
+
+- **Command Reference**
+
+  ![Web Commands](docs/images/web-about-commands.png)
+</details>
+
+<details>
+<summary><strong>🧪 Web: Creating & Managing Test Cases</strong></summary>
+
+- **Create a new test case**
+
+  ![Web Create Testcase](docs/images/web-create-testcase.png)
+
+- **View all test cases**
+
+  ![Web View Testcase](docs/images/web-view-testcase.png)
+
+- **Testcase details**
+
+  ![Web View Testcase Detail](docs/images/web-view-testcase-detail.png)
+
+</details>
+
+<details>
+<summary><strong>📊 Web: Evaluation & Submissions</strong></summary>
+
+- **Evaluate a submission**
+
+  ![Web Eval](docs/images/web-eval.png)
+
+- **Detailed output of evaluation**
+
+  ![Web Eval More](docs/images/web-eval-more.png)
+
+- **View submission details**
+
+  ![Web Submission Details](docs/images/web-submission-details.png)
+
+</details>
+
+<details>
+<summary><strong>⚙️ Web: Settings</strong></summary>
+
+- **Change app settings from web**
+
+  ![Web Settings](docs/images/web-settings.png)
+
+</details>
+
+
 
 ---
 
