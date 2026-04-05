@@ -1,5 +1,6 @@
 import datetime
 import os
+from pathlib import Path
 from click import Abort
 from rich.console import Console
 from core.auth.init_user import init_user
@@ -8,7 +9,7 @@ from core.check_session import is_first_session
 from core.db.init_db import init_db
 from core.global_store import get_value
 from utils.spinners import spinner_context
-from utils.utils import boxed_text, is_superuser
+from utils.utils import boxed_text
 
 console = Console()
 
@@ -35,7 +36,9 @@ def handle_config():
                 console.print("[bold red]Invalid config file; Missing '[yellow]session_file[/yellow]'[/]")
                 exit(1)
 
-            with open(session_file, "w") as f:
+            session_path = Path(session_file)
+            session_path.parent.mkdir(parents=True, exist_ok=True)
+            with open(session_path, "w") as f:
                 f.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 
             status.update("Setting Up Database...")
@@ -66,8 +69,8 @@ def handle_config():
     finally:
         if error_happened and not already_configured:
             try:
-                # Remove the session file if an error occurred
-                os.remove(session_file)
+                if session_file:
+                    os.remove(session_file)
             except:
                 pass
             exit(1)

@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Callable, final
 from rich.console import Console
 from core.db.db import get_db
+from core.db.models.User import User
 from core.db.models.Testcase import Testcase
 from core.global_store import get_value
 from utils.errors import DontContinue
@@ -24,6 +25,15 @@ class BaseRunner(ABC):
         # The name of the executable file (This will the name of the executable file)
         self.exec_name = f"{uuid.uuid4()}"
         self.temp_path = get_value("temp_dir")
+
+        # Create temp_dir if it doesn't exist
+        if self.temp_path and not Path(self.temp_path).exists():
+            Path(self.temp_path).mkdir(parents=True, exist_ok=True)
+        elif not self.temp_path:
+            # Fallback to a default temp directory if temp_dir is not set in global store
+            self.temp_path = str(Path.home() / ".checkio" / "temp")
+            Path(self.temp_path).mkdir(parents=True, exist_ok=True)
+
         # The path to the executable file
         self.exec_path = os.path.join(self.temp_path, self.exec_name)
         self.print_output = print_output

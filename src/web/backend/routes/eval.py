@@ -4,6 +4,7 @@ from flask import Blueprint, request, jsonify, g
 from rich.pretty import pprint
 
 from core.db.db import get_db
+from core.db.models.User import User
 from core.db.models.Evaluation import EvalGroup, Evaluation
 from core.db.models.Submission import Submission
 from core.eval.handle_eval import handle_eval

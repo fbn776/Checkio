@@ -1,11 +1,12 @@
 {
-  "temp_dir": "/home/fbn776/my-files/coding-and-other-related-stuffs/python/Checkio/temp",
+  "storage_root": "/var/tmp/checkio",
+  "temp_dir": "/var/tmp/checkio/temp",
   "port": 5555,
   "c_compiler_path": "cc",
   "javac_path": "javac",
   "jvm_path": "java",
   "python_path": "python3",
-  "session_file": ".checkio_session",
+  "session_file": "/var/tmp/checkio/.checkio_session",
   "token_secret": "Some Random String",
   "id_delimiter": "-"
 }

@@ -1,8 +1,11 @@
 import os
+from pathlib import Path
 from rich.panel import Panel
 from rich.text import Text
 
-from core.global_store import get_value
+from utils.project_root import PROJECT_ROOT
+
+DEFAULT_STORAGE_ROOT = Path("/var/tmp/checkio")
 
 
 def boxed_text(console, title, text, style, border_style, expand=False):
@@ -23,7 +26,7 @@ def is_superuser():
     return os.geteuid() == 0
 
 
-id_split_delimiter = get_value("id_delimiter")
+id_split_delimiter = "-"
 
 
 def get_group_and_testcase_id(ids: str | None) -> tuple[None, None] | list[str]:
@@ -34,8 +37,9 @@ def get_group_and_testcase_id(ids: str | None) -> tuple[None, None] | list[str]:
     if ids is None:
         return None, None
 
-    if id_split_delimiter in ids:
-        return ids.split(id_split_delimiter)
+    delimiter = id_split_delimiter
+    if isinstance(delimiter, str) and delimiter in ids:
+        return ids.split(delimiter)
 
     return None, None
 
@@ -116,3 +120,39 @@ ERROR_MAP = {
 def get_error_message(code):
     """Returns the error message for a given code."""
     return ERROR_MAP.get(code, "Unrecognized error code")
+
+
+import sys
+
+
+def get_storage_root(create: bool = False) -> Path:
+    """Return the persistent data directory (defaults to /var/tmp/checkio)."""
+    storage_root = DEFAULT_STORAGE_ROOT.expanduser()
+    if create:
+        storage_root.mkdir(parents=True, exist_ok=True)
+    return storage_root
+
+
+def get_storage_path(*parts: str, create_parent: bool = False) -> Path:
+    """Build a path inside the persistent storage directory."""
+    storage_path = get_storage_root(create=create_parent)
+    for part in parts:
+        storage_path = storage_path / part
+    if create_parent:
+        storage_path.parent.mkdir(parents=True, exist_ok=True)
+    return storage_path
+
+
+def get_resource_path(relative_path):
+    """
+    Returns an absolute path to the resource, working for both:
+      - normal (source) execution
+      - frozen/bundled binaries (Nuitka, PyInstaller, etc.)
+    Supply a POSIX-style relative path, e.g.:
+        'config/DEFAULT_CONFIG.json' or 'checkio.db'
+    """
+    if getattr(sys, 'frozen', False):
+        base_path = Path(sys.executable).resolve().parent
+    else:
+        base_path = Path(PROJECT_ROOT).resolve().parent
+    return str((base_path / relative_path).resolve())

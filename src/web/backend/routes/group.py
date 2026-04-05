@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify, g
 from core.db.db import get_db
+from core.db.models.User import User
 from core.db.models.Group import Group
 from web.backend.middleware.token_required import token_required
 

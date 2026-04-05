@@ -1,7 +1,10 @@
 from sqlalchemy import create_engine, event, Engine
 from sqlalchemy.orm import sessionmaker, declarative_base
+from utils.utils import get_storage_path
 
-DATABASE_URL = "sqlite:///checkio.db"
+db_path = get_storage_path("checkio.db", create_parent=True)
+
+DATABASE_URL = f"sqlite:///{db_path}"
 
 engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
 SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False)

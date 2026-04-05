@@ -1,13 +1,19 @@
-from core.global_store import load_data_from_json
-load_data_from_json("./config/DEFAULT_CONFIG.json")
+from core.check_session import is_first_session
+from core.global_store import initialize_storage, load_data_from_json
+from utils.utils import get_resource_path
+
+CONFIG_PATH = get_resource_path("config/DEFAULT_CONFIG.json")
+load_data_from_json(CONFIG_PATH)
+initialize_storage()
+
+# Import all database models to register them with SQLAlchemy
+from core.db import models
 
 import click
 from cli.utils.custom_formats import CustomFormats
 from rich.console import Console
-import core.db.init_db
 
 console = Console()
-
 
 @click.group(
     cls=CustomFormats,
@@ -19,10 +25,14 @@ console = Console()
 def cli(ctx, version):
     from core.pre_requisites import pre_requisites
     from cli.handle_cli import handle_cli
-    handle_cli(ctx, version)
 
     if ctx.invoked_subcommand != "config":
-        pre_requisites()
+        if is_first_session():
+            pre_requisites()
+            return
+
+    handle_cli(ctx, version)
+
 
 
 @cli.command(help="Used to create a new testcase.")
@@ -102,14 +112,6 @@ def users(action):
         handle_user_create()
     elif action == 'delete':
         handle_user_delete()
-
-
-@cli.command()
-def test():
-    from cli.do_testing import do_testing
-
-    do_testing()
-
 
 @cli.command(help="Check your C code for errors and memory leaks")
 @click.argument('file_name')

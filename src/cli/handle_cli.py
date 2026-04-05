@@ -1,6 +1,7 @@
 import click
 
 from cli.utils.get_version import get_version
+from utils.logo_print import show_logo
 
 
 def handle_cli(ctx, ver):
@@ -9,6 +10,7 @@ def handle_cli(ctx, ver):
         get_version()
     elif ctx.invoked_subcommand is None:
         # If no subcommand is passed, print the help message
+        click.echo(show_logo())
         click.echo(ctx.get_help())
     else:
         # If a subcommand is passed, do nothing

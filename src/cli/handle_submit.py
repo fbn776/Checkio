@@ -2,6 +2,7 @@ import getpass
 import json
 
 from core.db.db import get_db
+from core.db.models.User import User
 from core.db.models.Testcase import Testcase
 from core.db.models.Submission import Submission
 from core.global_store import get_value
