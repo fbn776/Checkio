@@ -25,6 +25,12 @@ dependencies = [
 [project.scripts]
 checkio = "src.main:main"
 
+[tool.setuptools]
+include-package-data = true
+
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["src*", "config*"]
+
+[tool.setuptools.package-data]
+"config" = ["*.json"]

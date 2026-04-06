@@ -3,7 +3,7 @@ from src.core.check_session import is_first_session
 from src.core.global_store import initialize_storage, load_data_from_json
 from src.utils.utils import get_resource_path
 
-CONFIG_PATH = get_resource_path("config/DEFAULT_CONFIG.json")
+CONFIG_PATH = get_resource_path("./config/DEFAULT_CONFIG.json")
 load_data_from_json(CONFIG_PATH)
 initialize_storage()
 
