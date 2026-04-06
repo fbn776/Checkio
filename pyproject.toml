@@ -33,4 +33,4 @@ where = ["."]
 include = ["src*", "config*"]
 
 [tool.setuptools.package-data]
-"config" = ["*.json"]
+"src.config" = ["*.json"]
