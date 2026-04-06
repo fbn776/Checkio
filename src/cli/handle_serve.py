@@ -1,8 +1,8 @@
 import multiprocessing
 
-from core.global_store import get_value
-from utils.get_local_ip import get_local_ip
-from web.backend.main import run_server
+from src.core.global_store import get_value
+from src.utils.get_local_ip import get_local_ip
+from src.web.backend.main import run_server
 from rich.console import Console
 
 console = Console()

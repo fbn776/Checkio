@@ -3,10 +3,10 @@ import getpass
 import click
 from rich.console import Console
 
-from core.db.db import get_db
-from core.db.models.User import User
-from utils.errors import AuthFailed
-from utils.hashing import hash_password
+from src.core.db.db import get_db
+from src.core.db.models.User import User
+from src.utils.errors import AuthFailed
+from src.utils.hashing import hash_password
 
 console = Console()
 

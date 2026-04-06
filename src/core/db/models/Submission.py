@@ -1,7 +1,7 @@
 from sqlalchemy import String, DateTime, func, Nullable
 from sqlalchemy import Column, Integer, ForeignKey
 from sqlalchemy.orm import relationship
-from core.db.db import Base
+from src.core.db.db import Base
 
 class Submission(Base):
     """Represents a submission made by the user"""

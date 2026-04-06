@@ -1,9 +1,9 @@
 import click
 from rich.console import Console
 from sqlalchemy import inspect
-from core.db.db import Base, engine
+from src.core.db.db import Base, engine
 # Import all models in correct order
-from core.db.models import User, Group, Testcase, Submission, Evaluation, EvalGroup
+from src.core.db.models import User, Group, Testcase, Submission, Evaluation, EvalGroup
 
 console = Console()
 

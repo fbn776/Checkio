@@ -4,10 +4,10 @@ import subprocess
 from rich.syntax import Syntax
 from rich.text import Text
 
-from core.global_store import get_value
-from core.runner.base_runner import BaseRunner
-from utils.errors import DontContinue, CompilationError
-from utils.utils import boxed_text
+from src.core.global_store import get_value
+from src.core.runner.base_runner import BaseRunner
+from src.utils.errors import DontContinue, CompilationError
+from src.utils.utils import boxed_text
 
 
 class JavaRunner(BaseRunner):

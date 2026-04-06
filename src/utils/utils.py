@@ -3,7 +3,7 @@ from pathlib import Path
 from rich.panel import Panel
 from rich.text import Text
 
-from utils.project_root import PROJECT_ROOT
+from src.utils.project_root import PROJECT_ROOT
 
 DEFAULT_STORAGE_ROOT = Path("/var/tmp/checkio")
 

@@ -2,10 +2,10 @@ from flask import Blueprint, request, g, jsonify
 from rich.pretty import pprint
 from sqlalchemy import text
 
-from core.db.db import get_db
-from core.db.models.User import User
-from core.db.models.Submission import Submission
-from core.db.models.Testcase import Testcase
+from src.core.db.db import get_db
+from src.core.db.models.User import User
+from src.core.db.models.Submission import Submission
+from src.core.db.models.Testcase import Testcase
 from web.backend.middleware.token_required import token_required
 
 submitRoute = Blueprint('submission', __name__)

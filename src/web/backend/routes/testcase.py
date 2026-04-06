@@ -4,11 +4,11 @@ from flask import Blueprint, request, g
 from pydantic import ValidationError
 from rich.console import Console
 from sqlalchemy.exc import IntegrityError
-from core.db.db import get_db
-from core.db.models.Group import Group
-from core.db.models.Testcase import Testcase
-from core.db.models.User import User
-from utils.pydantic_models import TestCaseObj
+from src.core.db.db import get_db
+from src.core.db.models.Group import Group
+from src.core.db.models.Testcase import Testcase
+from src.core.db.models.User import User
+from src.utils.pydantic_models import TestCaseObj
 from web.backend.middleware.token_required import token_required
 
 testcaseRoute = Blueprint('testcases', __name__)

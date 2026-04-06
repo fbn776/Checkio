@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from core.global_store import get_value
+from src.core.global_store import get_value
 
 
 def is_first_session():

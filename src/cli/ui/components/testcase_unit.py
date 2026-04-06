@@ -1,7 +1,7 @@
 from textual.app import ComposeResult
 from textual.containers import VerticalScroll, Container
 from textual.widget import Widget
-from cli.ui.components.labelled_textarea import LabelledTextArea
+from src.cli.ui.components.labelled_textarea import LabelledTextArea
 
 class TestcaseUnit(Widget):
     DEFAULT_CSS = """

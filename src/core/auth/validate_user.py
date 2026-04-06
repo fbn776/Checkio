@@ -1,10 +1,10 @@
 import click
 from rich.console import Console
 
-from core.check_session import is_first_session
-from core.db.db import get_db
-from core.db.models.User import User
-from utils.hashing import check_password_hash
+from src.core.check_session import is_first_session
+from src.core.db.db import get_db
+from src.core.db.models.User import User
+from src.utils.hashing import check_password_hash
 
 console = Console()
 

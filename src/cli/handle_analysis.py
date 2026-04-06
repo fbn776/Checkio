@@ -5,9 +5,9 @@ from rich.console import Console
 from rich.syntax import Syntax
 from rich.text import Text
 
-from core.global_store import get_value
-from utils.spinners import spinner_context
-from utils.utils import boxed_text
+from src.core.global_store import get_value
+from src.utils.spinners import spinner_context
+from src.utils.utils import boxed_text
 
 console = Console()
 

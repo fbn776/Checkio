@@ -1,11 +1,11 @@
 import json
 
 from rich.console import Console
-from cli.ui.create_testcase_screen import CreateTestcaseScreen
+from src.cli.ui.create_testcase_screen import CreateTestcaseScreen
 from rich.markdown import Markdown
 from rich.table import Table
 
-from core.db.testcases import create_testcase
+from src.core.db.testcases import create_testcase
 
 console = Console()
 

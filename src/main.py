@@ -1,17 +1,17 @@
-from core.auth.validate_user import is_valid_user, is_admin
-from core.check_session import is_first_session
-from core.global_store import initialize_storage, load_data_from_json
-from utils.utils import get_resource_path
+from src.core.auth.validate_user import is_valid_user, is_admin
+from src.core.check_session import is_first_session
+from src.core.global_store import initialize_storage, load_data_from_json
+from src.utils.utils import get_resource_path
 
 CONFIG_PATH = get_resource_path("config/DEFAULT_CONFIG.json")
 load_data_from_json(CONFIG_PATH)
 initialize_storage()
 
 # Import all database models to register them with SQLAlchemy
-from core.db import models
+from src.core.db import models
 
 import click
-from cli.utils.custom_formats import CustomFormats
+from src.cli.utils.custom_formats import CustomFormats
 from rich.console import Console
 
 console = Console()
@@ -24,8 +24,8 @@ console = Console()
 @click.option("-v", "--version", is_flag=True, help="Show the version of the tool")
 @click.pass_context
 def cli(ctx, version):
-    from core.pre_requisites import pre_requisites
-    from cli.handle_cli import handle_cli
+    from src.core.pre_requisites import pre_requisites
+    from src.cli.handle_cli import handle_cli
 
     if ctx.invoked_subcommand != "config":
         if is_first_session():
@@ -43,7 +43,7 @@ def create(name):
         console.print("[bold red]Invalid credentials![/]")
         exit(1)
 
-    from cli.handle_create import handle_create
+    from src.cli.handle_create import handle_create
 
     handle_create(name)
 
@@ -52,7 +52,7 @@ def create(name):
 @click.argument('file_name')
 @click.option("-t", "--testcase", help="The testcase file to run the program with.")
 def run(file_name, testcase):
-    from cli.handle_run import handle_run
+    from src.cli.handle_run import handle_run
 
     handle_run(file_name, testcase)
 
@@ -64,14 +64,14 @@ def serve(dev):
         console.print("[bold red]Invalid credentials![/]")
         exit(1)
 
-    from cli.handle_serve import handle_serve
+    from src.cli.handle_serve import handle_serve
 
     handle_serve(dev)
 
 
 @cli.command(help="Shows information about the tool")
 def about():
-    from cli.handle_about import handle_about
+    from src.cli.handle_about import handle_about
     handle_about()
 
 
@@ -79,14 +79,14 @@ def about():
 @click.argument("values", nargs=-1, required=True)
 @click.option("-t", "--testcase", required=True, prompt=True, help="The ID of testcase to submit the program with.")
 def submit(values, testcase):
-    from cli.handle_submit import handle_submit
+    from src.cli.handle_submit import handle_submit
 
     handle_submit(values, testcase)
 
 
 @cli.command(help="List all the testcases.")
 def list():
-    from cli.handle_listing import handle_listing
+    from src.cli.handle_listing import handle_listing
 
     handle_listing()
 
@@ -94,13 +94,13 @@ def list():
 @cli.command(help="View the details of a testcase.")
 @click.argument("testcase_id")
 def view(testcase_id):
-    from cli.handle_view import handle_view
+    from src.cli.handle_view import handle_view
     handle_view(testcase_id)
 
 
 @cli.command(help="Configure the tool. [FOR ADMIN USE ONLY]")
 def config():
-    from cli.handle_config import handle_config
+    from src.cli.handle_config import handle_config
 
     if is_first_session() or is_admin():
         handle_config()
@@ -112,9 +112,9 @@ def config():
 @cli.command(help="Helps manage users [FOR ADMIN USE ONLY]")
 @click.argument('action', type=click.Choice(['create', 'delete'], case_sensitive=False))
 def users(action):
-    from core.auth.validate_user import is_valid_user
-    from cli.handle_user_create import handle_user_create
-    from cli.handle_user_delete import handle_user_delete
+    from src.core.auth.validate_user import is_valid_user
+    from src.cli.handle_user_create import handle_user_create
+    from src.cli.handle_user_delete import handle_user_delete
 
     if not is_valid_user(admin_only=True):
         console.print("[bold red]You are not authorized to perform this action![/]")
@@ -129,7 +129,7 @@ def users(action):
 @cli.command(help="Check your C code for errors and memory leaks")
 @click.argument('file_name')
 def analyze(file_name):
-    from cli.handle_analysis import handle_analysis
+    from src.cli.handle_analysis import handle_analysis
 
     handle_analysis(file_name)
 

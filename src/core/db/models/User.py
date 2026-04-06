@@ -1,5 +1,5 @@
 from sqlalchemy import Column, String, DateTime, func, CheckConstraint
-from core.db.db import Base
+from src.core.db.db import Base
 
 
 class User(Base):

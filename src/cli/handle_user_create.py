@@ -1,9 +1,9 @@
 import click
 from rich.console import Console
 
-from core.db.db import get_db
-from core.db.models.User import User
-from utils.hashing import hash_password
+from src.core.db.db import get_db
+from src.core.db.models.User import User
+from src.utils.hashing import hash_password
 
 console = Console()
 

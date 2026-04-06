@@ -2,17 +2,17 @@ import getpass
 import json
 from typing import List
 
-from core.db.db import get_db
+from src.core.db.db import get_db
 
 
 def create_testcase(group_id: str, testcase_id: str, title: str, description: str, body: List[dict]):
     try:
-        from core.db.db import get_db
+        from src.core.db.db import get_db
         db = next(get_db())
 
-        from core.db.models.User import User
-        from core.db.models.Group import Group
-        from core.db.models.Testcase import Testcase
+        from src.core.db.models.User import User
+        from src.core.db.models.Group import Group
+        from src.core.db.models.Testcase import Testcase
         if db.query(Group).filter_by(id=group_id, created_by=getpass.getuser()).all() is None:
             return {"error": "Group ID doesn't exists"}, 400
 
@@ -33,9 +33,9 @@ def create_testcase(group_id: str, testcase_id: str, title: str, description: st
 
 def get_testcases():
     with (next(get_db()) as session):
-        from core.db.models.User import User
-        from core.db.models.Group import Group
-        from core.db.models.Testcase import Testcase
+        from src.core.db.models.User import User
+        from src.core.db.models.Group import Group
+        from src.core.db.models.Testcase import Testcase
         testcases = session.query(Testcase).join(Group, Testcase.group_id == Group.id).order_by(
             Testcase.created_at.desc()).limit(5)
 
@@ -52,8 +52,8 @@ def get_testcases():
 
 def get_testcase_by_id(t_id, group_id):
     with next(get_db()) as session:
-        from core.db.models.User import User
-        from core.db.models.Testcase import Testcase
+        from src.core.db.models.User import User
+        from src.core.db.models.Testcase import Testcase
 
         testcase = (
             session.query(Testcase).filter(Testcase.group_id == group_id, Testcase.id == t_id)

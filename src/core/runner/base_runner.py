@@ -6,14 +6,14 @@ from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import Callable, final
 from rich.console import Console
-from core.db.db import get_db
-from core.db.models.User import User
-from core.db.models.Testcase import Testcase
-from core.global_store import get_value
-from utils.errors import DontContinue
-from utils.pydantic_models import TestUnitObj, TestCaseObj
-from utils.utils import boxed_text
-from utils.spinners import spinner_context
+from src.core.db.db import get_db
+from src.core.db.models.User import User
+from src.core.db.models.Testcase import Testcase
+from src.core.global_store import get_value
+from src.utils.errors import DontContinue
+from src.utils.pydantic_models import TestUnitObj, TestCaseObj
+from src.utils.utils import boxed_text
+from src.utils.spinners import spinner_context
 
 
 class BaseRunner(ABC):

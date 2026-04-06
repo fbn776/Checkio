@@ -1,10 +1,10 @@
 from flask import Blueprint, request, jsonify, g
 import jwt
 import datetime
-from core.db.db import get_db
-from core.db.models.User import User
-from core.global_store import get_value
-from utils.hashing import check_password_hash
+from src.core.db.db import get_db
+from src.core.db.models.User import User
+from src.core.global_store import get_value
+from src.utils.hashing import check_password_hash
 from web.backend.middleware.token_required import token_required
 
 # Create auth Blueprint

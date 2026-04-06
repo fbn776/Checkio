@@ -3,13 +3,13 @@ import os
 from pathlib import Path
 from click import Abort
 from rich.console import Console
-from core.auth.init_user import init_user
-from core.auth.validate_user import is_valid_user
-from core.check_session import is_first_session
-from core.db.init_db import init_db
-from core.global_store import get_value
-from utils.spinners import spinner_context
-from utils.utils import boxed_text
+from src.core.auth.init_user import init_user
+from src.core.auth.validate_user import is_valid_user
+from src.core.check_session import is_first_session
+from src.core.db.init_db import init_db
+from src.core.global_store import get_value
+from src.utils.spinners import spinner_context
+from src.utils.utils import boxed_text
 
 console = Console()
 

@@ -1,12 +1,12 @@
 import getpass
 import json
 
-from core.db.db import get_db
-from core.db.models.User import User
-from core.db.models.Testcase import Testcase
-from core.db.models.Submission import Submission
-from core.global_store import get_value
-from utils.utils import get_group_and_testcase_id
+from src.core.db.db import get_db
+from src.core.db.models.User import User
+from src.core.db.models.Testcase import Testcase
+from src.core.db.models.Submission import Submission
+from src.core.global_store import get_value
+from src.utils.utils import get_group_and_testcase_id
 from rich.console import Console
 
 console = Console()

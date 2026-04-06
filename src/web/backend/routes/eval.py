@@ -3,11 +3,11 @@ import json
 from flask import Blueprint, request, jsonify, g
 from rich.pretty import pprint
 
-from core.db.db import get_db
-from core.db.models.User import User
-from core.db.models.Evaluation import EvalGroup, Evaluation
-from core.db.models.Submission import Submission
-from core.eval.handle_eval import handle_eval
+from src.core.db.db import get_db
+from src.core.db.models.User import User
+from src.core.db.models.Evaluation import EvalGroup, Evaluation
+from src.core.db.models.Submission import Submission
+from src.core.eval.handle_eval import handle_eval
 from web.backend.middleware.token_required import token_required
 
 evalRoute = Blueprint('eval', __name__)

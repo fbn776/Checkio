@@ -1,11 +1,11 @@
 from rich.console import Console
 
-from core.global_store import get_value
-from core.runner.c_runner import CRunner
-from core.runner.java_runner import JavaRunner
-from core.runner.python_runner import PythonRunner
-from utils.find_lang import find_lang
-from utils.utils import get_group_and_testcase_id
+from src.core.global_store import get_value
+from src.core.runner.c_runner import CRunner
+from src.core.runner.java_runner import JavaRunner
+from src.core.runner.python_runner import PythonRunner
+from src.utils.find_lang import find_lang
+from src.utils.utils import get_group_and_testcase_id
 
 runners = {
     "c": CRunner,

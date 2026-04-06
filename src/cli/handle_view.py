@@ -2,8 +2,8 @@ import json
 
 from rich.console import Console
 
-from core.db.testcases import get_testcase_by_id
-from utils.utils import get_group_and_testcase_id
+from src.core.db.testcases import get_testcase_by_id
+from src.utils.utils import get_group_and_testcase_id
 
 console = Console()
 

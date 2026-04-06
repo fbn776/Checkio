@@ -1,10 +1,10 @@
 import os
 from rich.pretty import pprint
-from core.global_store import get_value
-from core.runner.c_runner import CRunner
-from core.runner.java_runner import JavaRunner
-from core.runner.python_runner import PythonRunner
-from utils.find_lang import find_lang
+from src.core.global_store import get_value
+from src.core.runner.c_runner import CRunner
+from src.core.runner.java_runner import JavaRunner
+from src.core.runner.python_runner import PythonRunner
+from src.utils.find_lang import find_lang
 from pathlib import Path
 
 temp_path = get_value("temp_dir")

@@ -1,4 +1,4 @@
-from core.db.testcases import get_testcases
+from src.core.db.testcases import get_testcases
 from rich.console import Console, Group
 
 console = Console()

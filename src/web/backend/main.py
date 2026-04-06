@@ -6,7 +6,7 @@ import click
 from flask import Flask, render_template, send_from_directory, abort, request, jsonify
 from flask_cors import CORS
 
-from core.global_store import get_value
+from src.core.global_store import get_value
 from web.backend.routes.auth import auth
 from web.backend.routes.eval import evalRoute
 from web.backend.routes.group import groupRoute

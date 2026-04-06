@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, func
 from sqlalchemy.orm import relationship, validates
-from core.db.db import Base
-from core.global_store import get_value
+from src.core.db.db import Base
+from src.core.global_store import get_value
 
 id_split_delimiter = get_value("id_delimiter")
 

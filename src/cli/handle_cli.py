@@ -1,7 +1,7 @@
 import click
 
-from cli.utils.get_version import get_version
-from utils.logo_print import show_logo
+from src.cli.utils.get_version import get_version
+from src.utils.logo_print import show_logo
 
 
 def handle_cli(ctx, ver):

@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine, event, Engine
 from sqlalchemy.orm import sessionmaker, declarative_base
-from utils.utils import get_storage_path
+from src.utils.utils import get_storage_path
 
 db_path = get_storage_path("checkio.db", create_parent=True)
 

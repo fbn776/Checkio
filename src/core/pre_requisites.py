@@ -2,8 +2,8 @@ from pathlib import Path
 
 from rich.console import Console
 
-from core.check_session import is_first_session
-from core.global_store import get_value
+from src.core.check_session import is_first_session
+from src.core.global_store import get_value
 
 console = Console()
 

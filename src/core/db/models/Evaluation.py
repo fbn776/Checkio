@@ -1,6 +1,6 @@
 from sqlalchemy import Column, String, ForeignKey, DateTime, func, Integer
 from sqlalchemy.orm import relationship
-from core.db.db import Base
+from src.core.db.db import Base
 
 class Evaluation(Base):
     """Represents a single evaluation for a submission made by the user"""

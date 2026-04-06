@@ -2,7 +2,7 @@ from flask import request, jsonify, g
 import jwt
 from functools import wraps
 
-from core.global_store import get_value
+from src.core.global_store import get_value
 
 
 def token_required(f):

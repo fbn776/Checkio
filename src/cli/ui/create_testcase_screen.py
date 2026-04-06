@@ -1,8 +1,8 @@
 from textual.app import App, ComposeResult
 from textual.containers import HorizontalGroup, VerticalScroll, VerticalGroup
 from textual.widgets import Button, Digits, Footer, Header, Label, Checkbox
-from cli.ui.components.labelled_input import LabelledInput
-from cli.ui.components.labelled_textarea import LabelledTextArea
+from src.cli.ui.components.labelled_input import LabelledInput
+from src.cli.ui.components.labelled_textarea import LabelledTextArea
 
 
 class RightButton(HorizontalGroup):

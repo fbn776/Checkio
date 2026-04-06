@@ -1,9 +1,9 @@
 from sqlalchemy.orm import Session
 
-from core.auth.init_user import init_user
-from core.db.db import get_db
-from core.db.models.Group import Group
-from core.db.models.User import User
+from src.core.auth.init_user import init_user
+from src.core.db.db import get_db
+from src.core.db.models.Group import Group
+from src.core.db.models.User import User
 
 
 def do_testing():
