@@ -9,7 +9,7 @@ from src.core.db.models.Group import Group
 from src.core.db.models.Testcase import Testcase
 from src.core.db.models.User import User
 from src.utils.pydantic_models import TestCaseObj
-from web.backend.middleware.token_required import token_required
+from src.web.backend.middleware.token_required import token_required
 
 testcaseRoute = Blueprint('testcases', __name__)
 

@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify, g
 from src.core.db.db import get_db
 from src.core.db.models.User import User
 from src.core.db.models.Group import Group
-from web.backend.middleware.token_required import token_required
+from src.web.backend.middleware.token_required import token_required
 
 groupRoute = Blueprint('group', __name__)
 

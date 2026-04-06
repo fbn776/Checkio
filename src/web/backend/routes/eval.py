@@ -8,7 +8,7 @@ from src.core.db.models.User import User
 from src.core.db.models.Evaluation import EvalGroup, Evaluation
 from src.core.db.models.Submission import Submission
 from src.core.eval.handle_eval import handle_eval
-from web.backend.middleware.token_required import token_required
+from src.web.backend.middleware.token_required import token_required
 
 evalRoute = Blueprint('eval', __name__)
 

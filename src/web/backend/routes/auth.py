@@ -5,7 +5,7 @@ from src.core.db.db import get_db
 from src.core.db.models.User import User
 from src.core.global_store import get_value
 from src.utils.hashing import check_password_hash
-from web.backend.middleware.token_required import token_required
+from src.web.backend.middleware.token_required import token_required
 
 # Create auth Blueprint
 auth = Blueprint('auth', __name__)

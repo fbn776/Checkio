@@ -7,11 +7,11 @@ from flask import Flask, render_template, send_from_directory, abort, request, j
 from flask_cors import CORS
 
 from src.core.global_store import get_value
-from web.backend.routes.auth import auth
-from web.backend.routes.eval import evalRoute
-from web.backend.routes.group import groupRoute
-from web.backend.routes.submit import submitRoute
-from web.backend.routes.testcase import testcaseRoute
+from src.web.backend.routes.auth import auth
+from src.web.backend.routes.eval import evalRoute
+from src.web.backend.routes.group import groupRoute
+from src.web.backend.routes.submit import submitRoute
+from src.web.backend.routes.testcase import testcaseRoute
 
 app = Flask(__name__)
 CORS(app)

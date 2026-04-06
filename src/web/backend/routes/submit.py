@@ -6,7 +6,7 @@ from src.core.db.db import get_db
 from src.core.db.models.User import User
 from src.core.db.models.Submission import Submission
 from src.core.db.models.Testcase import Testcase
-from web.backend.middleware.token_required import token_required
+from src.web.backend.middleware.token_required import token_required
 
 submitRoute = Blueprint('submission', __name__)
 
