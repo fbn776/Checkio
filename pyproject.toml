@@ -34,3 +34,5 @@ include = ["src*", "config*"]
 
 [tool.setuptools.package-data]
 "src.config" = ["*.json"]
+"src.cli.ui" = ["*.tcss"]
+"src.web.backend.templates" = ["*.html", "assets/*"]
