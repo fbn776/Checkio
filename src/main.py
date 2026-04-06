@@ -36,7 +36,7 @@ def cli(ctx, version):
 
 
 
-@cli.command(help="Used to create a new testcase.")
+@cli.command(help="Used to create a new testcase. [FOR ADMIN USE ONLY]")
 @click.argument('name', required=False)
 def create(name):
     if not is_admin():
@@ -57,7 +57,7 @@ def run(file_name, testcase):
     handle_run(file_name, testcase)
 
 
-@cli.command(help="Serves the web interface")
+@cli.command(help="Serves the web interface [FOR ADMIN USE ONLY]")
 @click.option('--dev', is_flag=True, help="Run the server in development mode")
 def serve(dev):
     if not is_admin():
@@ -98,7 +98,7 @@ def view(testcase_id):
     handle_view(testcase_id)
 
 
-@cli.command(help="Configure the tool.")
+@cli.command(help="Configure the tool. [FOR ADMIN USE ONLY]")
 def config():
     from cli.handle_config import handle_config
 
