@@ -7,7 +7,6 @@ from rich.console import Console
 
 console = Console()
 
-
 def handle_serve(dev):
     if dev:
         run_server(get_value("port"), dev_mode=True)

@@ -1,3 +1,4 @@
+from core.auth.validate_user import is_valid_user, is_admin
 from core.check_session import is_first_session
 from core.global_store import initialize_storage, load_data_from_json
 from utils.utils import get_resource_path
@@ -38,6 +39,10 @@ def cli(ctx, version):
 @cli.command(help="Used to create a new testcase.")
 @click.argument('name', required=False)
 def create(name):
+    if not is_admin():
+        console.print("[bold red]Invalid credentials![/]")
+        exit(1)
+
     from cli.handle_create import handle_create
 
     handle_create(name)
@@ -55,6 +60,10 @@ def run(file_name, testcase):
 @cli.command(help="Serves the web interface")
 @click.option('--dev', is_flag=True, help="Run the server in development mode")
 def serve(dev):
+    if not is_admin():
+        console.print("[bold red]Invalid credentials![/]")
+        exit(1)
+
     from cli.handle_serve import handle_serve
 
     handle_serve(dev)
@@ -93,7 +102,11 @@ def view(testcase_id):
 def config():
     from cli.handle_config import handle_config
 
-    handle_config()
+    if is_first_session() or is_admin():
+        handle_config()
+    else:
+        console.print("[bold red]Invalid credentials![/]")
+        exit(1)
 
 
 @cli.command(help="Helps manage users [FOR ADMIN USE ONLY]")

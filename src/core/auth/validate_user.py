@@ -1,5 +1,7 @@
 import click
 from rich.console import Console
+
+from core.check_session import is_first_session
 from core.db.db import get_db
 from core.db.models.User import User
 from utils.hashing import check_password_hash
@@ -17,6 +19,8 @@ def is_valid_user(in_username=None, in_password=None, admin_only=True) -> bool:
     username = in_username or click.prompt("Username", type=str)
     password = in_password or click.prompt("Password", type=str, hide_input=True)
 
+    console.print()
+
     db = next(get_db())
     user = db.query(User).filter_by(username=username, role="admin").first() if admin_only else (
         db.query(User).filter_by(username=username).first()
@@ -29,3 +33,11 @@ def is_valid_user(in_username=None, in_password=None, admin_only=True) -> bool:
             return False
     except Exception as e:
         return False
+
+
+def is_admin():
+    if is_first_session():
+        console.print("[bold red]No users found! Please configure the tool first by running [green]checkio config[/green][/]")
+        exit(1)
+
+    return is_valid_user(admin_only=True)
