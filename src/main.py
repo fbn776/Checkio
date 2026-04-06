@@ -134,5 +134,9 @@ def analyze(file_name):
     handle_analysis(file_name)
 
 
-if __name__ == "__main__":
+def main():
     cli()
+
+
+if __name__ == "__main__":
+    main()
