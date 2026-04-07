@@ -115,7 +115,6 @@ class CreateTestcaseScreen(App):
                     "output": tc_output
                 })
 
-            print("Data:", data)
             self.exit(result=data, return_code=0)
             # self.exit(result=f"Created Successfully", return_code=0)
 

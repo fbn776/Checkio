@@ -3,7 +3,7 @@ from sqlalchemy.orm import relationship, validates
 from src.core.db.db import Base
 from src.core.global_store import get_value
 
-id_split_delimiter = get_value("id_delimiter")
+id_split_delimiter = get_value("id_delimiter") or "-"
 
 
 class Group(Base):

@@ -13,9 +13,12 @@ def create_group():
     data = request.get_json()
     name = data.get('id')
 
+    print(data)
+
     if not name:
         return jsonify({"error": "Group ID is required"}), 400
     try:
+        print("1", g.user["username"])
         db = next(get_db())
         group = Group(id=name, created_by=g.user['username'])
         db.add(group)

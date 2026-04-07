@@ -42,11 +42,11 @@ This project is developed as part of our **KTU S6 Mini Project**.
     ```
 3. Install the dependencies
     ```bash
-    uv pip install -e .
+    sudo bash install.sh
     ```
 4. Run the project
     ```bash
-    uv run python3 src/main.py
+    checkio
     ```
 
 For a more detailed installation guide, refer to [setup](docs/setup.md).
