@@ -7,6 +7,6 @@
   "jvm_path": "java",
   "python_path": "python3",
   "session_file": "/var/tmp/checkio/.checkio_session",
-  "token_secret": "Some Random String",
+  "token_secret": "6nvWLExC7k9gXMPWOYwwmkWxJwS0R3igoC4Op9n8GC2",
   "id_delimiter": "-"
 }

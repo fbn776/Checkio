@@ -5,7 +5,7 @@ APP_NAME="checkio"
 
 INSTALL_DIR="/opt/$APP_NAME"
 BIN_LINK="/usr/local/bin/$APP_NAME"
-DATA_DIR="/var/lib/$APP_NAME"
+DATA_DIR="/var/tmp/$APP_NAME"
 CONFIG_DIR="/etc/$APP_NAME"
 
 echo "==> Uninstalling $APP_NAME..."
